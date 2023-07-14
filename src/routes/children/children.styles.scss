@@ -1,0 +1,167 @@
+@import '../../colors';
+
+.children-container {
+    width: 75vw;
+    height: 200vh;
+    margin-top: 20vh;
+    padding: 0 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+
+    .top-container {
+        width: 95%;
+        height: 5rem;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .children-list {
+        width: 95%;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        text-align: right;
+
+        .children-list-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+
+        .children-list-table {
+            text-align: right;
+            width: 100%;
+            border-collapse: collapse;
+
+            tr {
+                height: 3.5rem;
+                border-bottom: 1px solid $border-gray;
+
+                &:first-child {
+                    border-top: 1px solid $border-gray;
+                }
+            }
+
+            th {
+                color: $link-softer;
+                font-weight: 600;
+            }
+
+            td {
+                font-weight: 600;
+            }
+
+            .status {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                height: 3.5rem;
+            }
+
+            .action-btns {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                button {
+                    all: unset;
+                    cursor: pointer;
+                    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                    padding: 0.3rem;
+                    border-radius: 0.5rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transition: 0.2s ease-in-out all;
+
+                    svg {
+                        width: 1.5rem;
+                        height: auto;
+                        transition: 0.2s ease-in-out all;
+
+                        path {
+                            fill: $red;
+                        }
+                    }
+
+                    &:last-child {
+                        svg {
+                            path {
+                                fill: $done;
+                            }
+                        }
+                    }
+
+                    &:hover {
+                        background-color: $red;
+
+                        svg {
+                            path {
+                                fill: #fff;
+                            }
+                        }
+
+                        &:last-child {
+                            background-color: $done;
+
+                            svg {
+                                path {
+                                    fill: #fff;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .done {
+                width: fit-content;
+                height: 1rem;
+                padding: 0.4rem 0.8rem;
+                border-radius: 1rem;
+                background-color: $doneBg;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                p {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: $done;
+                }
+            }
+
+            .pending {
+                width: fit-content;
+                height: 1rem;
+                padding: 0.4rem 0.8rem;
+                border-radius: 1rem;
+                background-color: $pendingBg;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                p {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: $pending;
+                }
+            }
+
+        }
+    }
+}

@@ -1,0 +1,45 @@
+@import '../../colors';
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 2.5rem;
+    padding: 0 1rem;
+    border-radius: 1.5rem;
+    background-color: $line-soft;
+
+    .search-bar__button {
+        all: unset;
+        cursor: pointer;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+            width: 75%;
+            height: auto;
+
+            path {
+                fill: $link-dark;
+            }
+        }
+    }
+
+    .search-bar__input {
+        all: unset;
+        width: 10rem;
+        height: 80%;
+        padding-right: 0.8rem;
+        background-color: transparent;
+        text-align: right;
+
+        &:focus {
+            &::placeholder {
+                opacity: 0.5;
+            }
+        }
+    }
+}
