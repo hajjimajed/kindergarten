@@ -1,8 +1,15 @@
-import './children.styles.scss'
+import './children.styles.scss';
+import { useState, useContext } from 'react';
 
-import { ReactComponent as Pencil } from '../../assets/icons/pencil.svg'
-import { ReactComponent as Delete } from '../../assets/icons/delete.svg'
+import { TogglesContext } from '../../contexts/toggles.context';
+
+import { ReactComponent as Pencil } from '../../assets/icons/pencil.svg';
+import { ReactComponent as Delete } from '../../assets/icons/delete.svg';
+import { ReactComponent as Filter } from '../../assets/icons/filter.svg';
+import { ReactComponent as Paper } from '../../assets/icons/paper.svg';
+import { ReactComponent as AddUser } from '../../assets/icons/add-user.svg';
 import SearchBox from '../../components/search-box/search-box.component';
+import DeleteConfirm from '../../components/delete-confirm/delete-confirm.component';
 
 const data = [
     { firstName: 'John', lastName: 'Doe', parentName: 'Jane Doe', age: 25, gender: 'ذكر', date: '2023-07-10', payment: false },
@@ -15,15 +22,52 @@ const data = [
 
 const Children = () => {
 
+    const [isopenFilter, setIsOpenFilter] = useState(false);
+
+    const openFilterHandler = () => {
+        setIsOpenFilter(!isopenFilter);
+    }
+
+    const { dConfirmation, setDConfirmation } = useContext(TogglesContext);
+
+    const deleteConfirmOpen = () => {
+        setDConfirmation(!dConfirmation);
+    }
+
     return (
         <div className='children-container'>
             <div className='top-container'>
-
+                <div className='top-container-header'>
+                    <h1>قاعدة بيانات الأطفال</h1>
+                </div>
+                <div className='top-container-body'>
+                    <button>
+                        <h1>طباعة</h1>
+                        <Paper />
+                    </button>
+                    <button>
+                        <h1>أضف</h1>
+                        <AddUser />
+                    </button>
+                </div>
             </div>
             <div className='children-list'>
                 <div className='children-list-header'>
                     <SearchBox />
                     <h1>قائمة الأطفال</h1>
+                </div>
+                <div className='filter'>
+                    <button className='filterBtn' onClick={openFilterHandler}>
+                        <Filter></Filter>
+                        <h1>عرض</h1>
+                    </button>
+                    {
+                        isopenFilter && (
+                            <div onClick={openFilterHandler} className='filters-list'>
+
+                            </div>
+                        )
+                    }
                 </div>
                 <table className='children-list-table'>
                     <thead>
@@ -41,35 +85,40 @@ const Children = () => {
                     <tbody>
 
                         {data.map((row, index) => (
-                            <tr key={index}>
-                                <td>
-                                    <div className='action-btns'>
-                                        <button>
-                                            <Delete />
-                                        </button>
-                                        <button>
-                                            <Pencil />
-                                        </button>
-                                    </div>
-                                </td>
-                                <td className='status'>
-                                    {
-                                        row.payment ?
-                                            (<div className='done'>
-                                                <p>نعم</p>
-                                            </div>) :
-                                            (<div className='pending'>
-                                                <p>لا</p>
-                                            </div>)
-                                    }
-                                </td>
-                                <td>{row.date}</td>
-                                <td>{row.gender}</td>
-                                <td>{row.age}</td>
-                                <td>{row.parentName}</td>
-                                <td>{row.lastName}</td>
-                                <td>{row.firstName}</td>
-                            </tr>
+                            <>
+                                <tr key={index}>
+                                    <td>
+                                        <div className='action-btns'>
+                                            <button onClick={deleteConfirmOpen}>
+                                                <Delete />
+                                            </button>
+                                            <button>
+                                                <Pencil />
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td className='status'>
+                                        {
+                                            row.payment ?
+                                                (<div className='done'>
+                                                    <p>نعم</p>
+                                                </div>) :
+                                                (<div className='pending'>
+                                                    <p>لا</p>
+                                                </div>)
+                                        }
+                                    </td>
+                                    <td>{row.date}</td>
+                                    <td>{row.gender}</td>
+                                    <td>{row.age}</td>
+                                    <td>{row.parentName}</td>
+                                    <td>{row.lastName}</td>
+                                    <td>{row.firstName}</td>
+                                </tr>
+                                {
+                                    dConfirmation && (<DeleteConfirm student={row} />)
+                                }
+                            </>
                         ))}
 
                     </tbody>

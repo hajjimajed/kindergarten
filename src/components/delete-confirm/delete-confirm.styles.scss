@@ -1,0 +1,104 @@
+@import '../../colors';
+
+
+.delete-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .delete-bg {
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(96, 96, 96, 0.1);
+        position: fixed;
+
+    }
+
+    .confirmation {
+        width: 28%;
+        padding: 1rem;
+        border-radius: 1rem;
+        background-color: #fff;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+
+        h1 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .confirmation-actions {
+            display: flex;
+            width: 100%;
+
+            button {
+                all: unset;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                padding: 5px 20px;
+                border-radius: 1.5rem;
+                transition: 0.2s ease-in-out all;
+
+                h1 {
+                    margin: 0;
+                    font-size: 1rem;
+                    margin-right: 0.5rem;
+                    color: $red;
+                    transition: 0.2s ease-in-out all;
+                }
+
+                svg {
+                    width: 1.2rem;
+                    height: auto;
+                    transition: 0.2s ease-in-out all;
+
+                    path {
+                        fill: $red;
+                    }
+                }
+
+                &:last-child {
+
+                    margin-left: 1rem;
+
+                    h1 {
+                        color: $done;
+                    }
+
+                    svg {
+                        path {
+                            fill: $done;
+                        }
+                    }
+                }
+
+                &:hover {
+                    background-color: $red;
+
+                    h1 {
+                        color: #fff;
+                    }
+
+                    svg {
+                        path {
+                            fill: #fff;
+                        }
+                    }
+
+                    &:last-child {
+                        background-color: $done;
+                    }
+                }
+            }
+        }
+    }
+}
