@@ -7,7 +7,7 @@ import { ReactComponent as Delete } from '../../assets/icons/delete.svg';
 import { ReactComponent as Close } from '../../assets/icons/close.svg';
 
 
-const DeleteConfirm = ({ student }) => {
+const DeleteConfirm = ({ child }) => {
 
     const { dConfirmation, setDConfirmation } = useContext(TogglesContext);
 

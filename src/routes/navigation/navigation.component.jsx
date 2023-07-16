@@ -1,5 +1,5 @@
 import './navigation.styles.scss'
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { ReactComponent as Dashboard } from '../../assets/icons/category.svg'
 import { ReactComponent as Activities } from '../../assets/icons/activity.svg'
@@ -23,19 +23,38 @@ const Navigation = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
+    const dropdownRef = useRef(null);
+    const notifRef = useRef(null);
+
     const toggleMenu = () => {
-        if (isNotificationOpen) {
-            setIsNotificationOpen(false);
-        }
         setIsOpen(!isOpen);
     };
 
     const toggleNotification = () => {
-        if (isOpen) {
-            setIsOpen(false);
-        }
         setIsNotificationOpen(!isNotificationOpen);
     };
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+
+        const handleNotifOutside = (event) => {
+            if (notifRef.current && !notifRef.current.contains(event.target)) {
+                setIsNotificationOpen(false);
+            }
+        }
+
+        document.addEventListener('click', handleOutsideClick);
+        document.addEventListener('click', handleNotifOutside);
+
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+            document.removeEventListener('click', handleNotifOutside);
+        };
+    }, []);
 
 
     return (
@@ -78,7 +97,7 @@ const Navigation = () => {
                 <div className='top-navigation'>
                     <div className='left-section'>
                         <div className='user-links'>
-                            <div className={`profile-dropdown ${isOpen ? 'open' : ''}`}>
+                            <div className={`profile-dropdown ${isOpen ? 'open' : ''}`} ref={dropdownRef}>
                                 <div className='PButton' onClick={toggleMenu}>
                                     <div className='img'>
                                         <img src={avatar} alt="" />
@@ -110,7 +129,7 @@ const Navigation = () => {
                                 )}
                             </div>
 
-                            <div className='notification'>
+                            <div className='notification' ref={notifRef}>
                                 <Notification onClick={toggleNotification} />
                                 <div className='count-circle'>
                                     <h1>5</h1>
