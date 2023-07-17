@@ -1,5 +1,6 @@
 import './children.styles.scss';
 import { useState, useContext, useEffect, useRef } from 'react';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 import { TogglesContext } from '../../contexts/toggles.context';
 
@@ -15,6 +16,7 @@ import SearchBox from '../../components/search-box/search-box.component';
 import DeleteConfirm from '../../components/delete-confirm/delete-confirm.component';
 import AddChild from '../../components/add-child/add-child.component';
 import UpdateChild from '../../components/update-child/update-child.component';
+import ChildPDF from '../../components/child-pdf/child-pdf.component';
 
 const data = [
     { first_name: 'John', last_name: 'Doe', parent_name: 'Jane Doe', age: 25, gender: 'ذكر', paid_at: '2023-07-10', isPaid: false },
@@ -22,7 +24,7 @@ const data = [
     { first_name: 'Michael', last_name: 'Johnson', parent_name: 'Emily Johnson', age: 42, gender: 'ذكر', paid_at: '2023-07-12', isPaid: false },
     { first_name: 'Sarah', last_name: 'Williams', parent_name: 'David Williams', age: 19, gender: 'أنثى', paid_at: '2023-07-13', isPaid: true },
     { first_name: 'James', last_name: 'Brown', parent_name: 'Linda Brown', age: 50, gender: 'ذكر', paid_at: '2023-07-14', isPaid: true },
-    { first_name: 'Emma', last_name: 'Lee', parent_name: 'Robert Lee', age: 28, gender: 'أنثى', paid_at: '2023-07-15', isPaid: true }
+    { first_name: 'Emma', last_name: 'Lee', parent_name: 'Robert Lee', age: 28, gender: 'أنثى', paid_at: '2023-07-15', isPaid: true },
 ];
 
 const Children = () => {
@@ -63,6 +65,13 @@ const Children = () => {
         setDConfirmation(!dConfirmation);
     }
 
+
+    const [isPDFGenerating, setIsPDFGenerating] = useState(false);
+
+    const handlePDFGenerate = () => {
+        setIsPDFGenerating(true);
+    };
+
     return (
         <div className='children-container'>
             <div className='top-container'>
@@ -70,11 +79,15 @@ const Children = () => {
                     <h1>قاعدة بيانات الأطفال</h1>
                 </div>
                 <div className='top-container-body'>
-                    <button>
-                        <h1>طباعة</h1>
-                        <Paper />
-                    </button>
-                    <button onClick={addChildHandler}>
+                    <PDFDownloadLink className='pdf-area' document={<ChildPDF childrenData={data} />} fileName='children-list.pdf'>
+
+                        <button className='print-btn' onClick={handlePDFGenerate}>
+                            <h1>طباعة</h1>
+                            <Paper />
+                        </button>
+
+                    </PDFDownloadLink>
+                    <button className='add-btn' onClick={addChildHandler}>
                         <h1>أضف</h1>
                         <AddUser />
                     </button>
