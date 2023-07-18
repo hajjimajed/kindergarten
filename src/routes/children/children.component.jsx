@@ -70,7 +70,7 @@ const Children = () => {
     function getCurrentDateTime() {
         const now = new Date();
         const day = String(now.getDate()).padStart(2, '0');
-        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const month = String(now.getMonth() + 1).padStart(2, '0');
         const year = now.getFullYear();
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
@@ -157,12 +157,12 @@ const Children = () => {
 
     const filterByDateHandler = () => {
         const sortedData = data.sort((a, b) => new Date(a.paid_at) - new Date(b.paid_at));
-        setFilteredData([...sortedData]); // Update filteredData state with sorted data
+        setFilteredData([...sortedData]);
     };
 
     const filterByAlphabeticHandler = () => {
         const sortedData = data.sort((a, b) => a.first_name.localeCompare(b.first_name));
-        setFilteredData([...sortedData]); // Update filteredData state with sorted data
+        setFilteredData([...sortedData]);
     };
 
     return (
