@@ -62,53 +62,53 @@
             justify-content: flex-end;
             align-items: center;
 
-            .pdf-area {
-                .print-btn {
-                    all: unset;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 5px 20px;
-                    border-radius: 1.5rem;
-                    background-color: #000;
+
+            .print-btn {
+                all: unset;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px 20px;
+                border-radius: 1.5rem;
+                background-color: #000;
+                transition: 0.2s ease-in-out all;
+                margin-left: 1rem;
+
+                h1 {
+                    margin: 0;
+                    font-size: 1rem;
+                    margin-right: 1rem;
+                    color: #fff;
                     transition: 0.2s ease-in-out all;
-                    margin-left: 1rem;
+                }
+
+                svg {
+                    width: 1.6rem;
+                    height: auto;
+                    transition: 0.2s ease-in-out all;
+
+                    path {
+                        fill: #fff;
+                    }
+                }
+
+                &:hover {
+                    background-color: #fff;
+                    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
                     h1 {
-                        margin: 0;
-                        font-size: 1rem;
-                        margin-right: 1rem;
-                        color: #fff;
-                        transition: 0.2s ease-in-out all;
+                        color: #000;
                     }
 
                     svg {
-                        width: 1.6rem;
-                        height: auto;
-                        transition: 0.2s ease-in-out all;
-
                         path {
-                            fill: #fff;
-                        }
-                    }
-
-                    &:hover {
-                        background-color: #fff;
-                        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-
-                        h1 {
-                            color: #000;
-                        }
-
-                        svg {
-                            path {
-                                fill: #000;
-                            }
+                            fill: #000;
                         }
                     }
                 }
             }
+
 
             .add-btn {
                 all: unset;

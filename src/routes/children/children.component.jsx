@@ -1,6 +1,5 @@
 import './children.styles.scss';
 import { useState, useContext, useEffect, useRef } from 'react';
-import { PDFDownloadLink } from '@react-pdf/renderer';
 
 import { TogglesContext } from '../../contexts/toggles.context';
 
@@ -16,7 +15,6 @@ import SearchBox from '../../components/search-box/search-box.component';
 import DeleteConfirm from '../../components/delete-confirm/delete-confirm.component';
 import AddChild from '../../components/add-child/add-child.component';
 import UpdateChild from '../../components/update-child/update-child.component';
-import ChildPDF from '../../components/child-pdf/child-pdf.component';
 
 const data = [
     { first_name: 'John', last_name: 'Doe', parent_name: 'Jane Doe', age: 25, gender: 'ذكر', paid_at: '2023-07-10', isPaid: false },
@@ -41,6 +39,7 @@ const Children = () => {
 
     const [isopenFilter, setIsOpenFilter] = useState(false);
     const filterRef = useRef(null);
+    const [filteredData, setFilteredData] = useState(data);
 
     const openFilterHandler = () => {
         setIsOpenFilter(!isopenFilter);
@@ -65,11 +64,102 @@ const Children = () => {
         setDConfirmation(!dConfirmation);
     }
 
+    function getCurrentDateTime() {
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const year = now.getFullYear();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
 
-    const [isPDFGenerating, setIsPDFGenerating] = useState(false);
+        const dateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
+        return dateTime;
+    }
 
-    const handlePDFGenerate = () => {
-        setIsPDFGenerating(true);
+    const currentDateTime = getCurrentDateTime();
+
+
+    const printChildInfo = () => {
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>القائمة الإسمية للأطفال</title></head><body>');
+        printWindow.document.write('<style>@page { size: A4; margin: 0; }</style>');
+        printWindow.document.write(`
+    <style>
+        body {
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: right;
+        }
+        th {
+            background-color: #e5e5e5 !important;
+            border-bottom: 1px solid #e5e5e5;
+            border-top: 1px solid #e5e5e5;
+        }
+        td {
+            border-bottom: 1px solid #e5e5e5;
+        }
+        td:first-child, th:first-child{
+            border-left: 1px solid #e5e5e5;
+        }
+        td:last-child, th:last-child{
+            border-right: 1px solid #e5e5e5;
+        }
+        img{
+            width:50px;
+            height:auto;
+        }
+        div{
+            width:100%;
+            height:60px;
+            display: flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+    </style>
+`);
+        printWindow.document.write('<div>');
+        printWindow.document.write(`<p>${currentDateTime}</p>`);
+        printWindow.document.write('<img src="https://i.ibb.co/KxLxc6G/tunisia.png" alt="Image">');
+        printWindow.document.write('</div>');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<h1>القائمة الإسمية للأطفال</h1>');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<table>');
+        printWindow.document.write('<tr><th>الجنس</th><th>العمر</th><th>اسم الولي</th><th>اللقب</th><th>الإسم</th></tr>');
+
+        data.forEach(child => {
+            printWindow.document.write('<tr>');
+            printWindow.document.write(`<td>${child.gender}</td>`);
+            printWindow.document.write(`<td>${child.age}</td>`);
+            printWindow.document.write(`<td>${child.parent_name}</td>`);
+            printWindow.document.write(`<td>${child.last_name}</td>`);
+            printWindow.document.write(`<td>${child.first_name}</td>`);
+            printWindow.document.write('</tr>');
+        });
+
+        printWindow.document.write('</table>');
+        printWindow.document.write('</body></html>');
+        printWindow.print();
+    };
+
+    const filterByDateHandler = () => {
+        const sortedData = data.sort((a, b) => new Date(a.paid_at) - new Date(b.paid_at));
+        setFilteredData([...sortedData]); // Update filteredData state with sorted data
+    };
+
+    const filterByAlphabeticHandler = () => {
+        const sortedData = data.sort((a, b) => a.first_name.localeCompare(b.first_name));
+        setFilteredData([...sortedData]); // Update filteredData state with sorted data
     };
 
     return (
@@ -79,14 +169,10 @@ const Children = () => {
                     <h1>قاعدة بيانات الأطفال</h1>
                 </div>
                 <div className='top-container-body'>
-                    <PDFDownloadLink className='pdf-area' document={<ChildPDF childrenData={data} />} fileName='children-list.pdf'>
-
-                        <button className='print-btn' onClick={handlePDFGenerate}>
-                            <h1>طباعة</h1>
-                            <Paper />
-                        </button>
-
-                    </PDFDownloadLink>
+                    <button className='print-btn' onClick={printChildInfo}>
+                        <h1>طباعة</h1>
+                        <Paper />
+                    </button>
                     <button className='add-btn' onClick={addChildHandler}>
                         <h1>أضف</h1>
                         <AddUser />
@@ -106,11 +192,11 @@ const Children = () => {
                     {
                         isopenFilter && (
                             <div onClick={openFilterHandler} className='filters-list'>
-                                <div className='filter-item'>
+                                <div className='filter-item' onClick={filterByDateHandler}>
                                     <h1>حسب التاريخ</h1>
                                     <Clock />
                                 </div>
-                                <div className='filter-item'>
+                                <div className='filter-item' onClick={filterByAlphabeticHandler}>
                                     <h1>حسب الحروف</h1>
                                     <Alphabet />
                                 </div>
@@ -133,7 +219,7 @@ const Children = () => {
                     </thead>
                     <tbody>
 
-                        {data.map((row, index) => (
+                        {filteredData.map((row, index) => (
                             <>
                                 <tr key={index}>
                                     <td>
