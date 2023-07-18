@@ -1,6 +1,5 @@
 import './children.styles.scss';
-import { useState, useContext, useEffect, useRef } from 'react';
-
+import { useState, useContext, useEffect, useRef, Fragment } from 'react';
 import { TogglesContext } from '../../contexts/toggles.context';
 
 import { ReactComponent as Pencil } from '../../assets/icons/pencil.svg';
@@ -33,9 +32,13 @@ const Children = () => {
         setIsAddChild(!isAddChild);
     }
 
-    const updateChildHandler = () => {
-        setIsUpdateChild(!isUpdateChild)
-    }
+    const [selectedChild, setSelectedChild] = useState(null);
+
+
+    const updateChildHandler = (row) => {
+        setSelectedChild(row);
+        setIsUpdateChild(!isUpdateChild);
+    };
 
     const [isopenFilter, setIsOpenFilter] = useState(false);
     const filterRef = useRef(null);
@@ -220,14 +223,14 @@ const Children = () => {
                     <tbody>
 
                         {filteredData.map((row, index) => (
-                            <>
+                            <Fragment key={index}>
                                 <tr key={index}>
                                     <td>
                                         <div className='action-btns'>
                                             <button onClick={deleteConfirmOpen}>
                                                 <Delete />
                                             </button>
-                                            <button onClick={updateChildHandler}>
+                                            <button onClick={() => updateChildHandler(row)}>
                                                 <Pencil />
                                             </button>
                                         </div>
@@ -253,14 +256,13 @@ const Children = () => {
                                 {
                                     dConfirmation && (<DeleteConfirm child={row} />)
                                 }
-                                {
-                                    isUpdateChild && <UpdateChild child={row} />
-                                }
-                            </>
+
+                            </Fragment>
                         ))}
 
                     </tbody>
                 </table>
+                {isUpdateChild && <UpdateChild child={selectedChild} />}
             </div>
             {
                 isAddChild && <AddChild />

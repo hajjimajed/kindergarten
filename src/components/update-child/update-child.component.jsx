@@ -23,6 +23,7 @@ const UpdateChild = ({ child }) => {
     const [age, setAge] = useState(child.age);
     const [gender, setGender] = useState(child.gender);
     const [paidAt, setPaidAt] = useState(child.paid_at);
+    const [isPaid, setIsPaid] = useState(child.isPaid);
 
     const handleChangeInput = (fn) => {
         return (event) => {
@@ -40,6 +41,7 @@ const UpdateChild = ({ child }) => {
             age,
             gender,
             paidAt,
+            isPaid,
         });
     };
 
@@ -79,6 +81,13 @@ const UpdateChild = ({ child }) => {
                             <option value="ذكر">ذكر</option>
                             <option value="أنثى">أنثى</option>
                         </select>
+                        <select id='isPaid' value={isPaid.toString()} onChange={handleChangeInput((value) => setIsPaid(value === 'true' ? true : false))}>
+                            <option value={false}>غير مدفوع</option>
+                            <option value={true}>مدفوع</option>
+                        </select>
+
+
+
                         <label htmlFor="">
                             التاريخ
                         </label>
