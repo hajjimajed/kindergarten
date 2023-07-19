@@ -22,6 +22,11 @@ const Navigation = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+    const [hamBtn, setHamBtn] = useState(false);
+
+    const hamMenuHandler = () => {
+        setHamBtn(!hamBtn);
+    }
 
     const dropdownRef = useRef(null);
     const notifRef = useRef(null);
@@ -60,35 +65,35 @@ const Navigation = () => {
     return (
         <>
             <div className='navigation-container'>
-                <div className='right-navigation'>
+                <div className={hamBtn ? 'right-navigation active' : 'right-navigation'}>
                     <div className='top-section'>
-                        <Link to='/' className='main-link'>
+                        <Link to='/' className='main-link' onClick={hamMenuHandler}>
                             <h1>horizon</h1>
                             <img className='main-logo' src={mainLogo} alt="" />
                         </Link>
-                        <Link to='/' className='navigation-link'>
+                        <Link to='/' className='navigation-link' onClick={hamMenuHandler}>
                             <h1>لوحة القيادة</h1>
                             <Dashboard />
                         </Link>
-                        <Link to='/children' className='navigation-link'>
+                        <Link to='/children' className='navigation-link' onClick={hamMenuHandler}>
                             <h1>الأطفال</h1>
                             <Child />
                         </Link>
-                        <Link to='/cadres' className='navigation-link'>
+                        <Link to='/cadres' className='navigation-link' onClick={hamMenuHandler}>
                             <h1>الإطارات</h1>
                             <People />
                         </Link>
-                        <Link to='/activities' className='navigation-link'>
+                        <Link to='/activities' className='navigation-link' onClick={hamMenuHandler}>
                             <h1>الأنشطة اليومية</h1>
                             <Activities />
                         </Link>
-                        <Link to='/projects' className='navigation-link'>
+                        <Link to='/projects' className='navigation-link' onClick={hamMenuHandler}>
                             <h1>المشاريع التربوية</h1>
                             <Projects />
                         </Link>
                     </div>
                     <div className='bottom-section'>
-                        <Link className='navigation-link'>
+                        <Link className='navigation-link' onClick={hamMenuHandler}>
                             <h1>تسجيل الخروج</h1>
                             <Logout />
                         </Link>
@@ -108,19 +113,19 @@ const Navigation = () => {
                                 {isOpen && (
                                     <ul className="dropdown-menu">
                                         <li>
-                                            <Link className='dropdown-link'>
+                                            <Link className='dropdown-link' onClick={toggleMenu}>
                                                 <h1>الملف الشخصي</h1>
                                                 <Profile />
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link className='dropdown-link'>
+                                            <Link className='dropdown-link' onClick={toggleMenu}>
                                                 <h1>تعديلات</h1>
                                                 <Setting />
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link className='dropdown-link-last'>
+                                            <Link className='dropdown-link-last' onClick={toggleMenu}>
                                                 <h1>تسجيل الخروج</h1>
                                                 <Logout />
                                             </Link>
@@ -163,6 +168,11 @@ const Navigation = () => {
                         </form>
                     </div>
                 </div>
+            </div>
+            <div className={hamBtn ? 'ham-button active' : 'ham-button'} onClick={hamMenuHandler}>
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
             <Outlet />
         </>
