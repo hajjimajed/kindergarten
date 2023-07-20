@@ -1,7 +1,7 @@
 @import '../../colors';
 
 
-.cadre-delete-container {
+.activity-delete-container {
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -107,7 +107,7 @@
 
 
 @media(max-width:1000px) {
-    .cadre-delete-container .confirmation {
+    .activity-delete-container .confirmation {
         width: 35vw;
     }
 }
@@ -115,41 +115,41 @@
 @media(max-width:800px) {
 
 
-    .cadre-delete-container .confirmation h1 {
+    .activity-delete-container .confirmation h1 {
         font-size: 0.8rem;
     }
 
-    .cadre-delete-container .confirmation .confirmation-actions button {
+    .activity-delete-container .confirmation .confirmation-actions button {
         padding: 2px 15px;
     }
 
-    .cadre-delete-container .confirmation .confirmation-actions button h1 {
+    .activity-delete-container .confirmation .confirmation-actions button h1 {
         font-size: 0.9rem;
     }
 
-    .cadre-delete-container .confirmation .confirmation-actions button svg {
+    .activity-delete-container .confirmation .confirmation-actions button svg {
         width: 1.1rem;
     }
 
-    .cadre-delete-container .confirmation {
+    .activity-delete-container .confirmation {
         width: 40vw;
     }
 }
 
 @media(max-width:600px) {
-    .cadre-delete-container .confirmation {
+    .activity-delete-container .confirmation {
         width: 45vw;
     }
 }
 
 @media(max-width:500px) {
-    .cadre-delete-container .confirmation {
+    .activity-delete-container .confirmation {
         width: 55vw;
     }
 }
 
 @media(max-width:400px) {
-    .cadre-delete-container .confirmation {
+    .activity-delete-container .confirmation {
         width: 70vw;
     }
 }

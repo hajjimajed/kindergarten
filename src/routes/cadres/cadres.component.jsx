@@ -238,7 +238,7 @@ const Cadres = () => {
                                         <td>الإسم</td>
                                     </tr>
                                     <tr>
-                                        <td>{row.teacher_first}</td>
+                                        <td>{row.teacher_last}</td>
                                         <td>اللقب</td>
                                     </tr>
                                     <tr>

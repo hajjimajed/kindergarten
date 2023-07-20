@@ -1,0 +1,227 @@
+@import '../../colors';
+
+.add-activity-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 300;
+
+    .add-bg {
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(96, 96, 96, 0.5);
+        position: fixed;
+
+    }
+
+    .add-activity {
+        width: 40%;
+        background-color: #fff;
+        border-radius: 1rem;
+        padding: 1rem 2rem;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+
+        .add-activity-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .close-btn {
+                all: unset;
+                cursor: pointer;
+
+                svg {
+                    width: 1.2rem;
+                    height: auto;
+                    transition: 0.2s ease-in-out all;
+
+                    path {
+                        fill: #000;
+                    }
+                }
+
+                &:hover {
+                    svg {
+                        path {
+                            fill: $red;
+                        }
+                    }
+                }
+            }
+        }
+
+        .add-activity-body {
+            width: 100%;
+            margin-top: 1rem;
+
+            .add-activity-form {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                text-align: right;
+
+
+                input,
+                select {
+                    all: unset;
+                    border: 1px solid $border-gray;
+                    padding: 0.2rem 0.6rem;
+                    font-size: 0.9rem;
+                    border-radius: 0.6rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-bottom: 0.2rem;
+                    transition: 0.1s ease-in-out all;
+
+                    &:focus {
+                        border-color: $primary-color;
+                    }
+                }
+
+                #birthday::-webkit-calendar-picker-indicator {
+                    /* Replace 'icon.png' with the path to your desired icon */
+                    background-image: url('../../assets/pngs/calender.png');
+                    /* Set the desired width and height for the icon */
+                    width: 20px;
+                    height: 20px;
+                    /* Adjust the positioning of the icon if needed */
+                    position: relative;
+                    top: 2px;
+                    margin-left: 0.5rem;
+                    cursor: pointer;
+                }
+
+                label {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: $link-soft;
+                }
+            }
+
+            .buttons-container {
+                width: 100%;
+                margin-top: 1rem;
+                display: flex;
+                align-items: center;
+
+                button {
+                    all: unset;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                    padding: 5px 20px;
+                    border-radius: 1.5rem;
+                    transition: 0.2s ease-in-out all;
+
+                    h1 {
+                        margin: 0;
+                        font-size: 1rem;
+                        margin-right: 0.5rem;
+                        color: $red;
+                        transition: 0.2s ease-in-out all;
+                    }
+
+                    svg {
+                        width: 1.2rem;
+                        height: auto;
+                        transition: 0.2s ease-in-out all;
+
+                        path {
+                            fill: $red;
+                        }
+                    }
+
+                    &:last-child {
+
+                        margin-left: 1rem;
+
+                        h1 {
+                            color: $done;
+                        }
+
+                        svg {
+                            path {
+                                fill: $done;
+                            }
+                        }
+                    }
+
+                    &:hover {
+                        background-color: $red;
+
+                        h1 {
+                            color: #fff;
+                        }
+
+                        svg {
+                            path {
+                                fill: #fff;
+                            }
+                        }
+
+                        &:last-child {
+                            background-color: $done;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+
+@media(max-width:800px) {
+    .add-activity-container .add-activity {
+        width: 60%;
+    }
+
+    .add-activity-container .add-activity .add-activity-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .add-activity-container .add-activity .add-activity-body .add-activity-form label,
+    .add-activity-container .add-activity .add-activity-body .add-activity-form input,
+    .add-activity-container .add-activity .add-activity-body .add-activity-form select {
+        font-size: 0.9rem;
+    }
+
+    .add-activity-container .add-activity .add-activity-header .close-btn svg {
+        width: 1.1rem;
+    }
+
+    .add-activity-container .add-activity .add-activity-body .buttons-container button {
+        padding: 3px 15px;
+    }
+
+    .add-activity-container .add-activity .add-activity-body .buttons-container button h1 {
+        font-size: 0.9rem;
+    }
+
+    .add-activity-container .add-activity .add-activity-body .buttons-container button svg {
+        width: 1.1rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .add-activity-container .add-activity {
+        width: 80%;
+        padding: 1rem;
+    }
+}
