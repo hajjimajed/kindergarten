@@ -255,7 +255,7 @@ const Cadres = () => {
                                     </tr>
                                     <tr>
                                         <td>{row.birthday}</td>
-                                        <th>تاريخ الولادة</th>
+                                        <td>تاريخ الولادة</td>
                                     </tr>
                                     <tr>
                                         <td>{row.gender}</td>
@@ -267,7 +267,7 @@ const Cadres = () => {
                                     </tr>
                                     <tr>
                                         <td>{row.degree}</td>
-                                        <th>الشهادة العلمية</th>
+                                        <td>الشهادة العلمية</td>
                                     </tr>
                                     <tr>
                                         <td>
