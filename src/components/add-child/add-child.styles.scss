@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 300;
 
     .add-bg {
         width: 100vw;
@@ -183,4 +184,43 @@
 
     }
 
+}
+
+@media(max-width:800px) {
+    .add-child-container .add-child {
+        width: 60%;
+    }
+
+    .add-child-container .add-child .add-child-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .add-child-container .add-child .add-child-body .add-child-form label,
+    .add-child-container .add-child .add-child-body .add-child-form input,
+    .add-child-container .add-child .add-child-body .add-child-form select {
+        font-size: 0.9rem;
+    }
+
+    .add-child-container .add-child .add-child-header .close-btn svg {
+        width: 1.1rem;
+    }
+
+    .add-child-container .add-child .add-child-body .buttons-container button {
+        padding: 3px 15px;
+    }
+
+    .add-child-container .add-child .add-child-body .buttons-container button h1 {
+        font-size: 0.9rem;
+    }
+
+    .add-child-container .add-child .add-child-body .buttons-container button svg {
+        width: 1.1rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .add-child-container .add-child {
+        width: 80%;
+        padding: 1rem;
+    }
 }

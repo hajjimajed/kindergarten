@@ -10,6 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 102;
 
     .delete-bg {
         width: 100vw;
@@ -20,7 +21,7 @@
     }
 
     .confirmation {
-        width: 28%;
+        width: 28vw;
         padding: 1rem;
         border-radius: 1rem;
         background-color: #fff;
@@ -100,5 +101,54 @@
                 }
             }
         }
+    }
+}
+
+
+@media(max-width:1000px) {
+    .delete-container .confirmation {
+        width: 35vw;
+    }
+}
+
+@media(max-width:800px) {
+
+
+    .delete-container .confirmation h1 {
+        font-size: 0.8rem;
+    }
+
+    .delete-container .confirmation .confirmation-actions button {
+        padding: 2px 15px;
+    }
+
+    .delete-container .confirmation .confirmation-actions button h1 {
+        font-size: 0.9rem;
+    }
+
+    .delete-container .confirmation .confirmation-actions button svg {
+        width: 1.1rem;
+    }
+
+    .delete-container .confirmation {
+        width: 40vw;
+    }
+}
+
+@media(max-width:600px) {
+    .delete-container .confirmation {
+        width: 45vw;
+    }
+}
+
+@media(max-width:500px) {
+    .delete-container .confirmation {
+        width: 55vw;
+    }
+}
+
+@media(max-width:400px) {
+    .delete-container .confirmation {
+        width: 70vw;
     }
 }

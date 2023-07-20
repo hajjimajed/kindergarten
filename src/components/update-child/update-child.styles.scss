@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 102;
 
     .update-bg {
         width: 100vw;
@@ -180,4 +181,44 @@
 
     }
 
+}
+
+
+@media(max-width:800px) {
+    .update-child-container .update-child {
+        width: 60%;
+    }
+
+    .update-child-container .update-child .update-child-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .update-child-container .update-child .update-child-body .update-child-form label,
+    .update-child-container .update-child .update-child-body .update-child-form input,
+    .update-child-container .update-child .update-child-body .update-child-form select {
+        font-size: 0.9rem;
+    }
+
+    .update-child-container .update-child .update-child-header .close-btn svg {
+        width: 1.1rem;
+    }
+
+    .update-child-container .update-child .update-child-body .buttons-container button {
+        padding: 3px 15px;
+    }
+
+    .update-child-container .update-child .update-child-body .buttons-container button h1 {
+        font-size: 0.9rem;
+    }
+
+    .update-child-container .update-child .update-child-body .buttons-container button svg {
+        width: 1.1rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .update-child-container .update-child {
+        width: 80%;
+        padding: 1rem;
+    }
 }

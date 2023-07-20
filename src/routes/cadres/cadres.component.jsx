@@ -39,12 +39,13 @@ const Cadres = () => {
 
     const [selectedCadre, setSelectedCadre] = useState(null);
 
-    const updateCadreHandler = (cadre) => {
-        setSelectedCadre(cadre);
+    const updateCadreHandler = (row) => {
+        setSelectedCadre(row);
         setIsUpdateCadre(!isUpdateCadre);
     }
 
-    const deleteConfirmOpen = () => {
+    const deleteConfirmOpen = (row) => {
+        setSelectedCadre(row);
         setDConfirmationCadre(!dConfirmationCadre);
     }
 
@@ -162,6 +163,27 @@ const Cadres = () => {
         printWindow.print();
     };
 
+
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
+    useEffect(() => {
+        function handleResize() {
+            setIsSmallScreen(window.innerWidth <= 800);
+        }
+
+        // Add event listener to listen for window resize
+        window.addEventListener('resize', handleResize);
+
+        // Call handleResize once on component mount
+        handleResize();
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+
+
     return (
         <div className='cadres-container'>
             <div className='top-container'>
@@ -181,7 +203,9 @@ const Cadres = () => {
             </div>
             <div className='cadres-list'>
                 <div className='cadres-list-header'>
-                    <SearchBox />
+                    {
+                        isSmallScreen ? (<h2>search</h2>) : (<SearchBox />)
+                    }
                     <h1>قائمة الإطارات </h1>
                 </div>
                 <div className='filter' ref={filterRef}>
@@ -204,58 +228,118 @@ const Cadres = () => {
                         )
                     }
                 </div>
-                <table className='cadres-list-table'>
-                    <thead>
-                        <tr>
-                            <th>الإجراءت</th>
-                            <th>الشهادة العلمية</th>
-                            <th>المستوى التعليمي</th>
-                            <th>الجنس</th>
-                            <th>تاريخ الولادة</th>
-                            <th>المعرف الوحيد</th>
-                            <th>تاريخ الإصدار</th>
-                            <th>ب.ت.و</th>
-                            <th>اللقب</th>
-                            <th>الإسم</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        {filteredData.map((row, index) => (
-                            <Fragment key={index}>
-                                <tr key={index}>
-                                    <td>
-                                        <div className='action-btns'>
-                                            <button onClick={deleteConfirmOpen}>
-                                                <Delete />
-                                            </button>
-                                            <button onClick={() => updateCadreHandler(row)}>
-                                                <Pencil />
-                                            </button>
-                                        </div>
-                                    </td>
-
-                                    <td>{row.degree}</td>
-                                    <td>{row.study_level}</td>
-                                    <td>{row.gender}</td>
-                                    <td>{row.birthday}</td>
-                                    <td>{row.matricule}</td>
-                                    <td>{row.validation_date}</td>
-                                    <td>{row.cin}</td>
-                                    <td>{row.teacher_last}</td>
-                                    <td>{row.teacher_first}</td>
+                {
+                    isSmallScreen ? (
+                        filteredData.map((row, index) => (
+                            <table key={index} className='shrinked-cadre-table'>
+                                <tbody>
+                                    <tr>
+                                        <td>{row.teacher_first}</td>
+                                        <td>الإسم</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.teacher_first}</td>
+                                        <td>اللقب</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.cin}</td>
+                                        <td>ب.ت.و</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.validation_date}</td>
+                                        <td>تاريخ الإصدار</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.matricule}</td>
+                                        <td>المعرف الوحيد</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.birthday}</td>
+                                        <th>تاريخ الولادة</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.gender}</td>
+                                        <td>الجنس</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.study_level}</td>
+                                        <td>المستوى التعليمي</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.degree}</td>
+                                        <th>الشهادة العلمية</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div className='action-btns'>
+                                                <button onClick={() => deleteConfirmOpen(row)}>
+                                                    <Delete />
+                                                </button>
+                                                <button onClick={() => updateCadreHandler(row)}>
+                                                    <Pencil />
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td>الإجراءت</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        ))
+                    ) : (
+                        <table className='cadres-list-table'>
+                            <thead>
+                                <tr>
+                                    <th>الإجراءت</th>
+                                    <th>الشهادة العلمية</th>
+                                    <th>المستوى التعليمي</th>
+                                    <th>الجنس</th>
+                                    <th>تاريخ الولادة</th>
+                                    <th>المعرف الوحيد</th>
+                                    <th>تاريخ الإصدار</th>
+                                    <th>ب.ت.و</th>
+                                    <th>اللقب</th>
+                                    <th>الإسم</th>
                                 </tr>
-                                {
-                                    dConfirmationCadre && <DeleteConfirmCadre cadre={row} />
-                                }
-                            </Fragment>
-                        ))}
+                            </thead>
+                            <tbody>
 
-                    </tbody>
-                </table>
+                                {filteredData.map((row, index) => (
+                                    <Fragment key={index}>
+                                        <tr key={index}>
+                                            <td>
+                                                <div className='action-btns'>
+                                                    <button onClick={() => deleteConfirmOpen(row)}>
+                                                        <Delete />
+                                                    </button>
+                                                    <button onClick={() => updateCadreHandler(row)}>
+                                                        <Pencil />
+                                                    </button>
+                                                </div>
+                                            </td>
+
+                                            <td>{row.degree}</td>
+                                            <td>{row.study_level}</td>
+                                            <td>{row.gender}</td>
+                                            <td>{row.birthday}</td>
+                                            <td>{row.matricule}</td>
+                                            <td>{row.validation_date}</td>
+                                            <td>{row.cin}</td>
+                                            <td>{row.teacher_last}</td>
+                                            <td>{row.teacher_first}</td>
+                                        </tr>
+                                    </Fragment>
+                                ))}
+
+                            </tbody>
+                        </table>
+                    )
+                }
             </div>
             {
                 isUpdateCadre && <UpdateCadre cadre={selectedCadre} />
+            }
+            {
+                dConfirmationCadre && <DeleteConfirmCadre cadre={selectedCadre} />
             }
             {
                 isAddCadre && <AddCadre />

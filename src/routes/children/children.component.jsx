@@ -34,11 +34,15 @@ const Children = () => {
 
     const [selectedChild, setSelectedChild] = useState(null);
 
-
     const updateChildHandler = (row) => {
         setSelectedChild(row);
         setIsUpdateChild(!isUpdateChild);
     };
+
+    const deleteConfirmOpen = (row) => {
+        setSelectedChild(row);
+        setDConfirmation(!dConfirmation);
+    }
 
     const [isopenFilter, setIsOpenFilter] = useState(false);
     const filterRef = useRef(null);
@@ -62,10 +66,6 @@ const Children = () => {
         }
 
     }, [])
-
-    const deleteConfirmOpen = () => {
-        setDConfirmation(!dConfirmation);
-    }
 
     function getCurrentDateTime() {
         const now = new Date();
@@ -165,6 +165,25 @@ const Children = () => {
         setFilteredData([...sortedData]);
     };
 
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
+    useEffect(() => {
+        function handleResize() {
+            setIsSmallScreen(window.innerWidth <= 800);
+        }
+
+        // Add event listener to listen for window resize
+        window.addEventListener('resize', handleResize);
+
+        // Call handleResize once on component mount
+        handleResize();
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+
     return (
         <div className='children-container'>
             <div className='top-container'>
@@ -184,7 +203,9 @@ const Children = () => {
             </div>
             <div className='children-list'>
                 <div className='children-list-header'>
-                    <SearchBox />
+                    {
+                        isSmallScreen ? (<h2>search</h2>) : (<SearchBox />)
+                    }
                     <h1>قائمة الأطفال</h1>
                 </div>
                 <div className='filter' ref={filterRef}>
@@ -207,62 +228,123 @@ const Children = () => {
                         )
                     }
                 </div>
-                <table className='children-list-table'>
-                    <thead>
-                        <tr>
-                            <th>الإجراءت</th>
-                            <th>الخلاص</th>
-                            <th>تاريخ التسجيل</th>
-                            <th>الجنس</th>
-                            <th>العمر</th>
-                            <th>إسم الولي</th>
-                            <th>اللقب</th>
-                            <th>الإسم</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                {
+                    isSmallScreen ? (
+                        filteredData.map((row, index) => (
+                            <table key={index} className='shrinked-child-table'>
+                                <tbody>
+                                    <tr>
+                                        <td>{row.first_name}</td>
+                                        <td>الإسم</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.last_name}</td>
+                                        <td>اللقب</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.parent_name}</td>
+                                        <td>إسم الولي</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.age}</td>
+                                        <td>العمر</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.gender}</td>
+                                        <td>الجنس</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{row.paid_at}</td>
+                                        <td>تاريخ التسجيل</td>
+                                    </tr>
+                                    <tr>
+                                        <td className='status'>
+                                            {
+                                                row.isPaid ?
+                                                    (<div className='done'>
+                                                        <p>نعم</p>
+                                                    </div>) :
+                                                    (<div className='pending'>
+                                                        <p>لا</p>
+                                                    </div>)
+                                            }
+                                        </td>
+                                        <td>الخلاص</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div className='action-btns'>
+                                                <button onClick={() => deleteConfirmOpen(row)}>
+                                                    <Delete />
+                                                </button>
+                                                <button onClick={() => updateChildHandler(row)}>
+                                                    <Pencil />
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td>الإجراءت</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        ))
+                    ) :
+                        (
+                            <table className='children-list-table'>
+                                <thead>
+                                    <tr>
+                                        <th>الإجراءت</th>
+                                        <th>الخلاص</th>
+                                        <th>تاريخ التسجيل</th>
+                                        <th>الجنس</th>
+                                        <th>العمر</th>
+                                        <th>إسم الولي</th>
+                                        <th>اللقب</th>
+                                        <th>الإسم</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                        {filteredData.map((row, index) => (
-                            <Fragment key={index}>
-                                <tr key={index}>
-                                    <td>
-                                        <div className='action-btns'>
-                                            <button onClick={deleteConfirmOpen}>
-                                                <Delete />
-                                            </button>
-                                            <button onClick={() => updateChildHandler(row)}>
-                                                <Pencil />
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td className='status'>
-                                        {
-                                            row.isPaid ?
-                                                (<div className='done'>
-                                                    <p>نعم</p>
-                                                </div>) :
-                                                (<div className='pending'>
-                                                    <p>لا</p>
-                                                </div>)
-                                        }
-                                    </td>
-                                    <td>{row.paid_at}</td>
-                                    <td>{row.gender}</td>
-                                    <td>{row.age}</td>
-                                    <td>{row.parent_name}</td>
-                                    <td>{row.last_name}</td>
-                                    <td>{row.first_name}</td>
-                                </tr>
-                                {
-                                    dConfirmation && (<DeleteConfirm child={row} />)
-                                }
+                                    {filteredData.map((row, index) => (
+                                        <Fragment key={index}>
+                                            <tr key={index}>
+                                                <td>
+                                                    <div className='action-btns'>
+                                                        <button onClick={() => deleteConfirmOpen(row)}>
+                                                            <Delete />
+                                                        </button>
+                                                        <button onClick={() => updateChildHandler(row)}>
+                                                            <Pencil />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td className='status'>
+                                                    {
+                                                        row.isPaid ?
+                                                            (<div className='done'>
+                                                                <p>نعم</p>
+                                                            </div>) :
+                                                            (<div className='pending'>
+                                                                <p>لا</p>
+                                                            </div>)
+                                                    }
+                                                </td>
+                                                <td>{row.paid_at}</td>
+                                                <td>{row.gender}</td>
+                                                <td>{row.age}</td>
+                                                <td>{row.parent_name}</td>
+                                                <td>{row.last_name}</td>
+                                                <td>{row.first_name}</td>
+                                            </tr>
+                                        </Fragment>
+                                    ))}
 
-                            </Fragment>
-                        ))}
+                                </tbody>
+                            </table>
+                        )
+                }
 
-                    </tbody>
-                </table>
                 {isUpdateChild && <UpdateChild child={selectedChild} />}
+                {dConfirmation && <DeleteConfirm child={selectedChild} />}
             </div>
             {
                 isAddChild && <AddChild />

@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 102;
 
     .update-bg {
         width: 100vw;
@@ -183,4 +184,44 @@
 
     }
 
+}
+
+
+@media(max-width:800px) {
+    .update-cadre-container .update-cadre {
+        width: 60%;
+    }
+
+    .update-cadre-container .update-cadre .update-cadre-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .update-cadre-container .update-cadre .update-cadre-body .update-cadre-form label,
+    .update-cadre-container .update-cadre .update-cadre-body .update-cadre-form input,
+    .update-cadre-container .update-cadre .update-cadre-body .update-cadre-form select {
+        font-size: 0.9rem;
+    }
+
+    .update-cadre-container .update-cadre .update-cadre-header .close-btn svg {
+        width: 1.1rem;
+    }
+
+    .update-cadre-container .update-cadre .update-cadre-body .buttons-container button {
+        padding: 3px 15px;
+    }
+
+    .update-cadre-container .update-cadre .update-cadre-body .buttons-container button h1 {
+        font-size: 0.9rem;
+    }
+
+    .update-cadre-container .update-cadre .update-cadre-body .buttons-container button svg {
+        width: 1.1rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .update-cadre-container .update-cadre {
+        width: 80%;
+        padding: 1rem;
+    }
 }

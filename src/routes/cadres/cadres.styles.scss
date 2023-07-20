@@ -2,12 +2,11 @@
 
 .cadres-container {
     width: 75vw;
-    height: 200vh;
     margin-top: 15vh;
     padding: 0 3vw;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     justify-content: flex-start;
 
     .top-container {
@@ -16,6 +15,7 @@
         border-radius: 1rem;
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
         margin-bottom: 2rem;
+        padding: 0 1rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -23,7 +23,7 @@
         overflow: hidden;
 
         .top-container-header {
-            width: 93%;
+            width: 96%;
             padding: 0 2rem;
             height: 46%;
             display: flex;
@@ -46,7 +46,7 @@
         }
 
         .top-container-body {
-            width: 93%;
+            width: 96%;
             padding: 0 2rem;
             height: 46%;
             border-bottom: 1px dashed $link-softer;
@@ -159,7 +159,7 @@
     }
 
     .cadres-list {
-        width: 95%;
+        width: calc(100% - 2rem);
         padding: 2rem;
         border-radius: 1rem;
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -273,6 +273,33 @@
             }
 
             th {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: $link-softer;
+            }
+
+            td {
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+        }
+
+        .shrinked-cadre-table {
+            text-align: right;
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+
+            tr {
+                height: 3.5rem;
+                border-bottom: 1px solid $border-gray;
+            }
+
+            tr:first-child {
+                border-top: 1px solid $border-gray;
+            }
+
+            th {
                 color: $link-softer;
                 font-weight: 600;
             }
@@ -281,68 +308,226 @@
                 font-weight: 600;
             }
 
-            .status {
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                height: 3.5rem;
+            td:first-child {
+                border-left: 1px solid $border-gray;
+            }
+
+            td:nth-child(2) {
+                padding-right: 1rem;
+                border-right: 1px solid $border-gray;
+                color: $link-softer;
             }
 
             .action-btns {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+                justify-content: flex-end;
 
-                button {
-                    all: unset;
-                    cursor: pointer;
-                    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-                    padding: 0.3rem;
-                    border-radius: 0.5rem;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
+                button:last-child {
+                    margin-left: 2rem;
+                }
+            }
+        }
+
+        .action-btns {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            button {
+                all: unset;
+                cursor: pointer;
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                padding: 0.3rem;
+                border-radius: 0.5rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: 0.2s ease-in-out all;
+
+                svg {
+                    width: 1.5rem;
+                    height: auto;
                     transition: 0.2s ease-in-out all;
 
-                    svg {
-                        width: 1.5rem;
-                        height: auto;
-                        transition: 0.2s ease-in-out all;
+                    path {
+                        fill: $red;
+                    }
+                }
 
+                &:last-child {
+                    svg {
                         path {
-                            fill: $red;
+                            fill: $done;
+                        }
+                    }
+                }
+
+                &:hover {
+                    background-color: $red;
+
+                    svg {
+                        path {
+                            fill: #fff;
                         }
                     }
 
                     &:last-child {
-                        svg {
-                            path {
-                                fill: $done;
-                            }
-                        }
-                    }
-
-                    &:hover {
-                        background-color: $red;
+                        background-color: $done;
 
                         svg {
                             path {
                                 fill: #fff;
                             }
                         }
-
-                        &:last-child {
-                            background-color: $done;
-
-                            svg {
-                                path {
-                                    fill: #fff;
-                                }
-                            }
-                        }
                     }
                 }
             }
         }
+    }
+}
+
+@media(max-width:1250px) {
+
+    .cadres-container .cadres-list .cadres-list-table td,
+    .cadres-container .cadres-list .cadres-list-table th {
+        font-size: 0.8rem;
+    }
+}
+
+@media(max-width:1100px) {
+
+    .cadres-container .top-container .top-container-header,
+    .cadres-container .top-container .top-container-body {
+        width: 95%;
+    }
+}
+
+@media(max-width:1000px) {
+    .cadres-container {
+        width: 96vw;
+    }
+
+    .cadres-container .top-container .top-container-header,
+    .cadres-container .top-container .top-container-body {
+        width: 94%;
+    }
+}
+
+@media(max-width:800px) {
+    .cadres-container .top-container .top-container-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .cadres-container .top-container .top-container-body .add-btn,
+    .cadres-container .top-container .top-container-body .print-btn,
+    .cadres-container .cadres-list .filter .filterBtn {
+        padding: 3px 12px;
+    }
+
+    .cadres-container .top-container .top-container-body .add-btn h1,
+    .cadres-container .top-container .top-container-body .print-btn h1,
+    .cadres-container .cadres-list .filter .filterBtn h1 {
+        font-size: 0.9rem;
+    }
+
+    .cadres-container .top-container .top-container-body .add-btn svg,
+    .cadres-container .top-container .top-container-body .print-btn svg,
+    .cadres-container .cadres-list .action-btns button svg {
+        width: 1.4rem;
+    }
+
+    .cadres-container .cadres-list .filter .filterBtn svg {
+        width: 1rem;
+    }
+
+    .cadres-container .cadres-list .cadres-list-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .cadres-container .cadres-list .filter .filters-list .filter-item h1 {
+        font-size: 0.8rem;
+    }
+
+    .cadres-container .cadres-list .filter .filters-list .filter-item svg {
+        width: 1rem;
+    }
+
+    .cadres-container .top-container {
+        width: 96%;
+    }
+
+    .cadres-container .cadres-list {
+        width: calc(96% - 2rem);
+    }
+}
+
+@media(max-width:700px) {
+
+    .cadres-container .top-container .top-container-header,
+    .cadres-container .top-container .top-container-body {
+        width: 92%;
+    }
+}
+
+@media(max-width:600px) {
+
+    .cadres-container .top-container .top-container-header,
+    .cadres-container .top-container .top-container-body {
+        width: 90%;
+    }
+}
+
+@media(max-width:450px) {
+
+    .cadres-container .top-container {
+        width: 92%;
+    }
+
+    .cadres-container .top-container .top-container-header,
+    .cadres-container .top-container .top-container-body {
+        width: 88%;
+    }
+
+    .cadres-container .cadres-list {
+        width: calc(92% - 2rem);
+    }
+
+    .cadres-container {
+        padding: 0 2vw;
+    }
+
+    .cadres-container .cadres-list .shrinked-cadre-table td {
+        font-size: 0.8rem;
+    }
+
+    .cadres-container .top-container .top-container-body .add-btn h1,
+    .cadres-container .top-container .top-container-body .print-btn h1,
+    .cadres-container .cadres-list .filter .filterBtn h1 {
+        font-size: 0.8rem;
+    }
+
+    .cadres-container .top-container .top-container-body .add-btn svg,
+    .cadres-container .top-container .top-container-body .print-btn svg,
+    .cadres-container .cadres-list .action-btns button svg {
+        width: 1.2rem;
+    }
+
+    .cadres-container .cadres-list .filter .filterBtn svg {
+        width: 0.9rem;
+    }
+
+    .cadres-container .cadres-list .cadres-list-header h1 {
+        font-size: 1.1rem;
+    }
+
+    .cadres-container .cadres-list .filter .filters-list .filter-item h1 {
+        font-size: 0.7rem;
+    }
+
+    .cadres-container .cadres-list .filter .filters-list .filter-item svg {
+        width: 0.9rem;
+    }
+
+    .cadres-container .top-container .top-container-header h1 {
+        font-size: 1.3rem;
     }
 }
