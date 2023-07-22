@@ -83,7 +83,7 @@ const Cadres = () => {
     const currentDateTime = getCurrentDateTime();
 
 
-    const printChildInfo = () => {
+    const printCadreInfo = () => {
         const printWindow = window.open('', '_blank');
         printWindow.document.write('<html><head><title>القائمة الإسمية للإطارات</title></head><body>');
         printWindow.document.write('<style>@page { size: A4; margin: 0; }</style>');
@@ -191,7 +191,7 @@ const Cadres = () => {
                     <h1>قاعدة بيانات الإطارات </h1>
                 </div>
                 <div className='top-container-body'>
-                    <button className='print-btn' onClick={printChildInfo}>
+                    <button className='print-btn' onClick={printCadreInfo}>
                         <h1>طباعة</h1>
                         <Paper />
                     </button>

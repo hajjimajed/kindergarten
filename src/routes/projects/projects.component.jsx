@@ -85,7 +85,206 @@ const Projects = () => {
 
     const currentDateTime = getCurrentDateTime();
 
+    const printProjectsInfo = () => {
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>قائمة المشاريع التربوية</title></head><body>');
+        printWindow.document.write('<style>@page { size: A4; margin: 0; }</style>');
+        printWindow.document.write(`
+    <style>
+        body {
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: right;
+        }
+        th {
+            background-color: #e5e5e5 !important;
+            border-bottom: 1px solid #e5e5e5;
+            border-top: 1px solid #e5e5e5;
+        }
+        td {
+            border-bottom: 1px solid #e5e5e5;
+        }
+        td:first-child, th:first-child{
+            border-left: 1px solid #e5e5e5;
+        }
+        td:last-child, th:last-child{
+            border-right: 1px solid #e5e5e5;
+        }
+        img{
+            width:50px;
+            height:auto;
+        }
+        div{
+            width:100%;
+            height:60px;
+            display: flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .date{
+            width:75px
+        }
+    </style>
+`);
+        printWindow.document.write('<div>');
+        printWindow.document.write(`<p>${currentDateTime}</p>`);
+        printWindow.document.write('<img src="https://i.ibb.co/KxLxc6G/tunisia.png" alt="Image">');
+        printWindow.document.write('</div>');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<h1>قائمة المشاريع التربوية</h1>');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<table>');
+        printWindow.document.write('<tr><th>الفئة العمرية</th><th>مدة الإنجاز</th><th>تاريخ الإنجاز</th><th>عنوان المشروع</th></tr>');
 
+        data.forEach(project => {
+            printWindow.document.write('<tr>');
+            printWindow.document.write(`<td>${project.ages}</td>`);
+            printWindow.document.write(`<td>${project.duration}</td>`);
+            printWindow.document.write(`<td>${project.creation_date}</td>`);
+            printWindow.document.write(`<td>${project.title}</td>`);
+            printWindow.document.write('</tr>');
+        });
+
+        printWindow.document.write('</table>');
+        printWindow.document.write('</body></html>');
+        printWindow.print();
+    };
+
+    const printProjectInfo = (pro) => {
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>جذاذة إعداد مشروع تربوي</title></head><body>');
+        printWindow.document.write('<style>@page { size: A4; margin: 0; }</style>');
+        printWindow.document.write(`
+    <style>
+        body {
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding:10px 8px;
+            text-align: right;
+            font-size:18px;
+        }
+        td {
+            border-right: 1px solid #e5e5e5;
+            border-left: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        td:first-child{
+            border-top: 1px solid #e5e5e5;
+        }
+        th {
+            border-right: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        th{
+            border-top: 1px solid #e5e5e5;
+        }
+        img{
+            width:50px;
+            height:auto;
+        }
+        div{
+            width:100%;
+            height:60px;
+            display: flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .date{
+            width:75px
+        }
+    </style>
+`);
+        printWindow.document.write('<div>');
+        printWindow.document.write(`<p>${currentDateTime}</p>`);
+        printWindow.document.write('<img src="https://i.ibb.co/KxLxc6G/tunisia.png" alt="Image">');
+        printWindow.document.write('</div>');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<h1>جذاذة إعداد مشروع تربوي</h1>');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<table>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.title}</td>`); // Left column with the data
+        printWindow.document.write('<th>عنوان المشروع</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.references}</td>`); // Left column with the data
+        printWindow.document.write('<th>الموارد و المراجع</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.ages}</td>`); // Left column with the data
+        printWindow.document.write('<th>الفئة العمرية</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.project_reasons}</td>`); // Left column with the data
+        printWindow.document.write('<th>مبررات المشروع</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.knowledge_reasons}</td>`); // Left column with the data
+        printWindow.document.write('<th>الأهداف المعرفية</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.mvnmt_reasons}</td>`); // Left column with the data
+        printWindow.document.write('<th>الأهداف الحسِ حركية</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.social_reasons}</td>`); // Left column with the data
+        printWindow.document.write('<th>الأهداف الإجتماعية الإنفعالبة و الأخلاقية</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.artistic_reason}</td>`); // Left column with the data
+        printWindow.document.write('<th>الأهداف الفنية و الإبداعية</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.duration}</td>`); // Left column with the data
+        printWindow.document.write('<th>مدة الإنجاز</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.people}</td>`); // Left column with the data
+        printWindow.document.write('<th>الشركاء</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.spaces}</td>`); // Left column with the data
+        printWindow.document.write('<th>الفضاءات</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.logistic_tools}</td>`); // Left column with the data
+        printWindow.document.write('<th>الوسائل اللازمة + اللوجستيك</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.activities}</td>`); // Left column with the data
+        printWindow.document.write('<th>الأنشطة</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.finalizing}</td>`); // Left column with the data
+        printWindow.document.write('<th>تتويج المشروع و إنهاؤه</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.evaluation}</td>`); // Left column with the data
+        printWindow.document.write('<th>تقييم المشروع</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('</table>');
+        printWindow.document.write('</body></html>');
+        printWindow.print();
+    };
 
     const filterByDateHandler = () => {
         const sortedData = data.sort((a, b) => new Date(a.creation_date) - new Date(b.creation_date));
@@ -122,7 +321,7 @@ const Projects = () => {
                     <h1>قاعدة بيانات المشاريع التربوية</h1>
                 </div>
                 <div className='top-container-body'>
-                    <button className='print-btn' >
+                    <button className='print-btn' onClick={printProjectsInfo}>
                         <h1>طباعة</h1>
                         <Paper />
                     </button>
@@ -188,7 +387,7 @@ const Projects = () => {
                                                 <button onClick={() => updateProjectHandler(row)}>
                                                     <Pencil />
                                                 </button>
-                                                <button onClick={() => updateProjectHandler(row)}>
+                                                <button onClick={() => printProjectInfo(row)}>
                                                     <Paper />
                                                 </button>
                                             </div>
@@ -223,7 +422,7 @@ const Projects = () => {
                                                         <button onClick={() => updateProjectHandler(row)}>
                                                             <Pencil />
                                                         </button>
-                                                        <button onClick={() => updateProjectHandler(row)}>
+                                                        <button onClick={() => printProjectInfo(row)}>
                                                             <Paper />
                                                         </button>
                                                     </div>

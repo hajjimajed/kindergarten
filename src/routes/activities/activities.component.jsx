@@ -83,7 +83,194 @@ const Activities = () => {
 
     const currentDateTime = getCurrentDateTime();
 
+    const printActivitiesInfo = () => {
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>قائمة الأنشطة اليومية</title></head><body>');
+        printWindow.document.write('<style>@page { size: A4; margin: 0; }</style>');
+        printWindow.document.write(`
+    <style>
+        body {
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: right;
+        }
+        th {
+            background-color: #e5e5e5 !important;
+            border-bottom: 1px solid #e5e5e5;
+            border-top: 1px solid #e5e5e5;
+        }
+        td {
+            border-bottom: 1px solid #e5e5e5;
+        }
+        td:first-child, th:first-child{
+            border-left: 1px solid #e5e5e5;
+        }
+        td:last-child, th:last-child{
+            border-right: 1px solid #e5e5e5;
+        }
+        img{
+            width:50px;
+            height:auto;
+        }
+        div{
+            width:100%;
+            height:60px;
+            display: flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .date{
+            width:75px
+        }
+    </style>
+`);
+        printWindow.document.write('<div>');
+        printWindow.document.write(`<p>${currentDateTime}</p>`);
+        printWindow.document.write('<img src="https://i.ibb.co/KxLxc6G/tunisia.png" alt="Image">');
+        printWindow.document.write('</div>');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<h1>قائمة الأنشطة اليومية</h1>');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<table>');
+        printWindow.document.write('<tr><th>هدف النشاط</th><th>تاريخ الإنجاز</th><th>التوقيت</th><th>إسم النشاط</th></tr>');
 
+        data.forEach(activity => {
+            printWindow.document.write('<tr>');
+            printWindow.document.write(`<td>${activity.task_goal}</td>`);
+            printWindow.document.write(`<td>${activity.creation_date}</td>`);
+            printWindow.document.write(`<td>${activity.task_time}</td>`);
+            printWindow.document.write(`<td>${activity.task_name}</td>`);
+            printWindow.document.write('</tr>');
+        });
+
+        printWindow.document.write('</table>');
+        printWindow.document.write('</body></html>');
+        printWindow.print();
+    };
+
+
+    const printActivityInfo = (act) => {
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>بطاقة نشاط يومي</title></head><body>');
+        printWindow.document.write('<style>@page { size: A4; margin: 0; }</style>');
+        printWindow.document.write(`
+    <style>
+        body {
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding:20px 8px;
+            text-align: right;
+            font-size:20px;
+        }
+        td {
+            border-right: 1px solid #e5e5e5;
+            border-left: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        td:first-child{
+            border-top: 1px solid #e5e5e5;
+        }
+        th {
+            border-right: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        th{
+            border-top: 1px solid #e5e5e5;
+        }
+        img{
+            width:50px;
+            height:auto;
+        }
+        div{
+            width:100%;
+            height:60px;
+            display: flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .date{
+            width:75px
+        }
+    </style>
+`);
+        printWindow.document.write('<div>');
+        printWindow.document.write(`<p>${currentDateTime}</p>`);
+        printWindow.document.write('<img src="https://i.ibb.co/KxLxc6G/tunisia.png" alt="Image">');
+        printWindow.document.write('</div>');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<h1>بطاقة نشاط يومي</h1>');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<br />');
+        printWindow.document.write('<table>');
+
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${act.task_name}</td>`); // Left column with the data
+        printWindow.document.write('<th>إسم النشاط</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${act.task_reference}</td>`); // Left column with the data
+        printWindow.document.write('<th>المرجع</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${act.task_time}</td>`); // Left column with the data
+        printWindow.document.write('<th>التوقيت</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${act.creation_date}</td>`); // Left column with the data
+        printWindow.document.write('<th>تاريخ الإنجاز</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${act.task_goal}</td>`); // Left column with the data
+        printWindow.document.write('<th>هدف النشاط</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${act.demarche}</td>`); // Left column with the data
+        printWindow.document.write('<th>التمشي البيداغوجي</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${act.tools}</td>`); // Left column with the data
+        printWindow.document.write('<th>الوسائل و المحامل</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${act.paper_number}</td>`); // Left column with the data
+        printWindow.document.write('<th>عدد الجذاذة التقنية</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${act.notes}</td>`); // Left column with the data
+        printWindow.document.write('<th>الملاحظات و التقييم</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+
+        printWindow.document.write('</table>');
+
+        printWindow.document.write('</body></html>');
+        printWindow.print();
+    };
 
     const filterByDateHandler = () => {
         const sortedData = data.sort((a, b) => new Date(a.creation_date) - new Date(b.creation_date));
@@ -120,7 +307,7 @@ const Activities = () => {
                     <h1>قاعدة بيانات الأنشطة اليومية</h1>
                 </div>
                 <div className='top-container-body'>
-                    <button className='print-btn' >
+                    <button className='print-btn' onClick={printActivitiesInfo}>
                         <h1>طباعة</h1>
                         <Paper />
                     </button>
@@ -186,6 +373,9 @@ const Activities = () => {
                                                 <button onClick={() => updateactivityHandler(row)}>
                                                     <Pencil />
                                                 </button>
+                                                <button onClick={() => printActivityInfo(row)}>
+                                                    <Paper />
+                                                </button>
                                             </div>
                                         </td>
                                         <td>الإجراءت</td>
@@ -217,6 +407,9 @@ const Activities = () => {
                                                         </button>
                                                         <button onClick={() => updateactivityHandler(row)}>
                                                             <Pencil />
+                                                        </button>
+                                                        <button onClick={() => printActivityInfo(row)}>
+                                                            <Paper />
                                                         </button>
                                                     </div>
                                                 </td>

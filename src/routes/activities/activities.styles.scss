@@ -352,10 +352,18 @@
                     }
                 }
 
-                &:last-child {
+                &:nth-of-type(2) {
                     svg {
                         path {
                             fill: $done;
+                        }
+                    }
+                }
+
+                &:nth-of-type(3) {
+                    svg {
+                        path {
+                            fill: $primary-color;
                         }
                     }
                 }
@@ -369,8 +377,18 @@
                         }
                     }
 
-                    &:last-child {
+                    &:nth-of-type(2) {
                         background-color: $done;
+
+                        svg {
+                            path {
+                                fill: #fff;
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(3) {
+                        background-color: $primary-color;
 
                         svg {
                             path {
