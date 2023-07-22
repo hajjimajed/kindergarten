@@ -166,6 +166,10 @@ const Navigation = () => {
                             </button>
                             <input type="text" className="search-bar__input" placeholder="بحث" />
                         </form>
+                        <Link to='/' className='main-link' onClick={hamMenuHandler}>
+                            <h1>horizon</h1>
+                            <img className='main-logo' src={mainLogo} alt="" />
+                        </Link>
                     </div>
                 </div>
             </div>

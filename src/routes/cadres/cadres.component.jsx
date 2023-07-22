@@ -117,7 +117,7 @@ const Cadres = () => {
         td:last-child, th:last-child{
             border-right: 1px solid #e5e5e5;
         }
-        img{
+        svg{
             width:50px;
             height:auto;
         }
@@ -135,7 +135,7 @@ const Cadres = () => {
 `);
         printWindow.document.write('<div>');
         printWindow.document.write(`<p>${currentDateTime}</p>`);
-        printWindow.document.write('<img src="https://i.ibb.co/KxLxc6G/tunisia.png" alt="Image">');
+        printWindow.document.write('<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#e63946" stroke="none"><path d="M249 4206 c-134 -54 -216 -157 -239 -297 -14 -89 -14 -2610 1 -2699 20 -126 102 -234 217 -288 l57 -27 2275 0 2275 0 57 27 c117 55 198 163 218 294 7 47 10 489 8 1389 -3 1259 -4 1322 -22 1371 -37 104 -127 194 -231 233 l-56 21 -2252 0 -2252 0 -56 -24z m2531 -787 c115 -26 266 -103 359 -181 309 -261 403 -701 226 -1065 -217 -446 -763 -627 -1202 -399 -224 117 -390 325 -454 571 -30 113 -30 317 0 430 67 253 246 472 477 581 193 92 382 112 594 63z"/><path d="M2429 3160 c-182 -46 -338 -172 -416 -335 -84 -178 -82 -362 6 -540 50 -101 112 -171 205 -233 105 -70 177 -93 311 -99 120 -6 196 8 290 51 55 25 179 115 171 124 -3 3 -32 -7 -64 -21 -137 -62 -279 -59 -420 8 -191 90 -309 313 -274 518 56 326 397 514 694 380 32 -14 61 -24 64 -21 12 12 -137 110 -211 140 -72 28 -93 32 -200 34 -66 2 -136 -1 -156 -6z"/><path d="M2637 2903 c-4 -3 -7 -61 -7 -127 l0 -121 -117 -40 c-159 -54 -159 -64 -1 -118 l117 -40 3 -126 c3 -118 4 -126 23 -129 15 -2 37 20 90 92 39 53 75 95 80 96 6 0 59 -16 119 -35 84 -26 113 -32 123 -23 18 15 15 21 -61 127 -36 50 -66 93 -66 96 0 3 30 46 66 96 76 106 79 112 61 127 -11 9 -38 4 -123 -23 -60 -19 -113 -35 -119 -35 -5 0 -41 43 -78 95 -63 88 -90 109 -110 88z"/></g></svg>');
         printWindow.document.write('</div>');
         printWindow.document.write('<br />');
         printWindow.document.write('<h1>القائمة الإسمية للإطارات</h1>');
@@ -182,7 +182,17 @@ const Cadres = () => {
         };
     }, []);
 
+    const [searchQuery, setSearchQuery] = useState('');
+    const handleSearchChange = (value) => {
+        setSearchQuery(value);
+    };
 
+    useEffect(() => {
+        const filteredData = data.filter((cadre) =>
+            cadre.teacher_first.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredData(filteredData);
+    }, [data, searchQuery]);
 
     return (
         <div className='cadres-container'>
@@ -203,7 +213,7 @@ const Cadres = () => {
             </div>
             <div className='cadres-list'>
                 <div className='cadres-list-header'>
-                    <SearchBox />
+                    <SearchBox onSearchChange={handleSearchChange} />
                     <h1>قائمة الإطارات </h1>
                 </div>
                 <div className='filter' ref={filterRef}>
