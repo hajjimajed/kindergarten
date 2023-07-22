@@ -13,6 +13,7 @@ import { ReactComponent as Alphabet } from '../../assets/icons/alphabet.svg';
 import SearchBox from '../../components/search-box/search-box.component';
 import DeleteConfirmProject from '../../components/delete-confirm-project/delete-confirm-project.component';
 import AddProject from '../../components/add-project/add-project.component';
+import UpdateProject from '../../components/update-project/update-project.component';
 
 
 const data = [
@@ -29,7 +30,7 @@ const data = [
 
 const Projects = () => {
 
-    const { isAddProject, setIsAddProject, isUpdatePrject, setIsUpdateProject, dConfirmationProject, setDConfirmationProject } = useContext(TogglesContext);
+    const { isAddProject, setIsAddProject, isUpdateProject, setIsUpdateProject, dConfirmationProject, setDConfirmationProject } = useContext(TogglesContext);
 
     const addProjectHandler = () => {
         setIsAddProject(!isAddProject);
@@ -39,7 +40,7 @@ const Projects = () => {
 
     const updateProjectHandler = (row) => {
         setSelectedProject(row);
-        setIsUpdateProject(!isUpdatePrject);
+        setIsUpdateProject(!isUpdateProject);
     };
 
     const deleteConfirmOpen = (row) => {
@@ -134,9 +135,7 @@ const Projects = () => {
 
             <div className='projects-list'>
                 <div className='projects-list-header'>
-                    {
-                        isSmallScreen ? (<h2>search</h2>) : (<SearchBox />)
-                    }
+                    <SearchBox />
                     <h1>قائمة المشاريع التربوية</h1>
                 </div>
                 <div className='filter' ref={filterRef}>
@@ -189,6 +188,9 @@ const Projects = () => {
                                                 <button onClick={() => updateProjectHandler(row)}>
                                                     <Pencil />
                                                 </button>
+                                                <button onClick={() => updateProjectHandler(row)}>
+                                                    <Paper />
+                                                </button>
                                             </div>
                                         </td>
                                         <td>الإجراءت</td>
@@ -221,6 +223,9 @@ const Projects = () => {
                                                         <button onClick={() => updateProjectHandler(row)}>
                                                             <Pencil />
                                                         </button>
+                                                        <button onClick={() => updateProjectHandler(row)}>
+                                                            <Paper />
+                                                        </button>
                                                     </div>
                                                 </td>
 
@@ -237,7 +242,7 @@ const Projects = () => {
                         )
                 }
 
-                {/* {isUpdateActivity && <UpdateActivity activity={selectedactivity} />} */}
+                {isUpdateProject && <UpdateProject project={selectedProject} />}
                 {dConfirmationProject && <DeleteConfirmProject project={selectedProject} />}
             </div>
             {

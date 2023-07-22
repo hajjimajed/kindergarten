@@ -1,4 +1,4 @@
-import './add-project.styles.scss';
+import './update-project.styles.scss';
 
 import { useState, useContext, useEffect, useRef } from 'react';
 
@@ -7,33 +7,33 @@ import { TogglesContext } from '../../contexts/toggles.context';
 import { ReactComponent as Close } from '../../assets/icons/close.svg';
 import { ReactComponent as Tick } from '../../assets/icons/tick.svg';
 
-const AddProject = () => {
+const UpdateProject = ({ project }) => {
 
-    const { isAddProject, setIsAddProject } = useContext(TogglesContext)
+    const { isUpdateProject, setIsUpdateProject } = useContext(TogglesContext)
 
-    const openAddProjectHandler = () => {
-        setIsAddProject(!isAddProject);
+    const openUpdateProjectHandler = () => {
+        setIsUpdateProject(!isUpdateProject);
     }
 
 
-    const [title, setTitle] = useState('');
-    const [references, setReferences] = useState('');
-    const [ages, setAges] = useState('');
-    const [project_reasons, setProject_reasons] = useState('');
-    const [knowledge_reasons, setKnowledge_reasons] = useState('');
-    const [mvnmt_reasons, setMvnmt_reasons] = useState('');
-    const [social_reasons, setSocial_reasons] = useState('');
-    const [artistic_reason, setArtistic_reason] = useState('');
-    const [logistic_tools, setLogistic_tools] = useState('');
-    const [duration, setDuration] = useState('');
-    const [people, setPeople] = useState('');
-    const [spaces, setSpaces] = useState('');
-    const [activities, setActivities] = useState('');
-    const [finalizing, setFinalizing] = useState('');
-    const [evaluation, setEvaluation] = useState('');
-    const [pedagoinvests1, setPedagoinvests1] = useState('');
-    const [pedagoinvests2, setPedagoinvests2] = useState('');
-    const [pedagoinvests3, setPedagoinvests3] = useState('');
+    const [title, setTitle] = useState(project.title);
+    const [references, setReferences] = useState(project.references);
+    const [ages, setAges] = useState(project.ages);
+    const [project_reasons, setProject_reasons] = useState(project.project_reasons);
+    const [knowledge_reasons, setKnowledge_reasons] = useState(project.knowledge_reasons);
+    const [mvnmt_reasons, setMvnmt_reasons] = useState(project.mvnmt_reasons);
+    const [social_reasons, setSocial_reasons] = useState(project.social_reasons);
+    const [artistic_reason, setArtistic_reason] = useState(project.artistic_reason);
+    const [logistic_tools, setLogistic_tools] = useState(project.logistic_tools);
+    const [duration, setDuration] = useState(project.duration);
+    const [people, setPeople] = useState(project.people);
+    const [spaces, setSpaces] = useState(project.spaces);
+    const [activities, setActivities] = useState(project.activities);
+    const [finalizing, setFinalizing] = useState(project.finalizing);
+    const [evaluation, setEvaluation] = useState(project.evaluation);
+    const [pedagoinvests1, setPedagoinvests1] = useState(project.pedagoinvests1);
+    const [pedagoinvests2, setPedagoinvests2] = useState(project.pedagoinvests2);
+    const [pedagoinvests3, setPedagoinvests3] = useState(project.pedagoinvests3);
 
     const handleChangeInput = (fn) => {
         return (event) => {
@@ -69,10 +69,10 @@ const AddProject = () => {
 
     return (
         <div className='add-project-container'>
-            <div className='add-bg' onClick={openAddProjectHandler}></div>
+            <div className='add-bg' onClick={openUpdateProjectHandler}></div>
             <div className='add-project'>
                 <div className='add-project-header'>
-                    <button className='close-btn' onClick={openAddProjectHandler}>
+                    <button className='close-btn' onClick={openUpdateProjectHandler}>
                         <Close />
                     </button>
                     <h1>إضافة مشروع تربوي</h1>
@@ -188,7 +188,7 @@ const AddProject = () => {
                         </div>
                     </form>
                     <div className='buttons-container'>
-                        <button onClick={openAddProjectHandler}>
+                        <button onClick={openUpdateProjectHandler}>
                             <h1>إلغاء</h1>
                             <Close />
                         </button>
@@ -204,4 +204,4 @@ const AddProject = () => {
 
 }
 
-export default AddProject;
+export default UpdateProject;

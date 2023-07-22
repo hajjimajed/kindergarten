@@ -203,9 +203,7 @@ const Cadres = () => {
             </div>
             <div className='cadres-list'>
                 <div className='cadres-list-header'>
-                    {
-                        isSmallScreen ? (<h2>search</h2>) : (<SearchBox />)
-                    }
+                    <SearchBox />
                     <h1>قائمة الإطارات </h1>
                 </div>
                 <div className='filter' ref={filterRef}>

@@ -44,14 +44,14 @@ export const TogglesProvider = ({ children }) => {
     const [dConfirmationActivity, setDConfirmationActivity] = useState(false);
 
     const [isAddProject, setIsAddProject] = useState(false);
-    const [isUpdatePrject, setIsUpdateProject] = useState(false);
+    const [isUpdateProject, setIsUpdateProject] = useState(false);
     const [dConfirmationProject, setDConfirmationProject] = useState(false);
 
     const value = {
         dConfirmation, setDConfirmation, isAddChild, setIsAddChild, isUpdateChild, setIsUpdateChild,
         isAddCadre, setIsAddCadre, isUpdateCadre, setIsUpdateCadre, dConfirmationCadre, setDConfirmationCadre,
         isAddActivity, setIsAddActivity, isUpdateActivity, setIsUpdateActivity, dConfirmationActivity, setDConfirmationActivity,
-        isAddProject, setIsAddProject, isUpdatePrject, setIsUpdateProject, dConfirmationProject, setDConfirmationProject
+        isAddProject, setIsAddProject, isUpdateProject, setIsUpdateProject, dConfirmationProject, setDConfirmationProject
     };
 
     return <TogglesContext.Provider value={value} >{children}</TogglesContext.Provider>

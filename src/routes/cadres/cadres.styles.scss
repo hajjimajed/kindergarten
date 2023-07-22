@@ -42,6 +42,7 @@
             h1 {
                 font-size: 1.8rem;
                 color: #000;
+                text-align: right;
             }
         }
 
@@ -413,6 +414,26 @@
 }
 
 @media(max-width:800px) {
+    .cadres-container .cadres-list .cadres-list-header {
+        justify-content: flex-start;
+        align-items: flex-end;
+        flex-direction: column-reverse;
+
+        .search-bar {
+            margin-top: 1.5rem;
+            padding: 0 0.5rem;
+        }
+
+        .search-bar .search-bar__input {
+            width: 8rem;
+            font-size: 0.9rem;
+        }
+
+        .search-bar .search-bar__button svg {
+            width: 50%;
+        }
+    }
+
     .cadres-container .top-container .top-container-header h1 {
         font-size: 1.5rem;
     }

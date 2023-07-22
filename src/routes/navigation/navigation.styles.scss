@@ -482,6 +482,11 @@
 }
 
 @media(max-width:1060px) {
+    .navigation-container .top-navigation .left-section .user-links .notification {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
     .navigation-container .top-navigation .left-section .user-links .profile-dropdown .PButton h1 {
         font-size: 1rem;
     }
@@ -519,7 +524,7 @@
     }
 
     .right-navigation {
-        width: 25% !important;
+        width: 30% !important;
         transform: translateX(35vw);
 
         &.active {
@@ -547,7 +552,22 @@
 
 }
 
+@media(max-width:900px) {
+    .right-navigation {
+        width: 30% !important;
+    }
+}
+
 @media(max-width:800px) {
+
+    .right-navigation {
+        width: 35% !important;
+        transform: translateX(45vw);
+
+        &.active {
+            transform: translateX(0);
+        }
+    }
 
     .navigation-container .top-navigation .left-section .user-links .profile-dropdown .PButton h1,
     .navigation-container .top-navigation .left-section .user-links .profile-dropdown .PButton svg {
@@ -588,11 +608,6 @@
 @media(max-width:700px) {
     .right-navigation {
         width: 40% !important;
-        transform: translateX(50vw);
-
-        &.active {
-            transform: translateX(0);
-        }
     }
 
     .navigation-container .right-navigation .top-section .navigation-link {
@@ -620,7 +635,7 @@
 @media(max-width:500px) {
     .right-navigation {
         width: 50% !important;
-        transform: translateX(80vw);
+        transform: translateX(55vw);
 
         &.active {
             transform: translateX(0);
@@ -652,11 +667,6 @@
 
 @media(max-width:350px) {
     .right-navigation {
-        width: 50% !important;
-        transform: translateX(100vw);
-
-        &.active {
-            transform: translateX(0);
-        }
+        width: 55% !important;
     }
 }

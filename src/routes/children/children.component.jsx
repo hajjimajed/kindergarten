@@ -203,9 +203,7 @@ const Children = () => {
             </div>
             <div className='children-list'>
                 <div className='children-list-header'>
-                    {
-                        isSmallScreen ? (<h2>search</h2>) : (<SearchBox />)
-                    }
+                    <SearchBox />
                     <h1>قائمة الأطفال</h1>
                 </div>
                 <div className='filter' ref={filterRef}>

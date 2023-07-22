@@ -133,9 +133,7 @@ const Activities = () => {
 
             <div className='activities-list'>
                 <div className='activities-list-header'>
-                    {
-                        isSmallScreen ? (<h2>search</h2>) : (<SearchBox />)
-                    }
+                    <SearchBox />
                     <h1>قائمة الأنشطة اليومية</h1>
                 </div>
                 <div className='filter' ref={filterRef}>
