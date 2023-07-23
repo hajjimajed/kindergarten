@@ -5,14 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { TogglesProvider } from './contexts/toggles.context';
+import { AuthProvider } from './contexts/auth.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <TogglesProvider>
-        <App />
-      </TogglesProvider>
+      <AuthProvider>
+        <TogglesProvider>
+          <App />
+        </TogglesProvider>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

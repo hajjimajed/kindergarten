@@ -1,0 +1,168 @@
+@import '../../colors';
+
+.login-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-image: url('../../assets/bgs/main-bg.jpg');
+
+    .top-menu-section {
+        .main-link {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 80%;
+            height: 4rem;
+            margin: 3rem 0;
+
+            .main-logo {
+                height: 100%;
+                width: auto;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                font-weight: 600;
+                font-family: 'Dosis', sans-serif;
+            }
+        }
+    }
+
+    .login-section {
+        width: 70%;
+        height: 70%;
+        background-color: #fff;
+        display: flex;
+        overflow: hidden;
+        border-radius: 1rem;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+        .left-login-section {
+            width: 45%;
+            height: 100%;
+            background-color: $login;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+        }
+
+        .right-login-section {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+
+            .login-infos {
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                h1 {
+                    font-size: 2.5rem;
+                }
+
+                p {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: $link-soft ;
+                }
+            }
+
+            .login-form {
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+
+                input {
+                    all: unset;
+                    border: 1px solid $border-gray;
+                    padding: 0.7rem 0.6rem;
+                    width: calc(100% - 1.2rem);
+                    font-size: 1rem;
+                    border-radius: 0.6rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-bottom: 0.5rem;
+                    transition: 0.1s ease-in-out all;
+                    text-align: right;
+                    font: small-caption;
+                    font-size: 1rem;
+
+                    &:nth-of-type(1) {
+                        margin-bottom: 1.5rem;
+                    }
+
+                    &:focus {
+                        border-color: $primary-color;
+                    }
+                }
+
+                label {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: #000;
+                    margin-bottom: 0.5rem;
+
+                    span {
+                        color: $red;
+                    }
+                }
+
+                button {
+                    all: unset;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0.7rem 0;
+                    width: 100%;
+                    border-radius: 2rem;
+                    background-color: #000;
+                    transition: 0.2s ease-in-out all;
+                    margin-top: 1.5rem;
+
+                    h1 {
+                        margin: 0;
+                        font-size: 0.8rem;
+                        margin-right: 1rem;
+                        color: #fff;
+                        transition: 0.2s ease-in-out all;
+                    }
+
+                    svg {
+                        width: 1.6rem;
+                        height: auto;
+                        transition: 0.2s ease-in-out all;
+
+                        path {
+                            fill: #fff;
+                        }
+                    }
+
+                    &:hover {
+                        background-color: #fff;
+                        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+                        h1 {
+                            color: #000;
+                        }
+
+                        svg {
+                            path {
+                                fill: #000;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,5 +1,5 @@
 import './navigation.styles.scss'
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { ReactComponent as Dashboard } from '../../assets/icons/category.svg'
 import { ReactComponent as Activities } from '../../assets/icons/activity.svg'
@@ -16,9 +16,12 @@ import mainLogo from '../../assets/icons/app-logo.png';
 import avatar from '../../assets/avatars/7294743.png';
 
 import NotificationItem from '../../components/notification-item/notification-item.component';
+import { AuthContext } from '../../contexts/auth.context';
 
 
 const Navigation = () => {
+
+    const { logout } = useContext(AuthContext)
 
     const [isOpen, setIsOpen] = useState(false);
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -93,7 +96,7 @@ const Navigation = () => {
                         </Link>
                     </div>
                     <div className='bottom-section'>
-                        <Link className='navigation-link' onClick={hamMenuHandler}>
+                        <Link to='/login' className='navigation-link' onClick={logout}>
                             <h1>تسجيل الخروج</h1>
                             <Logout />
                         </Link>
