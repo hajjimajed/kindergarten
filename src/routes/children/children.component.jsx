@@ -200,6 +200,63 @@ const Children = () => {
         setFilteredData(filteredData);
     }, [data, searchQuery]);
 
+    const [dt, setDt] = useState(null);
+
+    useEffect(() => {
+        fetchToken();
+        fetchData();
+    }, []);
+
+    const fetchToken = async () => {
+        try {
+            const refreshToken = localStorage.getItem('refreshToken');
+            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    RefreshToken: refreshToken,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const res = await response.json();
+
+            localStorage.setItem('accessToken', res.data.accessToken);
+            localStorage.setItem('refreshToken', res.data.refreshToken);
+
+            console.log('Token refreshed successfully', res.data.refreshToken);
+
+        } catch (error) {
+            console.error('Error fetching token:', error);
+        }
+    };
+
+
+    const fetchData = async () => {
+        try {
+            const token = localStorage.getItem('accessToken'); // Replace with your actual Bearer token
+            const headers = {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json' // You can add other headers here if required
+            };
+
+            const response = await fetch('https://paje.onrender.com/api/kids/getKids', { headers });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const jsonData = await response.json();
+            setDt(jsonData);
+            console.log('fetch successul', jsonData);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
 
     return (
         <div className='children-container'>

@@ -4,12 +4,20 @@ import { createContext, useState, useEffect } from "react";
 export const AuthContext = createContext({
     isAuth: null,
     setIsAuth: () => null,
-    logout: () => null
+    logout: () => null,
+    accessToken: null,
+    setAccessToken: () => null,
+    refreshToken: null,
+    setRefreshToken: () => null,
 })
 
 export const AuthProvider = ({ children }) => {
 
     const [isAuth, setIsAuth] = useState(false);
+
+    const [accessToken, setAccessToken] = useState('');
+    const [refreshToken, setRefreshToken] = useState('');
+
 
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');

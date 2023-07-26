@@ -1,5 +1,6 @@
 import './login.styles.scss'
 import { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../../contexts/auth.context';
 
@@ -58,17 +59,19 @@ const Login = () => {
 
     return (
         <div className='login-container'>
-            <div className='top-menu-section'>
+            {/* <div className='top-menu-section'>
                 <div className='main-link'>
                     <h1>horizon</h1>
                     <img className='main-logo' src={mainLogo} alt="" />
                 </div>
-            </div>
+            </div> */}
             <div className='login-section'>
                 <div className='left-login-section'>
                     <div className='infos'>
 
                     </div>
+                    <div className='line1'></div>
+                    <div className='line2'></div>
                 </div>
                 <div className='right-login-section'>
                     <div className='login-infos'>
@@ -79,15 +82,21 @@ const Login = () => {
                         <label htmlFor="">
                             <span>*</span> عنوان البريد الإلكتروني
                         </label>
-                        <input id='email' type="text" value={email} onChange={handleChangeInput(setEmail)} />
+                        <input id='email' placeholder='البريد الإلكتروني' type="text" value={email} onChange={handleChangeInput(setEmail)} />
                         <label htmlFor="">
                             <span>*</span> كلمة المرور
                         </label>
-                        <input id='password' type="password" value={password} onChange={handleChangeInput(setPassword)} />
+                        <input id='password' placeholder='كلمة المرور' type="password" value={password} onChange={handleChangeInput(setPassword)} />
                         <button onClick={loginHandler}>
                             <h1>تسجيل الدخول</h1>
                             <LoginIcon />
                         </button>
+                        <div className='signup-section'>
+                            <Link to='/register'>
+                                <h1>إشترك الأن</h1>
+                            </Link>
+                            <h1>ليس لديك حساب؟</h1>
+                        </div>
                     </form>
                 </div>
             </div>
