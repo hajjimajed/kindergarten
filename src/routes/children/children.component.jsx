@@ -9,20 +9,14 @@ import { ReactComponent as Paper } from '../../assets/icons/paper.svg';
 import { ReactComponent as AddUser } from '../../assets/icons/add-user.svg';
 import { ReactComponent as Clock } from '../../assets/icons/clock.svg';
 import { ReactComponent as Alphabet } from '../../assets/icons/alphabet.svg';
+import { ReactComponent as Left } from '../../assets/icons/left.svg';
+import { ReactComponent as Right } from '../../assets/icons/right.svg';
 
 import SearchBox from '../../components/search-box/search-box.component';
 import DeleteConfirm from '../../components/delete-confirm/delete-confirm.component';
 import AddChild from '../../components/add-child/add-child.component';
 import UpdateChild from '../../components/update-child/update-child.component';
-
-const data = [
-    { first_name: 'John', last_name: 'Doe', parent_name: 'Jane Doe', age: 25, gender: 'ذكر', paid_at: '2023-07-10', isPaid: false },
-    { first_name: 'Alice', last_name: 'Smith', parent_name: 'Bob Smith', age: 32, gender: 'أنثى', paid_at: '2023-07-11', isPaid: true },
-    { first_name: 'Michael', last_name: 'Johnson', parent_name: 'Emily Johnson', age: 42, gender: 'ذكر', paid_at: '2023-07-12', isPaid: false },
-    { first_name: 'Sarah', last_name: 'Williams', parent_name: 'David Williams', age: 19, gender: 'أنثى', paid_at: '2023-07-13', isPaid: true },
-    { first_name: 'James', last_name: 'Brown', parent_name: 'Linda Brown', age: 50, gender: 'ذكر', paid_at: '2023-07-14', isPaid: true },
-    { first_name: 'Emma', last_name: 'Lee', parent_name: 'Robert Lee', age: 28, gender: 'أنثى', paid_at: '2023-07-15', isPaid: true },
-];
+import Loader from '../../components/loader/loader.component';
 
 const Children = () => {
 
@@ -43,29 +37,6 @@ const Children = () => {
         setSelectedChild(row);
         setDConfirmation(!dConfirmation);
     }
-
-    const [isopenFilter, setIsOpenFilter] = useState(false);
-    const filterRef = useRef(null);
-    const [filteredData, setFilteredData] = useState(data);
-
-    const openFilterHandler = () => {
-        setIsOpenFilter(!isopenFilter);
-    }
-
-    useEffect(() => {
-        const handleOutsideFilter = (event) => {
-            if (filterRef.current && !filterRef.current.contains(event.target)) {
-                setIsOpenFilter(false);
-            }
-        }
-
-        document.addEventListener('click', handleOutsideFilter);
-
-        return () => {
-            document.removeEventListener('click', handleOutsideFilter);
-        }
-
-    }, [])
 
     function getCurrentDateTime() {
         const now = new Date();
@@ -140,7 +111,7 @@ const Children = () => {
         printWindow.document.write('<table>');
         printWindow.document.write('<tr><th>الجنس</th><th>العمر</th><th>اسم الولي</th><th>اللقب</th><th>الإسم</th></tr>');
 
-        data.forEach(child => {
+        dt.forEach(child => {
             printWindow.document.write('<tr>');
             printWindow.document.write(`<td>${child.gender}</td>`);
             printWindow.document.write(`<td>${child.age}</td>`);
@@ -156,56 +127,47 @@ const Children = () => {
     };
 
 
-
-
-
-    const filterByDateHandler = () => {
-        const sortedData = data.sort((a, b) => new Date(a.paid_at) - new Date(b.paid_at));
-        setFilteredData([...sortedData]);
-    };
-
-    const filterByAlphabeticHandler = () => {
-        const sortedData = data.sort((a, b) => a.first_name.localeCompare(b.first_name));
-        setFilteredData([...sortedData]);
-    };
-
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     useEffect(() => {
         function handleResize() {
             setIsSmallScreen(window.innerWidth <= 800);
         }
 
-        // Add event listener to listen for window resize
         window.addEventListener('resize', handleResize);
-
-        // Call handleResize once on component mount
         handleResize();
-
-        // Clean up the event listener on component unmount
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
 
 
-    const [searchQuery, setSearchQuery] = useState('');
-    const handleSearchChange = (value) => {
-        setSearchQuery(value);
-    };
-
-    useEffect(() => {
-        const filteredData = data.filter((child) =>
-            child.first_name.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-        setFilteredData(filteredData);
-    }, [data, searchQuery]);
-
-    const [dt, setDt] = useState(null);
+    const [dt, setDt] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         fetchToken();
-        fetchData();
-    }, []);
+        fetchData(currentPage);
+    }, [currentPage]);
+
+    useEffect(() => {
+        if (dt.length > 0) {
+            setIsLoading(false);
+        }
+    }, [dt]);
+
+    const handleRightButtonClick = () => {
+        if (currentPage > 1) {
+            setIsLoading(true); // Set isLoading to true before fetching the next page
+            setCurrentPage((prevPage) => prevPage - 1);
+        }
+    };
+
+    const handleLeftButtonClick = () => {
+        setIsLoading(true); // Set isLoading to true before fetching the previous page
+        setCurrentPage((prevPage) => prevPage + 1);
+    };
+
 
     const fetchToken = async () => {
         try {
@@ -237,7 +199,7 @@ const Children = () => {
     };
 
 
-    const fetchData = async () => {
+    const fetchData = async (p) => {
         try {
             const token = localStorage.getItem('accessToken'); // Replace with your actual Bearer token
             const headers = {
@@ -245,18 +207,64 @@ const Children = () => {
                 'Content-Type': 'application/json' // You can add other headers here if required
             };
 
-            const response = await fetch('https://paje.onrender.com/api/kids/getKids', { headers });
+            const response = await fetch(`https://paje.onrender.com/api/kids/getPaginatedkids?pageNumber=${p}`, { headers });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const jsonData = await response.json();
-            setDt(jsonData);
-            console.log('fetch successul', jsonData);
+            setDt(jsonData.items);
+            console.log('fetch successul', jsonData.items);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
+
+    const [isopenFilter, setIsOpenFilter] = useState(false);
+    const filterRef = useRef(null);
+
+    const openFilterHandler = () => {
+        setIsOpenFilter(!isopenFilter);
+    }
+
+    useEffect(() => {
+        const handleOutsideFilter = (event) => {
+            if (filterRef.current && !filterRef.current.contains(event.target)) {
+                setIsOpenFilter(false);
+            }
+        }
+
+        document.addEventListener('click', handleOutsideFilter);
+
+        return () => {
+            document.removeEventListener('click', handleOutsideFilter);
+        }
+
+    }, [])
+
+    const filterByDateHandler = () => {
+        const sortedData = dt.sort((a, b) => new Date(a.creation_date) - new Date(b.creation_date));
+        setDt([...sortedData]);
+    };
+
+    const filterByAlphabeticHandler = () => {
+        const sortedData = dt.sort((a, b) => a.first_name.localeCompare(b.first_name));
+        setDt([...sortedData]);
+    };
+
+
+
+    // const [searchQuery, setSearchQuery] = useState('');
+    const handleSearchChange = (value) => {
+        // setSearchQuery(value);
+    };
+
+    // useEffect(() => {
+    //     const filteredData = dt.filter((child) =>
+    //         child.first_name.toLowerCase().includes(searchQuery.toLowerCase())
+    //     );
+    //     setDt(filteredData);
+    // }, [dt, searchQuery]);
 
     return (
         <div className='children-container'>
@@ -302,66 +310,67 @@ const Children = () => {
                 </div>
                 {
                     isSmallScreen ? (
-                        filteredData.map((row, index) => (
-                            <table key={index} className='shrinked-child-table'>
-                                <tbody>
-                                    <tr>
-                                        <td>{row.first_name}</td>
-                                        <td>الإسم</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{row.last_name}</td>
-                                        <td>اللقب</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{row.parent_name}</td>
-                                        <td>إسم الولي</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{row.age}</td>
-                                        <td>العمر</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{row.gender}</td>
-                                        <td>الجنس</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{row.paid_at}</td>
-                                        <td>تاريخ التسجيل</td>
-                                    </tr>
-                                    <tr>
-                                        <td className='status'>
-                                            {
-                                                row.isPaid ?
-                                                    (<div className='done'>
-                                                        <p>نعم</p>
-                                                    </div>) :
-                                                    (<div className='pending'>
-                                                        <p>لا</p>
-                                                    </div>)
-                                            }
-                                        </td>
-                                        <td>الخلاص</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div className='action-btns'>
-                                                <button onClick={() => deleteConfirmOpen(row)}>
-                                                    <Delete />
-                                                </button>
-                                                <button onClick={() => updateChildHandler(row)}>
-                                                    <Pencil />
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td>الإجراءت</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        ))
+                        isLoading ? (<Loader />) : (
+                            dt.length > 0 && dt.map((row, index) => (
+                                <table key={index} className='shrinked-child-table'>
+                                    <tbody>
+                                        <tr>
+                                            <td>{row.first_name}</td>
+                                            <td>الإسم</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{row.last_name}</td>
+                                            <td>اللقب</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{row.parent_name}</td>
+                                            <td>إسم الولي</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{row.age}</td>
+                                            <td>العمر</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{row.gender}</td>
+                                            <td>الجنس</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{row.paid_at}</td>
+                                            <td>تاريخ التسجيل</td>
+                                        </tr>
+                                        <tr>
+                                            <td className='status'>
+                                                {
+                                                    row.isPaid ?
+                                                        (<div className='done'>
+                                                            <p>نعم</p>
+                                                        </div>) :
+                                                        (<div className='pending'>
+                                                            <p>لا</p>
+                                                        </div>)
+                                                }
+                                            </td>
+                                            <td>الخلاص</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div className='action-btns'>
+                                                    <button onClick={() => deleteConfirmOpen(row)}>
+                                                        <Delete />
+                                                    </button>
+                                                    <button onClick={() => updateChildHandler(row)}>
+                                                        <Pencil />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td>الإجراءت</td>
+                                        </tr>
+                                    </tbody>
+                                </table>)
+                            ))
                     ) :
-                        (
-                            <table className='children-list-table'>
+                        (isLoading ? (<Loader />) :
+                            (<table className='children-list-table'>
                                 <thead>
                                     <tr>
                                         <th>الإجراءت</th>
@@ -376,7 +385,7 @@ const Children = () => {
                                 </thead>
                                 <tbody>
 
-                                    {filteredData.map((row, index) => (
+                                    {dt.length > 0 && dt.map((row, index) => (
                                         <Fragment key={index}>
                                             <tr key={index}>
                                                 <td>
@@ -411,10 +420,17 @@ const Children = () => {
                                     ))}
 
                                 </tbody>
-                            </table>
+                            </table>)
                         )
                 }
-
+                <div className='pagination'>
+                    <div className='left-button' onClick={handleLeftButtonClick}>
+                        <Left />
+                    </div>
+                    <div className='right-button' onClick={handleRightButtonClick}>
+                        <Right />
+                    </div>
+                </div>
                 {isUpdateChild && <UpdateChild child={selectedChild} />}
                 {dConfirmation && <DeleteConfirm child={selectedChild} />}
             </div>
