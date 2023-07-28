@@ -10,6 +10,8 @@ import Activities from './routes/activities/activities.component';
 import Projects from './routes/projects/projects.component';
 import Login from './routes/login/login.component';
 
+import SplashScreen from './components/splash-screen/splash-screen.component';
+
 import { AuthContext } from './contexts/auth.context';
 
 function AuthWrapper({ children }) {
@@ -27,18 +29,37 @@ function AuthWrapper({ children }) {
   return children;
 }
 
+
 function App() {
+
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time for the splash screen (2 seconds)
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 3500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <Routes>
-      <Route path="/login" element={<AuthWrapper><Login /></AuthWrapper>} />
-      <Route path="/" element={<Navigation />}>
-        <Route index element={<AuthWrapper><Dashboard /></AuthWrapper>} />
-        <Route path="/children" element={<AuthWrapper><Children /></AuthWrapper>} />
-        <Route path="/cadres" element={<AuthWrapper><Cadres /></AuthWrapper>} />
-        <Route path="/activities" element={<AuthWrapper><Activities /></AuthWrapper>} />
-        <Route path="/projects" element={<AuthWrapper><Projects /></AuthWrapper>} />
-      </Route>
-    </Routes>
+    <>
+      {showSplash ? (
+        <SplashScreen />
+      ) : (
+        <Routes>
+          <Route path="/login" element={<AuthWrapper><Login /></AuthWrapper>} />
+          <Route path="/" element={<Navigation />}>
+            <Route index element={<AuthWrapper><Dashboard /></AuthWrapper>} />
+            <Route path="/children" element={<AuthWrapper><Children /></AuthWrapper>} />
+            <Route path="/cadres" element={<AuthWrapper><Cadres /></AuthWrapper>} />
+            <Route path="/activities" element={<AuthWrapper><Activities /></AuthWrapper>} />
+            <Route path="/projects" element={<AuthWrapper><Projects /></AuthWrapper>} />
+          </Route>
+        </Routes>
+      )}
+    </>
   );
 }
 

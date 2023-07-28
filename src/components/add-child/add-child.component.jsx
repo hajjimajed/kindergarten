@@ -43,6 +43,67 @@ const AddChild = () => {
         });
     };
 
+    const fetchToken = async () => {
+        try {
+            const refreshToken = localStorage.getItem('refreshToken');
+            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    RefreshToken: refreshToken,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const res = await response.json();
+
+            localStorage.setItem('accessToken', res.data.accessToken);
+            localStorage.setItem('refreshToken', res.data.refreshToken);
+
+            console.log('Token refreshed successfully', res.data.refreshToken);
+
+        } catch (error) {
+            console.error('Error fetching token:', error);
+        }
+    };
+
+    const addChild = async () => {
+        await fetchToken();
+
+        try {
+            const token = localStorage.getItem('accessToken');
+            const response = await fetch('https://paje.onrender.com/api/kids/createkid', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "first_name": firstName,
+                    "last_name": lastName,
+                    "parent_name": parentName,
+                    "age": age,
+                    "gender": gender,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const res = await response.json();
+
+            console.log('child created succesfully', res);
+
+        } catch (error) {
+            console.error('Error creating child:', error);
+        }
+    };
 
 
     return (
@@ -90,7 +151,7 @@ const AddChild = () => {
                             <h1>إلغاء</h1>
                             <Close />
                         </button>
-                        <button onClick={handleSubmit}>
+                        <button onClick={addChild}>
                             <h1>أضف</h1>
                             <Tick />
                         </button>

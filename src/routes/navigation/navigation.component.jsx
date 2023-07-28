@@ -12,6 +12,7 @@ import { ReactComponent as Profile } from '../../assets/icons/profile.svg'
 import { ReactComponent as Setting } from '../../assets/icons/setting.svg'
 import { ReactComponent as DownA } from '../../assets/icons/down-arrow.svg'
 import { ReactComponent as Notification } from '../../assets/icons/notification.svg'
+import { ReactComponent as MainLogo } from '../../assets/icons/logo.svg'
 import mainLogo from '../../assets/icons/app-logo.png';
 import avatar from '../../assets/avatars/7294743.png';
 
@@ -71,8 +72,7 @@ const Navigation = () => {
                 <div className={hamBtn ? 'right-navigation active' : 'right-navigation'}>
                     <div className='top-section'>
                         <Link to='/' className='main-link' onClick={hamMenuHandler}>
-                            <h1>horizon</h1>
-                            <img className='main-logo' src={mainLogo} alt="" />
+                            <MainLogo />
                         </Link>
                         <Link to='/' className='navigation-link' onClick={hamMenuHandler}>
                             <h1>لوحة القيادة</h1>
@@ -170,8 +170,7 @@ const Navigation = () => {
                             <input type="text" className="search-bar__input" placeholder="بحث" />
                         </form>
                         <Link to='/' className='main-link' onClick={hamMenuHandler}>
-                            <h1>horizon</h1>
-                            <img className='main-logo' src={mainLogo} alt="" />
+                            <MainLogo />
                         </Link>
                     </div>
                 </div>

@@ -52,7 +52,6 @@ const Children = () => {
 
     const currentDateTime = getCurrentDateTime();
 
-
     const printChildInfo = () => {
         const printWindow = window.open('', '_blank');
         printWindow.document.write('<html><head><title>القائمة الإسمية للأطفال</title></head><body>');
@@ -111,7 +110,7 @@ const Children = () => {
         printWindow.document.write('<table>');
         printWindow.document.write('<tr><th>الجنس</th><th>العمر</th><th>اسم الولي</th><th>اللقب</th><th>الإسم</th></tr>');
 
-        dt.forEach(child => {
+        allKids.forEach(child => {
             printWindow.document.write('<tr>');
             printWindow.document.write(`<td>${child.gender}</td>`);
             printWindow.document.write(`<td>${child.age}</td>`);
@@ -142,6 +141,7 @@ const Children = () => {
 
 
     const [dt, setDt] = useState([]);
+    const [allKids, setAllKids] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -149,6 +149,10 @@ const Children = () => {
         fetchToken();
         fetchData(currentPage);
     }, [currentPage]);
+
+    useEffect(() => {
+        fetchAllData();
+    }, [])
 
     useEffect(() => {
         if (dt.length > 0) {
@@ -219,6 +223,25 @@ const Children = () => {
         }
     };
 
+    const fetchAllData = async () => {
+        try {
+            const token = localStorage.getItem('accessToken'); // Replace with your actual Bearer token
+            const headers = {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json' // You can add other headers here if required
+            };
+
+            const response = await fetch('https://paje.onrender.com/api/kids/getKids', { headers });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const jsonData = await response.json();
+            setAllKids(jsonData);
+            console.log('fetch successul', jsonData);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     const [isopenFilter, setIsOpenFilter] = useState(false);
     const filterRef = useRef(null);
