@@ -61,7 +61,7 @@ const SplashScreen = () => {
         hidden: {
             opacity: 0,
             pathLength: 0,
-            translateY: 30,
+            translateY: 10,
         },
         visible: {
             opacity: 1,

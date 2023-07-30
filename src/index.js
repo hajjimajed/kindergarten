@@ -6,15 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { TogglesProvider } from './contexts/toggles.context';
 import { AuthProvider } from './contexts/auth.context';
+import { IsDoneProvider } from './contexts/isDone.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <TogglesProvider>
-          <App />
-        </TogglesProvider>
+        <IsDoneProvider>
+          <TogglesProvider>
+            <App />
+          </TogglesProvider>
+        </IsDoneProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,6 +1,7 @@
 import './children.styles.scss';
 import { useState, useContext, useEffect, useRef, Fragment } from 'react';
 import { TogglesContext } from '../../contexts/toggles.context';
+import { IsDoneContext } from '../../contexts/isDone.context';
 
 import { ReactComponent as Pencil } from '../../assets/icons/pencil.svg';
 import { ReactComponent as Delete } from '../../assets/icons/delete.svg';
@@ -21,6 +22,7 @@ import Loader from '../../components/loader/loader.component';
 const Children = () => {
 
     const { dConfirmation, setDConfirmation, isAddChild, setIsAddChild, isUpdateChild, setIsUpdateChild } = useContext(TogglesContext);
+    const { isDone } = useContext(IsDoneContext);
 
     const addChildHandler = () => {
         setIsAddChild(!isAddChild);
@@ -146,9 +148,8 @@ const Children = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetchToken();
         fetchData(currentPage);
-    }, [currentPage]);
+    }, [currentPage, isDone]);
 
     useEffect(() => {
         fetchAllData();
@@ -205,10 +206,10 @@ const Children = () => {
 
     const fetchData = async (p) => {
         try {
-            const token = localStorage.getItem('accessToken'); // Replace with your actual Bearer token
+            const token = localStorage.getItem('accessToken');
             const headers = {
                 Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json' // You can add other headers here if required
+                'Content-Type': 'application/json'
             };
 
             const response = await fetch(`https://paje.onrender.com/api/kids/getPaginatedkids?pageNumber=${p}`, { headers });
@@ -225,10 +226,10 @@ const Children = () => {
 
     const fetchAllData = async () => {
         try {
-            const token = localStorage.getItem('accessToken'); // Replace with your actual Bearer token
+            const token = localStorage.getItem('accessToken');
             const headers = {
                 Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json' // You can add other headers here if required
+                'Content-Type': 'application/json'
             };
 
             const response = await fetch('https://paje.onrender.com/api/kids/getKids', { headers });
