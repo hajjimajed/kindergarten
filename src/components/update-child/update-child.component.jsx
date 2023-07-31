@@ -26,21 +26,10 @@ const UpdateChild = ({ child }) => {
     const [lastName, setLastName] = useState(child.last_name);
     const [parentName, setParentName] = useState(child.parent_name);
     const [age, setAge] = useState(child.age);
-    const [gender, setGender] = useState(child.gender);
+    const [gender, setGender] = useState(child.gender || "ذكر");
     const [paidAt, setPaidAt] = useState(child.paid_at);
-    const [isPaid, setIsPaid] = useState(child.isPaid);
 
-    useEffect(() => {
-        // Convert the date string "0001-01-01T00:00:00" to "yyyy-MM-dd" format
-        if (child.paid_at) {
-            const date = new Date(child.paid_at);
-            const year = date.getFullYear().toString().padStart(4, '0');
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-            const day = date.getDate().toString().padStart(2, '0');
 
-            setPaidAt(`${year}-${month}-${day}`);
-        }
-    }, [child.paid_at]);
 
     const handleChangeInput = (fn) => {
         return (event) => {
@@ -77,7 +66,7 @@ const UpdateChild = ({ child }) => {
         }
     };
 
-    const addChild = async () => {
+    const updateChild = async () => {
         await fetchToken();
 
         try {
@@ -91,9 +80,10 @@ const UpdateChild = ({ child }) => {
                 body: JSON.stringify({
                     "first_name": firstName,
                     "last_name": lastName,
-                    "parent_name": parentName,
+                    "parent_name": parentName ? parentName : "dsds",
                     "age": age,
                     "gender": gender,
+                    "paid_at": paidAt
                 }),
             });
 
@@ -162,13 +152,6 @@ const UpdateChild = ({ child }) => {
                                             <option value="ذكر">ذكر</option>
                                             <option value="أنثى">أنثى</option>
                                         </select>
-                                        <select id='isPaid' value={isPaid.toString()} onChange={handleChangeInput((value) => setIsPaid(value === 'true' ? true : false))}>
-                                            <option value={false}>غير مدفوع</option>
-                                            <option value={true}>مدفوع</option>
-                                        </select>
-
-
-
                                         <label htmlFor="">
                                             التاريخ
                                         </label>
@@ -181,7 +164,7 @@ const UpdateChild = ({ child }) => {
                                     <h1>إلغاء</h1>
                                     <Close />
                                 </button>
-                                <button onClick={addChild}>
+                                <button onClick={updateChild}>
                                     <h1>تعديل</h1>
                                     <Tick />
                                 </button>

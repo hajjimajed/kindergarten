@@ -26,7 +26,7 @@ const AddChild = () => {
     const [lastName, setLastName] = useState('');
     const [parentName, setParentName] = useState('');
     const [age, setAge] = useState('');
-    const [gender, setGender] = useState('');
+    const [gender, setGender] = useState("ذكر");
     const [paidAt, setPaidAt] = useState('');
 
     const handleChangeInput = (fn) => {

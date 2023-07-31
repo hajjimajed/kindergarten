@@ -146,6 +146,7 @@ const Children = () => {
     const [allKids, setAllKids] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
+    const [pages, setPages] = useState(0);
 
     useEffect(() => {
         fetchData(currentPage);
@@ -204,8 +205,11 @@ const Children = () => {
     };
 
 
+
     const fetchData = async (p) => {
+
         try {
+            await fetchToken();
             const token = localStorage.getItem('accessToken');
             const headers = {
                 Authorization: `Bearer ${token}`,
@@ -219,13 +223,16 @@ const Children = () => {
             const jsonData = await response.json();
             setDt(jsonData.items);
             console.log('fetch successul', jsonData.items);
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
     const fetchAllData = async () => {
+
         try {
+            await fetchToken();
             const token = localStorage.getItem('accessToken');
             const headers = {
                 Authorization: `Bearer ${token}`,
@@ -238,6 +245,7 @@ const Children = () => {
             }
             const jsonData = await response.json();
             setAllKids(jsonData);
+            setPages(Math.ceil(jsonData.length / 10));
             console.log('fetch successul', jsonData);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -267,7 +275,7 @@ const Children = () => {
     }, [])
 
     const filterByDateHandler = () => {
-        const sortedData = dt.sort((a, b) => new Date(a.creation_date) - new Date(b.creation_date));
+        const sortedData = dt.sort((a, b) => new Date(a.paid_at) - new Date(b.paid_at));
         setDt([...sortedData]);
     };
 
@@ -278,17 +286,7 @@ const Children = () => {
 
 
 
-    // const [searchQuery, setSearchQuery] = useState('');
-    const handleSearchChange = (value) => {
-        // setSearchQuery(value);
-    };
 
-    // useEffect(() => {
-    //     const filteredData = dt.filter((child) =>
-    //         child.first_name.toLowerCase().includes(searchQuery.toLowerCase())
-    //     );
-    //     setDt(filteredData);
-    // }, [dt, searchQuery]);
 
     return (
         <div className='children-container'>
@@ -309,7 +307,7 @@ const Children = () => {
             </div>
             <div className='children-list'>
                 <div className='children-list-header'>
-                    <SearchBox onSearchChange={handleSearchChange} />
+                    <SearchBox />
                     <h1>قائمة الأطفال</h1>
                 </div>
                 <div className='filter' ref={filterRef}>
@@ -433,7 +431,7 @@ const Children = () => {
                                                             </div>)
                                                     }
                                                 </td>
-                                                <td>{row.paid_at}</td>
+                                                <td>{row.paid_at.split("T")[0]}</td>
                                                 <td>{row.gender}</td>
                                                 <td>{row.age}</td>
                                                 <td>{row.parent_name}</td>
@@ -448,10 +446,55 @@ const Children = () => {
                         )
                 }
                 <div className='pagination'>
-                    <div className='left-button' onClick={handleLeftButtonClick}>
+                    <div className='p-btn left-button' onClick={handleLeftButtonClick}>
                         <Left />
                     </div>
-                    <div className='right-button' onClick={handleRightButtonClick}>
+                    {currentPage === pages ? (
+                        <>
+
+                            <div className='p-page active'>
+                                <h2>{pages}</h2>
+                            </div>
+                            {pages > 1 && (
+                                <div onClick={() => setCurrentPage(1)} className='p-page'>
+                                    <h2>1</h2>
+                                </div>
+                            )}
+                        </>
+                    ) : currentPage === 1 ? (
+                        <>
+                            {pages > 2 && (
+                                <div onClick={() => setCurrentPage(pages)} className='p-page'>
+                                    <h2>{pages}</h2>
+                                </div>
+                            )}
+                            {pages > 1 && (
+                                <div onClick={() => setCurrentPage(1 + 1)} className='p-page'>
+                                    <h2>{1 + 1}</h2>
+                                </div>
+                            )}
+
+                            <div className='p-page active'>
+                                <h2>{1}</h2>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            {currentPage !== pages - 1 && (
+                                <div onClick={() => setCurrentPage(pages)} className='p-page'>
+                                    <h2>{pages}</h2>
+                                </div>
+                            )}
+                            <div className='p-page active'>
+                                <h2>{currentPage}</h2>
+                            </div>
+
+                            <div onClick={() => setCurrentPage(1)} className='p-page'>
+                                <h2>{1}</h2>
+                            </div>
+                        </>
+                    )}
+                    <div className='p-btn right-button' onClick={handleRightButtonClick}>
                         <Right />
                     </div>
                 </div>
