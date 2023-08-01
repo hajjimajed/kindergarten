@@ -1,6 +1,8 @@
 import './navigation.styles.scss'
 import { useState, useRef, useEffect, useContext } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
 import { ReactComponent as Dashboard } from '../../assets/icons/category.svg'
 import { ReactComponent as Activities } from '../../assets/icons/activity.svg'
 import { ReactComponent as Projects } from '../../assets/icons/chart.svg'
@@ -29,6 +31,10 @@ const Navigation = () => {
     const [hamBtn, setHamBtn] = useState(false);
 
     const hamMenuHandler = () => {
+        setHamBtn(false);
+    }
+
+    const hamMenuToggle = () => {
         setHamBtn(!hamBtn);
     }
 
@@ -65,32 +71,46 @@ const Navigation = () => {
         };
     }, []);
 
+    const location = useLocation();
+
+    // Function to determine if the current link is active
+    const isLinkActive = (to) => {
+        return location.pathname === to;
+    };
+
 
     return (
         <>
             <div className='navigation-container'>
-                <div className={hamBtn ? 'right-navigation active' : 'right-navigation'}>
+                <motion.div
+                    initial={{ right: -300 }}
+                    animate={{ right: 0 }}
+                    transition={{
+                        type: "tween",
+                        duration: 0.7
+                    }}
+                    className={hamBtn ? 'right-navigation active' : 'right-navigation'}>
                     <div className='top-section'>
                         <Link to='/' className='main-link' onClick={hamMenuHandler}>
                             <MainLogo />
                         </Link>
-                        <Link to='/' className='navigation-link' onClick={hamMenuHandler}>
+                        <Link to='/' className={`navigation-link ${isLinkActive('/') ? 'active' : ''}`} onClick={hamMenuHandler}>
                             <h1>لوحة القيادة</h1>
                             <Dashboard />
                         </Link>
-                        <Link to='/children' className='navigation-link' onClick={hamMenuHandler}>
+                        <Link to='/children' className={`navigation-link ${isLinkActive('/children') ? 'active' : ''}`} onClick={hamMenuHandler}>
                             <h1>الأطفال</h1>
                             <Child />
                         </Link>
-                        <Link to='/cadres' className='navigation-link' onClick={hamMenuHandler}>
+                        <Link to='/cadres' className={`navigation-link ${isLinkActive('/cadres') ? 'active' : ''}`} onClick={hamMenuHandler}>
                             <h1>الإطارات</h1>
                             <People />
                         </Link>
-                        <Link to='/activities' className='navigation-link' onClick={hamMenuHandler}>
+                        <Link to='/activities' className={`navigation-link ${isLinkActive('/activities') ? 'active' : ''}`} onClick={hamMenuHandler}>
                             <h1>الأنشطة اليومية</h1>
                             <Activities />
                         </Link>
-                        <Link to='/projects' className='navigation-link' onClick={hamMenuHandler}>
+                        <Link to='/projects' className={`navigation-link ${isLinkActive('/projects') ? 'active' : ''}`} onClick={hamMenuHandler}>
                             <h1>المشاريع التربوية</h1>
                             <Projects />
                         </Link>
@@ -101,8 +121,16 @@ const Navigation = () => {
                             <Logout />
                         </Link>
                     </div>
-                </div>
-                <div className='top-navigation'>
+                </motion.div>
+                <motion.div
+                    initial={{ translateY: -200 }}
+                    animate={{ translateY: 0 }}
+                    transition={{
+                        type: "tween",
+                        duration: 0.7,
+                        delay: 0.5
+                    }}
+                    className='top-navigation'>
                     <div className='left-section'>
                         <div className='user-links'>
                             <div className={`profile-dropdown ${isOpen ? 'open' : ''}`} ref={dropdownRef}>
@@ -114,7 +142,14 @@ const Navigation = () => {
                                     <DownA />
                                 </div>
                                 {isOpen && (
-                                    <ul className="dropdown-menu">
+                                    <motion.ul
+                                        initial={{ translateY: 25, opacity: 0 }}
+                                        animate={{ translateY: 0, opacity: 1 }}
+                                        transition={{
+                                            type: "tween",
+                                            duration: 0.2
+                                        }}
+                                        className="dropdown-menu">
                                         <li>
                                             <Link className='dropdown-link' onClick={toggleMenu}>
                                                 <h1>الملف الشخصي</h1>
@@ -128,12 +163,12 @@ const Navigation = () => {
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link className='dropdown-link-last' onClick={toggleMenu}>
+                                            <Link className='dropdown-link-last' onClick={() => { logout(); toggleMenu(); }}>
                                                 <h1>تسجيل الخروج</h1>
                                                 <Logout />
                                             </Link>
                                         </li>
-                                    </ul>
+                                    </motion.ul>
                                 )}
                             </div>
 
@@ -144,7 +179,14 @@ const Navigation = () => {
                                 </div>
                                 {
                                     isNotificationOpen && (
-                                        <div className="dropdown-menu">
+                                        <motion.div
+                                            initial={{ translateY: 25, opacity: 0 }}
+                                            animate={{ translateY: 0, opacity: 1 }}
+                                            transition={{
+                                                type: "tween",
+                                                duration: 0.2
+                                            }}
+                                            className="dropdown-menu">
                                             <h2>إشعارات</h2>
                                             <ul>
                                                 <li>
@@ -154,7 +196,7 @@ const Navigation = () => {
                                                     <NotificationItem />
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </motion.div>
                                     )
                                 }
                             </div>
@@ -173,13 +215,20 @@ const Navigation = () => {
                             <MainLogo />
                         </Link>
                     </div>
-                </div>
+                    <div className='ham-btn-section'>
+                        <div className={hamBtn ? 'ham-button active' : 'ham-button'} onClick={hamMenuToggle}>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </motion.div>
             </div>
-            <div className={hamBtn ? 'ham-button active' : 'ham-button'} onClick={hamMenuHandler}>
+            {/* <div className={hamBtn ? 'ham-button active' : 'ham-button'} onClick={hamMenuToggle}>
                 <div></div>
                 <div></div>
                 <div></div>
-            </div>
+            </div> */}
             <Outlet />
         </>
     )

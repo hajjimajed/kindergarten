@@ -1,7 +1,14 @@
 import './children.styles.scss';
 import { useState, useContext, useEffect, useRef, Fragment } from 'react';
+import { motion } from 'framer-motion';
+
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
+import SearchBox from '../../components/search-box/search-box.component';
+import DeleteConfirm from '../../components/delete-confirm/delete-confirm.component';
+import AddChild from '../../components/add-child/add-child.component';
+import UpdateChild from '../../components/update-child/update-child.component';
+import Loader from '../../components/loader/loader.component';
 
 import { ReactComponent as Pencil } from '../../assets/icons/pencil.svg';
 import { ReactComponent as Delete } from '../../assets/icons/delete.svg';
@@ -13,11 +20,6 @@ import { ReactComponent as Alphabet } from '../../assets/icons/alphabet.svg';
 import { ReactComponent as Left } from '../../assets/icons/left.svg';
 import { ReactComponent as Right } from '../../assets/icons/right.svg';
 
-import SearchBox from '../../components/search-box/search-box.component';
-import DeleteConfirm from '../../components/delete-confirm/delete-confirm.component';
-import AddChild from '../../components/add-child/add-child.component';
-import UpdateChild from '../../components/update-child/update-child.component';
-import Loader from '../../components/loader/loader.component';
 
 const Children = () => {
 
@@ -112,7 +114,7 @@ const Children = () => {
         printWindow.document.write('<table>');
         printWindow.document.write('<tr><th>الجنس</th><th>العمر</th><th>اسم الولي</th><th>اللقب</th><th>الإسم</th></tr>');
 
-        allKids.forEach(child => {
+        allKids && allKids.map((child) => {
             printWindow.document.write('<tr>');
             printWindow.document.write(`<td>${child.gender}</td>`);
             printWindow.document.write(`<td>${child.age}</td>`);
@@ -154,7 +156,7 @@ const Children = () => {
 
     useEffect(() => {
         fetchAllData();
-    }, [])
+    }, [isDone])
 
     useEffect(() => {
         if (dt.length > 0) {
@@ -172,6 +174,13 @@ const Children = () => {
     const handleLeftButtonClick = () => {
         setIsLoading(true); // Set isLoading to true before fetching the previous page
         setCurrentPage((prevPage) => prevPage + 1);
+    };
+
+    const finalPage = () => {
+        if (currentPage < pages) {
+            setIsLoading(true); // Set isLoading to true before fetching the next page
+            setCurrentPage(pages);
+        }
     };
 
 
@@ -290,7 +299,14 @@ const Children = () => {
 
     return (
         <div className='children-container'>
-            <div className='top-container'>
+            <motion.div
+                initial={{ translateY: 50, opacity: 0 }}
+                animate={{ translateY: 0, opacity: 1 }}
+                transition={{
+                    type: "tween",
+                    duration: 0.4
+                }}
+                className='top-container'>
                 <div className='top-container-header'>
                     <h1>قاعدة بيانات الأطفال</h1>
                 </div>
@@ -304,8 +320,16 @@ const Children = () => {
                         <AddUser />
                     </button>
                 </div>
-            </div>
-            <div className='children-list'>
+            </motion.div>
+            <motion.div
+                initial={{ translateY: 50, opacity: 0 }}
+                animate={{ translateY: 0, opacity: 1 }}
+                transition={{
+                    type: "tween",
+                    duration: 0.4,
+                    delay: 0.2
+                }}
+                className='children-list'>
                 <div className='children-list-header'>
                     <SearchBox />
                     <h1>قائمة الأطفال</h1>
@@ -317,7 +341,14 @@ const Children = () => {
                     </button>
                     {
                         isopenFilter && (
-                            <div onClick={openFilterHandler} className='filters-list'>
+                            <motion.div
+                                initial={{ translateY: 25, opacity: 0 }}
+                                animate={{ translateY: 0, opacity: 1 }}
+                                transition={{
+                                    type: "tween",
+                                    duration: 0.2
+                                }}
+                                onClick={openFilterHandler} className='filters-list'>
                                 <div className='filter-item' onClick={filterByDateHandler}>
                                     <h1>حسب التاريخ</h1>
                                     <Clock />
@@ -326,7 +357,7 @@ const Children = () => {
                                     <h1>حسب الحروف</h1>
                                     <Alphabet />
                                 </div>
-                            </div>
+                            </motion.div>
                         )
                     }
                 </div>
@@ -456,7 +487,7 @@ const Children = () => {
                                 <h2>{pages}</h2>
                             </div>
                             {pages > 1 && (
-                                <div onClick={() => setCurrentPage(1)} className='p-page'>
+                                <div onClick={() => { setIsLoading(true); setCurrentPage(1); }} className='p-page'>
                                     <h2>1</h2>
                                 </div>
                             )}
@@ -464,12 +495,12 @@ const Children = () => {
                     ) : currentPage === 1 ? (
                         <>
                             {pages > 2 && (
-                                <div onClick={() => setCurrentPage(pages)} className='p-page'>
+                                <div onClick={() => { setIsLoading(true); setCurrentPage(pages); }} className='p-page'>
                                     <h2>{pages}</h2>
                                 </div>
                             )}
                             {pages > 1 && (
-                                <div onClick={() => setCurrentPage(1 + 1)} className='p-page'>
+                                <div onClick={() => { setIsLoading(true); setCurrentPage(1 + 1); }} className='p-page'>
                                     <h2>{1 + 1}</h2>
                                 </div>
                             )}
@@ -480,8 +511,8 @@ const Children = () => {
                         </>
                     ) : (
                         <>
-                            {currentPage !== pages - 1 && (
-                                <div onClick={() => setCurrentPage(pages)} className='p-page'>
+                            {currentPage !== pages && (
+                                <div onClick={() => { setIsLoading(true); setCurrentPage(pages); }} className='p-page'>
                                     <h2>{pages}</h2>
                                 </div>
                             )}
@@ -489,7 +520,7 @@ const Children = () => {
                                 <h2>{currentPage}</h2>
                             </div>
 
-                            <div onClick={() => setCurrentPage(1)} className='p-page'>
+                            <div onClick={() => { setIsLoading(true); setCurrentPage(1); }} className='p-page'>
                                 <h2>{1}</h2>
                             </div>
                         </>
@@ -500,7 +531,7 @@ const Children = () => {
                 </div>
                 {isUpdateChild && <UpdateChild child={selectedChild} />}
                 {dConfirmation && <DeleteConfirm child={selectedChild} />}
-            </div>
+            </motion.div>
             {
                 isAddChild && <AddChild />
             }

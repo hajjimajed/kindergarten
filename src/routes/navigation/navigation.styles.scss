@@ -15,7 +15,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        transition: 0.3s ease-in-out all;
+        transition: 0.3s ease-in-out transform;
         z-index: 100;
 
         .top-section {
@@ -50,6 +50,20 @@
                 border-radius: 1.5rem;
                 margin: 0.5rem 0;
                 transition: 0.2s ease-in-out all;
+
+                &.active {
+                    background-color: $primary-color;
+
+                    h1 {
+                        color: #fff;
+                    }
+
+                    svg {
+                        path {
+                            fill: #fff;
+                        }
+                    }
+                }
 
                 h1 {
                     font-size: 1.1rem;
@@ -153,16 +167,60 @@
         align-items: center;
         justify-content: space-between;
 
+        .ham-btn-section {
+            height: 80%;
+            display: none;
+            justify-content: flex-end;
+            align-items: center;
+            flex: 1 0 33.3333%;
+
+            .ham-button {
+                display: none;
+                flex-direction: column;
+                cursor: pointer;
+                z-index: 101;
+
+                div {
+                    width: 1.4rem;
+                    height: 0.1rem;
+                    margin: 0.19rem 0;
+                    border-radius: 0.1rem;
+                    background-color: #000;
+                    transition: 0.3s ease-in-out all;
+                }
+
+
+
+                &.active {
+                    div:first-child {
+                        transform: rotate(45deg);
+                        transform-origin: top left;
+                    }
+
+                    div:nth-of-type(2) {
+                        opacity: 0;
+                    }
+
+                    div:last-child {
+                        transform: rotate(-45deg);
+                        transform-origin: bottom left;
+                    }
+                }
+            }
+        }
+
         .right-section {
             height: 80%;
             display: flex;
             justify-content: flex-end;
             align-items: center;
+            flex: 1 0 33.3333%;
 
             .main-link {
                 display: none;
                 justify-content: flex-end;
                 align-items: center;
+                justify-content: center;
                 width: 80%;
                 height: 4rem;
 
@@ -224,6 +282,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex: 1 0 33.3333%;
 
             .user-links {
                 display: flex;
@@ -417,43 +476,6 @@
     }
 }
 
-.ham-button {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    cursor: pointer;
-    z-index: 101;
-
-    div {
-        width: 1.4rem;
-        height: 0.1rem;
-        margin: 0.19rem 0;
-        border-radius: 0.1rem;
-        background-color: #000;
-        transition: 0.3s ease-in-out all;
-    }
-
-
-
-    &.active {
-        div:first-child {
-            transform: rotate(45deg);
-            transform-origin: top left;
-        }
-
-        div:nth-of-type(2) {
-            opacity: 0;
-        }
-
-        div:last-child {
-            transform: rotate(-45deg);
-            transform-origin: bottom left;
-        }
-    }
-}
-
 
 
 @media(max-width:1250px) {
@@ -526,7 +548,15 @@
 }
 
 @media(max-width:1000px) {
-    .ham-button {
+    .navigation-container .right-navigation .bottom-section .navigation-link {
+        margin-top: -5rem;
+    }
+
+    .navigation-container .top-navigation .ham-btn-section {
+        display: flex;
+    }
+
+    .navigation-container .top-navigation .ham-btn-section .ham-button {
         display: flex;
     }
 
@@ -572,6 +602,10 @@
 }
 
 @media(max-width:800px) {
+
+    .navigation-container .top-navigation .right-section .main-link svg {
+        width: 4.5rem;
+    }
 
     .right-navigation {
         width: 35% !important;
@@ -662,6 +696,10 @@
     .navigation-container .top-navigation .left-section .user-links .notification .dropdown-menu {
         left: -2rem;
     }
+
+    .navigation-container .top-navigation .right-section .main-link svg {
+        width: 4rem;
+    }
 }
 
 @media(max-width:400px) {
@@ -676,10 +714,18 @@
     .navigation-container .top-navigation .left-section .user-links .notification .dropdown-menu .notification-item-container .body h1 {
         font-size: 0.7rem;
     }
+
+    .navigation-container .top-navigation .right-section .main-link svg {
+        width: 3.8rem;
+    }
 }
 
 @media(max-width:350px) {
     .right-navigation {
         width: 55% !important;
+    }
+
+    .navigation-container .top-navigation .right-section .main-link svg {
+        width: 3.5rem;
     }
 }
