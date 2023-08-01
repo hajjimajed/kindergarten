@@ -166,21 +166,14 @@ const Children = () => {
 
     const handleRightButtonClick = () => {
         if (currentPage > 1) {
-            setIsLoading(true); // Set isLoading to true before fetching the next page
+            setIsLoading(true);
             setCurrentPage((prevPage) => prevPage - 1);
         }
     };
 
     const handleLeftButtonClick = () => {
-        setIsLoading(true); // Set isLoading to true before fetching the previous page
+        setIsLoading(true);
         setCurrentPage((prevPage) => prevPage + 1);
-    };
-
-    const finalPage = () => {
-        if (currentPage < pages) {
-            setIsLoading(true); // Set isLoading to true before fetching the next page
-            setCurrentPage(pages);
-        }
     };
 
 
@@ -388,7 +381,7 @@ const Children = () => {
                                             <td>الجنس</td>
                                         </tr>
                                         <tr>
-                                            <td>{row.paid_at}</td>
+                                            <td>{row.paid_at.split("T")[0]}</td>
                                             <td>تاريخ التسجيل</td>
                                         </tr>
                                         <tr>

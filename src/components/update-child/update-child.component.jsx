@@ -1,5 +1,5 @@
 import './update-child.styles.scss';
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext, useRef } from 'react';
 
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
@@ -27,7 +27,7 @@ const UpdateChild = ({ child }) => {
     const [parentName, setParentName] = useState(child.parent_name);
     const [age, setAge] = useState(child.age);
     const [gender, setGender] = useState(child.gender || "ذكر");
-    const [paidAt, setPaidAt] = useState(child.paid_at);
+    const [paidAt, setPaidAt] = useState(child.paid_at.split("T")[0]);
 
 
 
@@ -80,7 +80,7 @@ const UpdateChild = ({ child }) => {
                 body: JSON.stringify({
                     "first_name": firstName,
                     "last_name": lastName,
-                    "parent_name": parentName ? parentName : "dsds",
+                    "parent_name": parentName ? parentName : "parent",
                     "age": age,
                     "gender": gender,
                     "paid_at": paidAt
