@@ -167,6 +167,15 @@
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
         text-align: right;
 
+        .no-data {
+            padding: 2rem 0;
+
+            h1 {
+                font-size: 1.3rem;
+                color: $link-softer;
+            }
+        }
+
         .activities-list-header {
             width: 100%;
             display: flex;
@@ -459,6 +468,10 @@
 }
 
 @media(max-width:800px) {
+    .activities-container .activities-list .no-data h1 {
+        font-size: 1.1rem;
+    }
+
     .activities-container .activities-list .activities-list-header {
         justify-content: flex-start;
         align-items: flex-end;
@@ -543,6 +556,9 @@
 }
 
 @media(max-width:450px) {
+    .activities-container .activities-list .no-data h1 {
+        font-size: 0.9rem;
+    }
 
     .activities-container .top-container {
         width: 92%;

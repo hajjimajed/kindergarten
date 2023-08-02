@@ -167,6 +167,15 @@
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
         text-align: right;
 
+        .no-data {
+            padding: 2rem 0;
+
+            h1 {
+                font-size: 1.3rem;
+                color: $link-softer;
+            }
+        }
+
         .pagination {
             display: flex;
             justify-content: center;
@@ -523,6 +532,10 @@
 }
 
 @media(max-width:800px) {
+    .children-container .children-list .no-data h1 {
+        font-size: 1.1rem;
+    }
+
     .children-container .children-list .children-list-header {
         justify-content: flex-start;
         align-items: flex-end;
@@ -607,6 +620,10 @@
 }
 
 @media(max-width:450px) {
+
+    .children-container .children-list .no-data h1 {
+        font-size: 0.9rem;
+    }
 
     .children-container .top-container {
         width: 92%;

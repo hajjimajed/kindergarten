@@ -156,7 +156,9 @@
 }
 
 @media(max-width:800px) {
-
+    .delete-container .confirmation .confirmed svg {
+        width: 8rem;
+    }
 
     .delete-container .confirmation h1 {
         font-size: 0.8rem;
@@ -184,6 +186,10 @@
 }
 
 @media(max-width:600px) {
+    .delete-container .confirmation .confirmed svg {
+        width: 6rem;
+    }
+
     .delete-container .confirmation {
         width: 45vw;
     }

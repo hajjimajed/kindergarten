@@ -206,6 +206,10 @@
 
 
 @media(max-width:800px) {
+    .update-child-container .update-child .confirmed svg {
+        width: 8rem;
+    }
+
     .update-child-container .update-child {
         width: 60%;
     }
@@ -234,6 +238,12 @@
 
     .update-child-container .update-child .update-child-body .buttons-container button svg {
         width: 1.1rem;
+    }
+}
+
+@media (max-width:600px) {
+    .update-child-container .update-child .confirmed svg {
+        width: 6rem;
     }
 }
 

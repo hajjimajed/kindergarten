@@ -76,6 +76,7 @@
         h1 {
             font-size: 1rem;
             margin-bottom: 1rem;
+            text-align: right;
         }
 
         .confirmation-actions {
@@ -156,7 +157,9 @@
 }
 
 @media(max-width:800px) {
-
+    .cadre-delete-container .confirmation .confirmed svg {
+        width: 8rem;
+    }
 
     .cadre-delete-container .confirmation h1 {
         font-size: 0.8rem;
@@ -184,6 +187,10 @@
 }
 
 @media(max-width:600px) {
+    .cadre-delete-container .confirmation .confirmed svg {
+        width: 6rem;
+    }
+
     .cadre-delete-container .confirmation {
         width: 45vw;
     }

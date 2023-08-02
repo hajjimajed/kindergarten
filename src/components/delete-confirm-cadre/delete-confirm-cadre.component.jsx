@@ -95,13 +95,13 @@ const DeleteConfirmCadre = ({ cadre }) => {
                         </div>
                     ) : (
                         <>
-                            <h1>حذف بيانات الطفل</h1>
+                            <h1>حذف بيانات الإطار</h1>
                             {
                                 isLoading ? (
                                     <Loader />
                                 ) : (
                                     <div className='confirmation-infos'>
-                                        <h1>هل أنت متأكد من حذف بيانات هذا الطفل ؟</h1>
+                                        <h1>هل أنت متأكد من حذف بيانات هذا الإطار ؟</h1>
                                     </div>
                                 )
                             }

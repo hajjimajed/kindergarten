@@ -204,11 +204,6 @@ const Cadres = () => {
         fetchAllCadres();
     }, [isDoneCadre])
 
-    useEffect(() => {
-        if (cadresP.length > 0) {
-            setIsLoading(false);
-        }
-    }, [cadresP]);
 
     const handleRightButtonClick = () => {
         if (currentPage > 1) {
@@ -244,7 +239,7 @@ const Cadres = () => {
             localStorage.setItem('accessToken', res.data.accessToken);
             localStorage.setItem('refreshToken', res.data.refreshToken);
 
-            console.log('Token refreshed successfully', res.data.refreshToken);
+            console.log('Token refreshed successfully from cadres', res.data.refreshToken);
 
         } catch (error) {
             console.error('Error fetching token:', error);
@@ -267,6 +262,7 @@ const Cadres = () => {
             }
             const jsonData = await response.json();
             setCadresP(jsonData.items);
+            setIsLoading(false);
             console.log('fetch successul', jsonData.items);
 
         } catch (error) {
@@ -335,141 +331,154 @@ const Cadres = () => {
                     <SearchBox />
                     <h1>قائمة الإطارات </h1>
                 </div>
-                <div className='filter' ref={filterRef}>
-                    <button className='filterBtn' onClick={openFilterHandler}>
-                        <h1>عرض</h1>
-                        <Filter></Filter>
-                    </button>
-                    {
-                        isopenFilter && (
-                            <motion.div
-                                initial={{ translateY: 25, opacity: 0 }}
-                                animate={{ translateY: 0, opacity: 1 }}
-                                transition={{
-                                    type: "tween",
-                                    duration: 0.2
-                                }}
-                                onClick={openFilterHandler} className='filters-list'>
-                                <div className='filter-item' onClick={filterByDateHandler}>
-                                    <h1>حسب التاريخ</h1>
-                                    <Clock />
-                                </div>
-                                <div className='filter-item' onClick={filterByAlphabeticHandler}>
-                                    <h1>حسب الحروف</h1>
-                                    <Alphabet />
-                                </div>
-                            </motion.div>
-                        )
-                    }
-                </div>
                 {
-                    isSmallScreen ? (
-                        isLoading ? (<Loader />) : (
-                            cadresP.length > 0 && cadresP.map((row, index) => (
-                                <table key={index} className='shrinked-cadre-table'>
-                                    <tbody>
-                                        <tr>
-                                            <td>{row.teacher_first}</td>
-                                            <td>الإسم</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.teacher_last}</td>
-                                            <td>اللقب</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.cin}</td>
-                                            <td>ب.ت.و</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.validation_date}</td>
-                                            <td>تاريخ الإصدار</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.matricule}</td>
-                                            <td>المعرف الوحيد</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.birthday.split("T")[0]}</td>
-                                            <td>تاريخ الولادة</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.gender}</td>
-                                            <td>الجنس</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.study_level}</td>
-                                            <td>المستوى التعليمي</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.degree}</td>
-                                            <td>الشهادة العلمية</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div className='action-btns'>
-                                                    <button onClick={() => deleteConfirmOpen(row)}>
-                                                        <Delete />
-                                                    </button>
-                                                    <button onClick={() => updateCadreHandler(row)}>
-                                                        <Pencil />
-                                                    </button>
+                    isLoading ? (<Loader />) : (
+                        cadresP.length > 0 ? (
+                            <>
+                                <div className='filter' ref={filterRef}>
+                                    <button className='filterBtn' onClick={openFilterHandler}>
+                                        <h1>عرض</h1>
+                                        <Filter></Filter>
+                                    </button>
+                                    {
+                                        isopenFilter && (
+                                            <motion.div
+                                                initial={{ translateY: 25, opacity: 0 }}
+                                                animate={{ translateY: 0, opacity: 1 }}
+                                                transition={{
+                                                    type: "tween",
+                                                    duration: 0.2
+                                                }}
+                                                onClick={openFilterHandler} className='filters-list'>
+                                                <div className='filter-item' onClick={filterByDateHandler}>
+                                                    <h1>حسب التاريخ</h1>
+                                                    <Clock />
                                                 </div>
-                                            </td>
-                                            <td>الإجراءت</td>
-                                        </tr>
-                                    </tbody>
-                                </table>)
-                            ))
-                    ) :
-                        (isLoading ? (<Loader />) :
-                            (<table className='cadres-list-table'>
-                                <thead>
-                                    <tr>
-                                        <th>الإجراءت</th>
-                                        <th>الشهادة العلمية</th>
-                                        <th>المستوى التعليمي</th>
-                                        <th>الجنس</th>
-                                        <th>تاريخ الولادة</th>
-                                        <th>المعرف الوحيد</th>
-                                        <th>تاريخ الإصدار</th>
-                                        <th>ب.ت.و</th>
-                                        <th>اللقب</th>
-                                        <th>الإسم</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                                <div className='filter-item' onClick={filterByAlphabeticHandler}>
+                                                    <h1>حسب الحروف</h1>
+                                                    <Alphabet />
+                                                </div>
+                                            </motion.div>
+                                        )
+                                    }
+                                </div>
+                                {
+                                    isSmallScreen ? (
+                                        cadresP.map((row, index) => (
+                                            <table key={index} className='shrinked-cadre-table'>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{row.teacher_first}</td>
+                                                        <td>الإسم</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.teacher_last}</td>
+                                                        <td>اللقب</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.cin}</td>
+                                                        <td>ب.ت.و</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.validation_date}</td>
+                                                        <td>تاريخ الإصدار</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.matricule}</td>
+                                                        <td>المعرف الوحيد</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.birthday.split("T")[0]}</td>
+                                                        <td>تاريخ الولادة</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.gender}</td>
+                                                        <td>الجنس</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.study_level}</td>
+                                                        <td>المستوى التعليمي</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.degree}</td>
+                                                        <td>الشهادة العلمية</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div className='action-btns'>
+                                                                <button onClick={() => deleteConfirmOpen(row)}>
+                                                                    <Delete />
+                                                                </button>
+                                                                <button onClick={() => updateCadreHandler(row)}>
+                                                                    <Pencil />
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <td>الإجراءت</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>)
+                                        )
+                                    ) :
+                                        (
+                                            <table className='cadres-list-table'>
+                                                <thead>
+                                                    <tr>
+                                                        <th>الإجراءت</th>
+                                                        <th>الشهادة العلمية</th>
+                                                        <th>المستوى التعليمي</th>
+                                                        <th>الجنس</th>
+                                                        <th>تاريخ الولادة</th>
+                                                        <th>المعرف الوحيد</th>
+                                                        <th>تاريخ الإصدار</th>
+                                                        <th>ب.ت.و</th>
+                                                        <th>اللقب</th>
+                                                        <th>الإسم</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                    {cadresP.length > 0 && cadresP.map((row, index) => (
-                                        <Fragment key={index}>
-                                            <tr key={index}>
-                                                <td>
-                                                    <div className='action-btns'>
-                                                        <button onClick={() => deleteConfirmOpen(row)}>
-                                                            <Delete />
-                                                        </button>
-                                                        <button onClick={() => updateCadreHandler(row)}>
-                                                            <Pencil />
-                                                        </button>
-                                                    </div>
-                                                </td>
+                                                    {cadresP.map((row, index) => (
+                                                        <Fragment key={index}>
+                                                            <tr key={index}>
+                                                                <td>
+                                                                    <div className='action-btns'>
+                                                                        <button onClick={() => deleteConfirmOpen(row)}>
+                                                                            <Delete />
+                                                                        </button>
+                                                                        <button onClick={() => updateCadreHandler(row)}>
+                                                                            <Pencil />
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
 
-                                                <td>{row.degree}</td>
-                                                <td>{row.study_level}</td>
-                                                <td>{row.gender}</td>
-                                                <td>{row.birthday.split("T")[0]}</td>
-                                                <td>{row.matricule}</td>
-                                                <td>{row.validation_date}</td>
-                                                <td>{row.cin}</td>
-                                                <td>{row.teacher_last}</td>
-                                                <td>{row.teacher_first}</td>
-                                            </tr>
-                                        </Fragment>
-                                    ))}
+                                                                <td>{row.degree}</td>
+                                                                <td>{row.study_level}</td>
+                                                                <td>{row.gender}</td>
+                                                                <td>{row.birthday.split("T")[0]}</td>
+                                                                <td>{row.matricule}</td>
+                                                                <td>{row.validation_date}</td>
+                                                                <td>{row.cin}</td>
+                                                                <td>{row.teacher_last}</td>
+                                                                <td>{row.teacher_first}</td>
+                                                            </tr>
+                                                        </Fragment>
+                                                    ))}
 
-                                </tbody>
-                            </table>)
+                                                </tbody>
+                                            </table>
+                                        )
+                                }
+                            </>
+                        ) : (
+                            <div className='no-data'>
+                                <h1>لا توجد معلومات إلى الأن، يمكنك إضافة الإطارات</h1>
+                            </div>
                         )
+                    )
+
                 }
+
                 <div className='pagination'>
                     <div className='p-btn left-button' onClick={handleLeftButtonClick}>
                         <Left />

@@ -208,6 +208,10 @@
 }
 
 @media(max-width:800px) {
+    .add-child-container .add-child .confirmed svg {
+        width: 8rem;
+    }
+
     .add-child-container .add-child {
         width: 60%;
     }
@@ -236,6 +240,12 @@
 
     .add-child-container .add-child .add-child-body .buttons-container button svg {
         width: 1.1rem;
+    }
+}
+
+@media (max-width:600px) {
+    .add-child-container .add-child .confirmed svg {
+        width: 6rem;
     }
 }
 

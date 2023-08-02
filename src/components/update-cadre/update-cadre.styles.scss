@@ -125,6 +125,19 @@
                     cursor: pointer;
                 }
 
+                #date::-webkit-calendar-picker-indicator {
+                    /* Replace 'icon.png' with the path to your desired icon */
+                    background-image: url('../../assets/pngs/calender.png');
+                    /* Set the desired width and height for the icon */
+                    width: 20px;
+                    height: 20px;
+                    /* Adjust the positioning of the icon if needed */
+                    position: relative;
+                    top: 2px;
+                    margin-left: 0.5rem;
+                    cursor: pointer;
+                }
+
                 label {
                     font-size: 0.9rem;
                     font-weight: 600;
@@ -209,6 +222,10 @@
 
 
 @media(max-width:800px) {
+    .update-cadre-container .update-cadre .confirmed svg {
+        width: 8rem;
+    }
+
     .update-cadre-container .update-cadre {
         width: 60%;
     }
@@ -237,6 +254,12 @@
 
     .update-cadre-container .update-cadre .update-cadre-body .buttons-container button svg {
         width: 1.1rem;
+    }
+}
+
+@media (max-width:600px) {
+    .update-cadre-container .update-cadre .confirmed svg {
+        width: 6rem;
     }
 }
 

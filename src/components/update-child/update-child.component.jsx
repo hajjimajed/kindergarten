@@ -120,7 +120,7 @@ const UpdateChild = ({ child }) => {
                     isDone ? (
                         <div className='confirmed'>
                             <Tick />
-                            <h1>لقد تم إضافة الطفل بنجاح</h1>
+                            <h1>تم تعديل المعطيات بنجاح</h1>
                         </div>
                     ) : (
                         <div className='update-child-body'>

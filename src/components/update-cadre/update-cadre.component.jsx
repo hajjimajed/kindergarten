@@ -123,7 +123,7 @@ const UpdateCadre = ({ cadre }) => {
                     isDoneCadre ? (
                         <div className='confirmed'>
                             <Tick />
-                            <h1>لقد تم إضافة الإطار بنجاح</h1>
+                            <h1>تم تعديل المعطيات بنجاح</h1>
                         </div>
                     ) : (
                         <div className='update-cadre-body'>
@@ -141,18 +141,6 @@ const UpdateCadre = ({ cadre }) => {
                                         </label>
                                         <input id='last-name' type="text" value={teacher_last} onChange={handleChangeInput(setTeacher_last)} />
                                         <label htmlFor="">
-                                            ب.ت.و
-                                        </label>
-                                        <input id='cin' type="text" value={cin} onChange={handleChangeInput(setCin)} />
-                                        <label htmlFor="">
-                                            تاريخ الإصدار
-                                        </label>
-                                        <input id='date' type="text" value={validation_date} onChange={handleChangeInput(setValidation_date)} />
-                                        <label htmlFor="">
-                                            المعرف الوحيد
-                                        </label>
-                                        <input id='matricule' type="text" value={matricule} onChange={handleChangeInput(setMatricule)} />
-                                        <label htmlFor="">
                                             تاريخ الولادة
                                         </label>
                                         <input id='birthday' type="date" value={birthday} onChange={handleChangeInput(setBirthday)} />
@@ -163,6 +151,18 @@ const UpdateCadre = ({ cadre }) => {
                                             <option value="ذكر">ذكر</option>
                                             <option value="أنثى">أنثى</option>
                                         </select>
+                                        <label htmlFor="">
+                                            ب.ت.و
+                                        </label>
+                                        <input id='cin' type="number" value={cin} onChange={handleChangeInput(setCin)} />
+                                        <label htmlFor="">
+                                            تاريخ الإصدار
+                                        </label>
+                                        <input id='date' type="date" value={validation_date} onChange={handleChangeInput(setValidation_date)} />
+                                        <label htmlFor="">
+                                            المعرف الوحيد
+                                        </label>
+                                        <input id='matricule' type="text" value={matricule} onChange={handleChangeInput(setMatricule)} />
                                         <label htmlFor="">
                                             المستوى التعليمي
                                         </label>

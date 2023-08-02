@@ -158,12 +158,6 @@ const Children = () => {
         fetchAllData();
     }, [isDone])
 
-    useEffect(() => {
-        if (dt.length > 0) {
-            setIsLoading(false);
-        }
-    }, [dt]);
-
     const handleRightButtonClick = () => {
         if (currentPage > 1) {
             setIsLoading(true);
@@ -224,6 +218,7 @@ const Children = () => {
             }
             const jsonData = await response.json();
             setDt(jsonData.items);
+            setIsLoading(false);
             console.log('fetch successul', jsonData.items);
 
         } catch (error) {
@@ -327,148 +322,159 @@ const Children = () => {
                     <SearchBox />
                     <h1>قائمة الأطفال</h1>
                 </div>
-                <div className='filter' ref={filterRef}>
-                    <button className='filterBtn' onClick={openFilterHandler}>
-                        <h1>عرض</h1>
-                        <Filter></Filter>
-                    </button>
-                    {
-                        isopenFilter && (
-                            <motion.div
-                                initial={{ translateY: 25, opacity: 0 }}
-                                animate={{ translateY: 0, opacity: 1 }}
-                                transition={{
-                                    type: "tween",
-                                    duration: 0.2
-                                }}
-                                onClick={openFilterHandler} className='filters-list'>
-                                <div className='filter-item' onClick={filterByDateHandler}>
-                                    <h1>حسب التاريخ</h1>
-                                    <Clock />
-                                </div>
-                                <div className='filter-item' onClick={filterByAlphabeticHandler}>
-                                    <h1>حسب الحروف</h1>
-                                    <Alphabet />
-                                </div>
-                            </motion.div>
-                        )
-                    }
-                </div>
                 {
-                    isSmallScreen ? (
-                        isLoading ? (<Loader />) : (
-                            dt.length > 0 && dt.map((row, index) => (
-                                <table key={index} className='shrinked-child-table'>
-                                    <tbody>
-                                        <tr>
-                                            <td>{row.first_name}</td>
-                                            <td>الإسم</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.last_name}</td>
-                                            <td>اللقب</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.parent_name}</td>
-                                            <td>إسم الولي</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.age}</td>
-                                            <td>العمر</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.gender}</td>
-                                            <td>الجنس</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{row.paid_at.split("T")[0]}</td>
-                                            <td>تاريخ التسجيل</td>
-                                        </tr>
-                                        <tr>
-                                            <td className='status'>
-                                                {
-                                                    row.isPaid ?
-                                                        (<div className='done'>
-                                                            <p>نعم</p>
-                                                        </div>) :
-                                                        (<div className='pending'>
-                                                            <p>لا</p>
-                                                        </div>)
-                                                }
-                                            </td>
-                                            <td>الخلاص</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div className='action-btns'>
-                                                    <button onClick={() => deleteConfirmOpen(row)}>
-                                                        <Delete />
-                                                    </button>
-                                                    <button onClick={() => updateChildHandler(row)}>
-                                                        <Pencil />
-                                                    </button>
+                    isLoading ? (<Loader />) : (
+                        dt.length > 0 ? (
+                            <>
+                                <div className='filter' ref={filterRef}>
+                                    <button className='filterBtn' onClick={openFilterHandler}>
+                                        <h1>عرض</h1>
+                                        <Filter></Filter>
+                                    </button>
+                                    {
+                                        isopenFilter && (
+                                            <motion.div
+                                                initial={{ translateY: 25, opacity: 0 }}
+                                                animate={{ translateY: 0, opacity: 1 }}
+                                                transition={{
+                                                    type: "tween",
+                                                    duration: 0.2
+                                                }}
+                                                onClick={openFilterHandler} className='filters-list'>
+                                                <div className='filter-item' onClick={filterByDateHandler}>
+                                                    <h1>حسب التاريخ</h1>
+                                                    <Clock />
                                                 </div>
-                                            </td>
-                                            <td>الإجراءت</td>
-                                        </tr>
-                                    </tbody>
-                                </table>)
-                            ))
-                    ) :
-                        (isLoading ? (<Loader />) :
-                            (<table className='children-list-table'>
-                                <thead>
-                                    <tr>
-                                        <th>الإجراءت</th>
-                                        <th>الخلاص</th>
-                                        <th>تاريخ التسجيل</th>
-                                        <th>الجنس</th>
-                                        <th>العمر</th>
-                                        <th>إسم الولي</th>
-                                        <th>اللقب</th>
-                                        <th>الإسم</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                                <div className='filter-item' onClick={filterByAlphabeticHandler}>
+                                                    <h1>حسب الحروف</h1>
+                                                    <Alphabet />
+                                                </div>
+                                            </motion.div>
+                                        )
+                                    }
+                                </div>
+                                {
+                                    isSmallScreen ? (
+                                        dt.map((row, index) => (
+                                            <table key={index} className='shrinked-child-table'>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{row.first_name}</td>
+                                                        <td>الإسم</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.last_name}</td>
+                                                        <td>اللقب</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.parent_name}</td>
+                                                        <td>إسم الولي</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.age}</td>
+                                                        <td>العمر</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.gender}</td>
+                                                        <td>الجنس</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.paid_at.split("T")[0]}</td>
+                                                        <td>تاريخ التسجيل</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className='status'>
+                                                            {
+                                                                row.isPaid ?
+                                                                    (<div className='done'>
+                                                                        <p>نعم</p>
+                                                                    </div>) :
+                                                                    (<div className='pending'>
+                                                                        <p>لا</p>
+                                                                    </div>)
+                                                            }
+                                                        </td>
+                                                        <td>الخلاص</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div className='action-btns'>
+                                                                <button onClick={() => deleteConfirmOpen(row)}>
+                                                                    <Delete />
+                                                                </button>
+                                                                <button onClick={() => updateChildHandler(row)}>
+                                                                    <Pencil />
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <td>الإجراءت</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>)
+                                        )
+                                    ) :
+                                        (<table className='children-list-table'>
+                                            <thead>
+                                                <tr>
+                                                    <th>الإجراءت</th>
+                                                    <th>الخلاص</th>
+                                                    <th>تاريخ التسجيل</th>
+                                                    <th>الجنس</th>
+                                                    <th>العمر</th>
+                                                    <th>إسم الولي</th>
+                                                    <th>اللقب</th>
+                                                    <th>الإسم</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                                    {dt.length > 0 && dt.map((row, index) => (
-                                        <Fragment key={index}>
-                                            <tr key={index}>
-                                                <td>
-                                                    <div className='action-btns'>
-                                                        <button onClick={() => deleteConfirmOpen(row)}>
-                                                            <Delete />
-                                                        </button>
-                                                        <button onClick={() => updateChildHandler(row)}>
-                                                            <Pencil />
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                                <td className='status'>
-                                                    {
-                                                        row.isPaid ?
-                                                            (<div className='done'>
-                                                                <p>نعم</p>
-                                                            </div>) :
-                                                            (<div className='pending'>
-                                                                <p>لا</p>
-                                                            </div>)
-                                                    }
-                                                </td>
-                                                <td>{row.paid_at.split("T")[0]}</td>
-                                                <td>{row.gender}</td>
-                                                <td>{row.age}</td>
-                                                <td>{row.parent_name}</td>
-                                                <td>{row.last_name}</td>
-                                                <td>{row.first_name}</td>
-                                            </tr>
-                                        </Fragment>
-                                    ))}
+                                                {dt.map((row, index) => (
+                                                    <Fragment key={index}>
+                                                        <tr key={index}>
+                                                            <td>
+                                                                <div className='action-btns'>
+                                                                    <button onClick={() => deleteConfirmOpen(row)}>
+                                                                        <Delete />
+                                                                    </button>
+                                                                    <button onClick={() => updateChildHandler(row)}>
+                                                                        <Pencil />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                            <td className='status'>
+                                                                {
+                                                                    row.isPaid ?
+                                                                        (<div className='done'>
+                                                                            <p>نعم</p>
+                                                                        </div>) :
+                                                                        (<div className='pending'>
+                                                                            <p>لا</p>
+                                                                        </div>)
+                                                                }
+                                                            </td>
+                                                            <td>{row.paid_at.split("T")[0]}</td>
+                                                            <td>{row.gender}</td>
+                                                            <td>{row.age}</td>
+                                                            <td>{row.parent_name}</td>
+                                                            <td>{row.last_name}</td>
+                                                            <td>{row.first_name}</td>
+                                                        </tr>
+                                                    </Fragment>
+                                                ))}
 
-                                </tbody>
-                            </table>)
+                                            </tbody>
+                                        </table>
+                                        )
+                                }
+                            </>
+                        ) : (
+                            <div className='no-data'>
+                                <h1>لا توجد معلومات إلى الأن، يمكنك إضافة الإطارات</h1>
+                            </div>
                         )
+                    )
                 }
+
                 <div className='pagination'>
                     <div className='p-btn left-button' onClick={handleLeftButtonClick}>
                         <Left />
