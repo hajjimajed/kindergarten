@@ -19,6 +19,27 @@
 
     }
 
+    .confirmed {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            width: 10rem;
+            height: auto;
+
+            path {
+                fill: $done;
+            }
+        }
+
+        h1 {
+            font-size: 1rem;
+        }
+    }
+
     .update-activity {
         width: 40%;
         background-color: #fff;
@@ -91,7 +112,7 @@
                     }
                 }
 
-                #birthday::-webkit-calendar-picker-indicator {
+                #createtion-date::-webkit-calendar-picker-indicator {
                     /* Replace 'icon.png' with the path to your desired icon */
                     background-image: url('../../assets/pngs/calender.png');
                     /* Set the desired width and height for the icon */
@@ -188,6 +209,10 @@
 
 
 @media(max-width:800px) {
+    .update-activity-container .update-activity .confirmed svg {
+        width: 8rem;
+    }
+
     .update-activity-container .update-activity {
         width: 60%;
     }
@@ -216,6 +241,12 @@
 
     .update-activity-container .update-activity .update-activity-body .buttons-container button svg {
         width: 1.1rem;
+    }
+}
+
+@media (max-width:600px) {
+    .update-activity-container .update-activity .confirmed svg {
+        width: 6rem;
     }
 }
 

@@ -21,18 +21,6 @@ import UpdateCadre from '../../components/update-cadre/update-cadre.component';
 import DeleteConfirmCadre from '../../components/delete-confirm-cadre/delete-confirm-cadre.component';
 import Loader from '../../components/loader/loader.component';
 
-const data = [
-    {
-        teacher_first: 'John', teacher_last: 'Doe', cin: '123456789', validation_date: '2023-07-15', matricule: 'T001', birthday: '1980-01-01', gender: 'Male', study_level: 'Bachelor', degree: 'Computer Science'
-    },
-    {
-        teacher_first: 'Jane', teacher_last: 'Smith', cin: '987654321', validation_date: '2023-07-12', matricule: 'T002', birthday: '1985-05-10', gender: 'Female', study_level: 'Master', degree: 'Mathematics'
-    },
-    {
-        teacher_first: 'Robert', teacher_last: 'Johnson', cin: '456123789', validation_date: '2023-07-18', matricule: 'T003', birthday: '1975-11-20', gender: 'Male', study_level: 'PhD', degree: 'Physics'
-    }
-]
-
 
 
 const Cadres = () => {
@@ -59,7 +47,6 @@ const Cadres = () => {
 
     const [isopenFilter, setIsOpenFilter] = useState(false);
     const filterRef = useRef(null);
-    const [filteredData, setFilteredData] = useState(data);
 
     const openFilterHandler = () => {
         setIsOpenFilter(!isopenFilter);
@@ -262,6 +249,7 @@ const Cadres = () => {
             }
             const jsonData = await response.json();
             setCadresP(jsonData.items);
+            setPages(jsonData.totalPages);
             setIsLoading(false);
             console.log('fetch successul', jsonData.items);
 
@@ -286,7 +274,6 @@ const Cadres = () => {
             }
             const jsonData = await response.json();
             setAllCadres(jsonData);
-            setPages(Math.ceil(jsonData.length / 10));
             console.log('fetch successul', jsonData);
         } catch (error) {
             console.error('Error fetching data:', error);

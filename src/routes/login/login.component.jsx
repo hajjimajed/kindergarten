@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/auth.context';
 
 import { ReactComponent as LoginIcon } from '../../assets/icons/login.svg';
-import mainLogo from '../../assets/icons/app-logo.png';
+import { ReactComponent as MainLogo } from '../../assets/icons/logo.svg';
 
 
 const Login = () => {
@@ -68,10 +68,14 @@ const Login = () => {
             <div className='login-section'>
                 <div className='left-login-section'>
                     <div className='infos'>
-
+                        <MainLogo />
+                        <h1>حقيبة المنشط لرياض الاطفال</h1>
+                        <h1>Pack Animateur Jardin d'Enfant</h1>
                     </div>
-                    <div className='line1'></div>
-                    <div className='line2'></div>
+                    <div>
+                        <h2>إبدأ معنا الأن</h2>
+                        <h2>الطريقة الأمثل لإدارة عملك</h2>
+                    </div>
                 </div>
                 <div className='right-login-section'>
                     <div className='login-infos'>

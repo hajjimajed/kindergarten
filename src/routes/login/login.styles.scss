@@ -10,28 +10,6 @@
     background-image: url('../../assets/bgs/vivid.jpg');
     background-size: cover;
 
-    // .top-menu-section {
-    //     .main-link {
-    //         display: flex;
-    //         justify-content: flex-end;
-    //         align-items: center;
-    //         width: 80%;
-    //         height: 4rem;
-    //         margin: 3rem 0;
-
-    //         .main-logo {
-    //             height: 100%;
-    //             width: auto;
-    //         }
-
-    //         h1 {
-    //             font-size: 1.5rem;
-    //             font-weight: 600;
-    //             font-family: 'Dosis', sans-serif;
-    //         }
-    //     }
-    // }
-
     .login-section {
         width: 70%;
         height: 80%;
@@ -43,29 +21,30 @@
         .left-login-section {
             width: 50%;
             height: 100%;
-            background-color: #ffffff47;
+            background-color: #ffffff55;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
             position: relative;
 
-            .line1 {
-                width: 0.5px;
-                height: 5rem;
+            .infos {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 1.5rem;
+                border-radius: 1rem;
                 background-color: #fff;
-                position: absolute;
-                top: 2rem;
-                left: 2rem;
+
+                h1 {
+                    font-size: 1rem;
+                }
+
+                svg {
+                    width: 12rem;
+                    height: auto;
+                }
             }
 
-            .line2 {
-                width: 5rem;
-                height: 0.5px;
-                background-color: #fff;
-                position: absolute;
-                top: 2rem;
-                right: 2rem;
-            }
 
         }
 

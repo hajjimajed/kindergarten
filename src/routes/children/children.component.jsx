@@ -218,6 +218,7 @@ const Children = () => {
             }
             const jsonData = await response.json();
             setDt(jsonData.items);
+            setPages(jsonData.totalPages)
             setIsLoading(false);
             console.log('fetch successul', jsonData.items);
 
@@ -242,7 +243,6 @@ const Children = () => {
             }
             const jsonData = await response.json();
             setAllKids(jsonData);
-            setPages(Math.ceil(jsonData.length / 10));
             console.log('fetch successul', jsonData);
         } catch (error) {
             console.error('Error fetching data:', error);

@@ -176,6 +176,76 @@
             }
         }
 
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+
+            .p-btn {
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 1.5rem;
+                margin: 0 0.5rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                background-color: #fff;
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                transition: 0.2s ease-in-out all;
+
+                svg {
+                    width: 1.8rem;
+                    height: auto;
+
+                    path {
+                        fill: $primary-color;
+                    }
+                }
+
+                &:hover {
+                    background-color: $line-soft;
+                }
+            }
+
+            .p-page {
+                width: 2.2rem;
+                height: 2.2rem;
+                border-radius: 1.5rem;
+                margin: 0 0.5rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                background-color: #fff;
+                border: 1px $primary-color solid;
+                transition: 0.2s ease-in-out all;
+
+                h2 {
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    color: $primary-color;
+                }
+
+                &.active {
+                    background-color: $primary-color;
+
+                    h2 {
+                        color: #fff;
+                    }
+                }
+
+                &:hover {
+                    background-color: $primary-color;
+
+                    h2 {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+
         .activities-list-header {
             width: 100%;
             display: flex;
