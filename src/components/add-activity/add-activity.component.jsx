@@ -72,6 +72,7 @@ const AddActivity = () => {
 
         try {
             const token = localStorage.getItem('accessToken');
+            const userData = JSON.parse(localStorage.getItem('userData'));
             const response = await fetch('https://paje.onrender.com/api/dailytasks/createtask', {
                 method: 'POST',
                 headers: {
@@ -88,7 +89,7 @@ const AddActivity = () => {
                     "tools": tools,
                     "paper_number": paper_number,
                     "notes": notes,
-                    "user_id": "1"
+                    "user_id": userData.userId
                 }),
             });
 

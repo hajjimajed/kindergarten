@@ -15,7 +15,6 @@ import { ReactComponent as Setting } from '../../assets/icons/setting.svg'
 import { ReactComponent as DownA } from '../../assets/icons/down-arrow.svg'
 import { ReactComponent as Notification } from '../../assets/icons/notification.svg'
 import { ReactComponent as MainLogo } from '../../assets/icons/logo.svg'
-import mainLogo from '../../assets/icons/app-logo.png';
 import avatar from '../../assets/avatars/7294743.png';
 
 import NotificationItem from '../../components/notification-item/notification-item.component';

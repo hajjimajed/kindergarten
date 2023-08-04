@@ -1,12 +1,13 @@
 import './login.styles.scss'
 import { useState, useEffect, useContext } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../../contexts/auth.context';
 
 import { ReactComponent as LoginIcon } from '../../assets/icons/login.svg';
 import { ReactComponent as MainLogo } from '../../assets/icons/logo.svg';
-
+import { ReactComponent as Info } from '../../assets/icons/info.svg';
 
 const Login = () => {
 
@@ -15,9 +16,12 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [validation, setValidation] = useState(true);
+
     const handleChangeInput = (fn) => {
         return (event) => {
             fn(event.target.value);
+            setValidation(true);
         };
     };
 
@@ -47,9 +51,11 @@ const Login = () => {
             localStorage.setItem('accessToken', data.data.accessToken);
             localStorage.setItem('refreshToken', data.data.refreshToken);
             setIsAuth(true);
-            return data; // This will contain the response data from the server
+            setValidation(true)
+            return data;
         } catch (error) {
             console.error('Error occurred:', error);
+            setValidation(false);
             return null;
         }
     };
@@ -59,29 +65,44 @@ const Login = () => {
 
     return (
         <div className='login-container'>
-            {/* <div className='top-menu-section'>
-                <div className='main-link'>
-                    <h1>horizon</h1>
-                    <img className='main-logo' src={mainLogo} alt="" />
-                </div>
-            </div> */}
             <div className='login-section'>
                 <div className='left-login-section'>
                     <div className='infos'>
-                        <MainLogo />
-                        <h1>حقيبة المنشط لرياض الاطفال</h1>
-                        <h1>Pack Animateur Jardin d'Enfant</h1>
-                    </div>
-                    <div>
-                        <h2>إبدأ معنا الأن</h2>
-                        <h2>الطريقة الأمثل لإدارة عملك</h2>
+                        <div className='logo'>
+                            <MainLogo />
+                            <h1>حقيبة المنشط لرياض الاطفال</h1>
+                            <h1>Pack Animateur Jardin d'Enfant</h1>
+                        </div>
+                        <div className='text'>
+                            <h1>سجل الأن</h1>
+                            <h2>ابدأ في إدارة وتخزين بياناتك بشكل أسرع وأفضل </h2>
+                        </div>
+
                     </div>
                 </div>
                 <div className='right-login-section'>
+                    <div className='main-logo'>
+                        <MainLogo />
+                    </div>
                     <div className='login-infos'>
                         <h1>مرحباً بك </h1>
                         <p>أدخل تفاصيل تسجيل الدخول الخاصة بك</p>
                     </div>
+                    {
+                        validation === false && (
+                            <motion.div
+                                initial={{ translateY: 10, opacity: 0 }}
+                                animate={{ translateY: 0, opacity: 1 }}
+                                transition={{
+                                    type: "tween",
+                                    duration: 0.2
+                                }}
+                                className='error-msg'>
+                                <h1>البريد الإلكتروني أو كلمة المرور خاطئة</h1>
+                                <Info />
+                            </motion.div>
+                        )
+                    }
                     <form action="" className='login-form'>
                         <label htmlFor="">
                             <span>*</span> عنوان البريد الإلكتروني
