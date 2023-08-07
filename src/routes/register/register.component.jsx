@@ -1,20 +1,21 @@
-import './login.styles.scss'
+import './register.styles.scss';
 import { useState, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-import { AuthContext } from '../../contexts/auth.context';
-
-import { ReactComponent as LoginIcon } from '../../assets/icons/login.svg';
+import { ReactComponent as RegisterIcon } from '../../assets/icons/register.svg';
 import { ReactComponent as MainLogo } from '../../assets/icons/logo.svg';
 import { ReactComponent as Info } from '../../assets/icons/info.svg';
 
-const Login = () => {
-
-    const { isAuth, setIsAuth } = useContext(AuthContext);
+const Register = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
 
     const [validation, setValidation] = useState(true);
 
@@ -25,10 +26,10 @@ const Login = () => {
         };
     };
 
-    const loginHandler = async (event) => {
+    const registerHandler = async (event) => {
         event.preventDefault(); // Prevent the default form submission behavior
 
-        const url = 'https://paje.onrender.com/api/Account/Login';
+        const url = 'https://paje.onrender.com/api/Account/Register';
 
         try {
             const response = await fetch(url, {
@@ -39,6 +40,11 @@ const Login = () => {
                 body: JSON.stringify({
                     email: email,
                     password: password,
+                    confirmPassword: confirmPassword,
+                    firstName: firstName,
+                    lastName: lastName,
+                    phone: phone,
+                    address: address
                 }),
             });
 
@@ -47,10 +53,9 @@ const Login = () => {
             }
 
             const data = await response.json();
-            console.log('logged succesfully');
+            console.log('registered succesfully');
             localStorage.setItem('accessToken', data.data.accessToken);
             localStorage.setItem('refreshToken', data.data.refreshToken);
-            setIsAuth(true);
             setValidation(true)
             return data;
         } catch (error) {
@@ -64,8 +69,8 @@ const Login = () => {
 
 
     return (
-        <div className='login-container'>
-            <div className='login-section'>
+        <div className='register-container'>
+            <div className='register-section'>
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -73,7 +78,7 @@ const Login = () => {
                         type: "tween",
                         duration: 0.4,
                     }}
-                    className='left-login-section'>
+                    className='left-register-section'>
                     <div className='infos'>
                         <motion.div
                             initial={{ translateY: 20, opacity: 0 }}
@@ -97,13 +102,13 @@ const Login = () => {
                                 delay: 0.5
                             }}
                             className='text'>
-                            <h1>سجل الأن</h1>
+                            <h1>إشترك الأن</h1>
                             <h2>ابدأ في إدارة وتخزين بياناتك بشكل أسرع وأفضل </h2>
                         </motion.div>
 
                     </div>
                 </motion.div>
-                <div className='right-login-section'>
+                <div className='right-register-section'>
                     <motion.div
                         initial={{ translateY: -20, opacity: 0 }}
                         animate={{ translateY: 0, opacity: 1 }}
@@ -122,9 +127,8 @@ const Login = () => {
                             duration: 0.4,
                             delay: 0.3
                         }}
-                        className='login-infos'>
+                        className='register-infos'>
                         <h1>مرحباً بك </h1>
-                        <p>أدخل تفاصيل تسجيل الدخول الخاصة بك</p>
                     </motion.div>
                     {
                         validation === false && (
@@ -149,29 +153,56 @@ const Login = () => {
                             duration: 0.4,
                             delay: 0.5
                         }}
-                        action="" className='login-form'>
+                        action="" className='register-form'>
                         <label htmlFor="">
                             <span>*</span> عنوان البريد الإلكتروني
                         </label>
                         <input id='email' placeholder='البريد الإلكتروني' type="email" value={email} onChange={handleChangeInput(setEmail)} />
-                        <label htmlFor="">
-                            <span>*</span> كلمة المرور
-                        </label>
-                        <input id='password' placeholder='كلمة المرور' type="password" value={password} onChange={handleChangeInput(setPassword)} />
-                        <div className='signup-section'>
-                            <Link to='/reset-password'>
-                                <h1>هل نسيت كلمة المرور؟</h1>
-                            </Link>
+                        <div className='double-section'>
+                            <div className='double-div'>
+                                <label htmlFor="">
+                                    <span>*</span> كلمة المرور
+                                </label>
+                                <input id='password' placeholder='كلمة المرور' type="password" value={password} onChange={handleChangeInput(setPassword)} />
+                            </div>
+                            <div className='double-div'>
+                                <label htmlFor="">
+                                    <span>*</span> تأكيد كلمة المرور
+                                </label>
+                                <input id='confirmPassword' placeholder='تأكيد كلمة المرور' type="password" value={confirmPassword} onChange={handleChangeInput(setConfirmPassword)} />
+                            </div>
                         </div>
-                        <button onClick={loginHandler}>
-                            <h1>تسجيل الدخول</h1>
-                            <LoginIcon />
+                        <div className='double-section'>
+                            <div className='double-div'>
+                                <label htmlFor="">
+                                    <span>*</span> الإسم
+                                </label>
+                                <input id='firstName' placeholder='الإسم' type="text" value={firstName} onChange={handleChangeInput(setFirstName)} />
+                            </div>
+                            <div className='double-div'>
+                                <label htmlFor="">
+                                    <span>*</span> اللقب
+                                </label>
+                                <input id='lastName' placeholder='اللقب' type="text" value={lastName} onChange={handleChangeInput(setLastName)} />
+                            </div>
+                        </div>
+                        <label htmlFor="">
+                            <span>*</span> رقم الهاتف
+                        </label>
+                        <input id='phone' placeholder='رقم الهاتف' type="text" value={phone} onChange={handleChangeInput(setPhone)} />
+                        <label htmlFor="">
+                            <span>*</span> العنوان
+                        </label>
+                        <input id='address' placeholder='العنوان' type="text" value={address} onChange={handleChangeInput(setAddress)} />
+                        <button onClick={registerHandler}>
+                            <h1>إشترك</h1>
+                            <RegisterIcon />
                         </button>
-                        <div className='signup-section'>
-                            <Link to='/register'>
-                                <h1>إشترك الأن</h1>
+                        <div className='signin-section'>
+                            <Link to='/login'>
+                                <h1>سجل الدخول</h1>
                             </Link>
-                            <h1>ليس لديك حساب؟</h1>
+                            <h1>لديك حساب؟</h1>
                         </div>
                     </motion.form>
                 </div>
@@ -181,4 +212,4 @@ const Login = () => {
 
 }
 
-export default Login;
+export default Register;
