@@ -97,7 +97,7 @@ const Login = () => {
                                 delay: 0.5
                             }}
                             className='text'>
-                            <h1>سجل الأن</h1>
+                            <h1>مرحباً بك</h1>
                             <h2>ابدأ في إدارة وتخزين بياناتك بشكل أسرع وأفضل </h2>
                         </motion.div>
 
@@ -123,7 +123,7 @@ const Login = () => {
                             delay: 0.3
                         }}
                         className='login-infos'>
-                        <h1>مرحباً بك </h1>
+                        <h1>سجل الأن</h1>
                         <p>أدخل تفاصيل تسجيل الدخول الخاصة بك</p>
                     </motion.div>
                     {

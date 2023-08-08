@@ -10,6 +10,7 @@ import Activities from './routes/activities/activities.component';
 import Projects from './routes/projects/projects.component';
 import Login from './routes/login/login.component';
 import Register from './routes/register/register.component';
+import ResetPassword from './routes/reset-password/reset-password.component';
 
 import SplashScreen from './components/splash-screen/splash-screen.component';
 
@@ -18,11 +19,11 @@ import { AuthContext } from './contexts/auth.context';
 function AuthWrapper({ children }) {
   const { isAuth, setIsAuth } = useContext(AuthContext);
 
-  if (isAuth && (window.location.pathname === '/login' || window.location.pathname === '/register')) {
+  if (isAuth && (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/reset-password')) {
     return <Navigate to="/" replace={true} />;
   }
 
-  if (!isAuth && window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+  if (!isAuth && window.location.pathname !== '/login' && window.location.pathname !== '/register' && window.location.pathname !== '/reset-password') {
     return <Navigate to="/login" replace={true} />;
   }
 
@@ -51,6 +52,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<AuthWrapper><Login /></AuthWrapper>} />
           <Route path="/register" element={<AuthWrapper><Register /></AuthWrapper>} />
+          <Route path="/reset-password" element={<AuthWrapper><ResetPassword /></AuthWrapper>} />
           <Route path="/" element={<Navigation />}>
             <Route index element={<AuthWrapper><Dashboard /></AuthWrapper>} />
             <Route path="/children" element={<AuthWrapper><Children /></AuthWrapper>} />

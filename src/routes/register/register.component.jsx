@@ -102,7 +102,7 @@ const Register = () => {
                                 delay: 0.5
                             }}
                             className='text'>
-                            <h1>إشترك الأن</h1>
+                            <h1>مرحباً بك </h1>
                             <h2>ابدأ في إدارة وتخزين بياناتك بشكل أسرع وأفضل </h2>
                         </motion.div>
 
@@ -128,23 +128,8 @@ const Register = () => {
                             delay: 0.3
                         }}
                         className='register-infos'>
-                        <h1>مرحباً بك </h1>
+                        <h1>إشترك الأن</h1>
                     </motion.div>
-                    {
-                        validation === false && (
-                            <motion.div
-                                initial={{ translateY: 10, opacity: 0 }}
-                                animate={{ translateY: 0, opacity: 1 }}
-                                transition={{
-                                    type: "tween",
-                                    duration: 0.2
-                                }}
-                                className='error-msg'>
-                                <h1>البريد الإلكتروني أو كلمة المرور خاطئة</h1>
-                                <Info />
-                            </motion.div>
-                        )
-                    }
                     <motion.form
                         initial={{ translateY: 20, opacity: 0 }}
                         animate={{ translateY: 0, opacity: 1 }}
@@ -200,7 +185,7 @@ const Register = () => {
                         </button>
                         <div className='signin-section'>
                             <Link to='/login'>
-                                <h1>سجل الدخول</h1>
+                                <h1>تسجيل الدخول</h1>
                             </Link>
                             <h1>لديك حساب؟</h1>
                         </div>
