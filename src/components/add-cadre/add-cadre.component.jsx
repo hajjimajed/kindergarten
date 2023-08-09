@@ -67,8 +67,8 @@ const AddCadre = () => {
     };
 
     const addCadre = async () => {
+        setIsLoading(true);
         await fetchToken();
-
         try {
             const token = localStorage.getItem('accessToken');
             const response = await fetch('https://paje.onrender.com/api/teacher/createteacher', {

@@ -67,8 +67,8 @@ const UpdateChild = ({ child }) => {
     };
 
     const updateChild = async () => {
+        setIsLoading(true);
         await fetchToken();
-
         try {
             const token = localStorage.getItem('accessToken');
             const response = await fetch(`https://paje.onrender.com/api/kids/updatekid?id=${child.kid_id}`, {

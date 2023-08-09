@@ -65,8 +65,8 @@ const AddChild = () => {
     };
 
     const addChild = async () => {
+        setIsLoading(true);
         await fetchToken();
-
         try {
             const token = localStorage.getItem('accessToken');
             const response = await fetch('https://paje.onrender.com/api/kids/createkid', {

@@ -78,8 +78,8 @@ const UpdateProject = ({ project }) => {
 
 
     const updateProject = async () => {
+        setIsLoading(true);
         await fetchToken();
-
         try {
             const token = localStorage.getItem('accessToken');
             const userData = JSON.parse(localStorage.getItem('userData'));

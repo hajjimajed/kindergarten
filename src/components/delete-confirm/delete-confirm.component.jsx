@@ -51,8 +51,8 @@ const DeleteConfirm = ({ child }) => {
     };
 
     const deleteChild = async () => {
-        await fetchToken();
         setIsLoading(true);
+        await fetchToken();
         try {
             const token = localStorage.getItem('accessToken');
             const response = await fetch(`https://paje.onrender.com/api/kids/deletekid?id=${child.kid_id}`, {
