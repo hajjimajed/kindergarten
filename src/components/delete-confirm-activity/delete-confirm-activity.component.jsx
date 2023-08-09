@@ -1,7 +1,5 @@
 import './delete-confirm-activity.styles.scss'
-
 import { useContext, useState } from 'react';
-
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
 
@@ -119,7 +117,8 @@ const DeleteConfirmActivity = ({ activity }) => {
                     )
                 }
             </div>
-        </div>)
+        </div>
+    )
 
 }
 

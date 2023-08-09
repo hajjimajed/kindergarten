@@ -29,6 +29,27 @@
         flex-direction: column;
         overflow-y: auto;
 
+        .confirmed {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                width: 10rem;
+                height: auto;
+
+                path {
+                    fill: $done;
+                }
+            }
+
+            h1 {
+                font-size: 1rem;
+            }
+        }
+
         .add-project-header {
             width: 100%;
             display: flex;
@@ -81,16 +102,15 @@
 
                 .input-div {
                     display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    width: 94%;
-                    padding-right: 1rem;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    width: 90%;
                     margin-bottom: 1rem;
                 }
 
                 input,
                 select {
-                    width: 60% !important;
+                    width: 85% !important;
                     all: unset;
                     border: 1px solid $border-gray;
                     padding: 0.2rem 0.6rem;
@@ -107,7 +127,7 @@
                     }
                 }
 
-                #birthday::-webkit-calendar-picker-indicator {
+                #date::-webkit-calendar-picker-indicator {
                     /* Replace 'icon.png' with the path to your desired icon */
                     background-image: url('../../assets/pngs/calender.png');
                     /* Set the desired width and height for the icon */
@@ -125,6 +145,7 @@
                     font-weight: 600;
                     color: $link-soft;
                     margin-left: 1rem;
+                    margin-bottom: 0.3rem;
                 }
             }
 
@@ -210,6 +231,10 @@
 }
 
 @media(max-width:800px) {
+    .add-project-container .add-project .confirmed svg {
+        width: 8rem;
+    }
+
     .add-project-container .add-project {
         width: 60%;
     }
@@ -238,6 +263,12 @@
 
     .add-project-container .add-project .add-project-body .buttons-container button svg {
         width: 1.1rem;
+    }
+}
+
+@media (max-width:600px) {
+    .add-project-container .add-project .confirmed svg {
+        width: 6rem;
     }
 }
 

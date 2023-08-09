@@ -1,6 +1,8 @@
 import './projects.styles.scss'
 import { useState, useContext, useEffect, useRef, Fragment } from 'react';
+import { motion } from 'framer-motion';
 import { TogglesContext } from '../../contexts/toggles.context';
+import { IsDoneContext } from '../../contexts/isDone.context';
 
 import { ReactComponent as Pencil } from '../../assets/icons/pencil.svg';
 import { ReactComponent as Delete } from '../../assets/icons/delete.svg';
@@ -9,11 +11,14 @@ import { ReactComponent as Paper } from '../../assets/icons/paper.svg';
 import { ReactComponent as AddUser } from '../../assets/icons/add-user.svg';
 import { ReactComponent as Clock } from '../../assets/icons/clock.svg';
 import { ReactComponent as Alphabet } from '../../assets/icons/alphabet.svg';
+import { ReactComponent as Left } from '../../assets/icons/left.svg';
+import { ReactComponent as Right } from '../../assets/icons/right.svg';
 
 import SearchBox from '../../components/search-box/search-box.component';
 import DeleteConfirmProject from '../../components/delete-confirm-project/delete-confirm-project.component';
 import AddProject from '../../components/add-project/add-project.component';
 import UpdateProject from '../../components/update-project/update-project.component';
+import Loader from '../../components/loader/loader.component';
 
 
 const data = [
@@ -31,6 +36,7 @@ const data = [
 const Projects = () => {
 
     const { isAddProject, setIsAddProject, isUpdateProject, setIsUpdateProject, dConfirmationProject, setDConfirmationProject } = useContext(TogglesContext);
+    const { isDoneProject } = useContext(IsDoneContext);
 
     const addProjectHandler = () => {
         setIsAddProject(!isAddProject);
@@ -50,7 +56,6 @@ const Projects = () => {
 
     const [isopenFilter, setIsOpenFilter] = useState(false);
     const filterRef = useRef(null);
-    const [filteredData, setFilteredData] = useState(data);
 
     const openFilterHandler = () => {
         setIsOpenFilter(!isopenFilter);
@@ -238,7 +243,7 @@ const Projects = () => {
         printWindow.document.write('<th>مبررات المشروع</th>'); // Right column with the header
         printWindow.document.write('</tr>');
         printWindow.document.write('<tr>');
-        printWindow.document.write(`<td>${pro.knowledge_reasons}</td>`); // Left column with the data
+        printWindow.document.write(`<td>${pro.knowladge_reasons}</td>`); // Left column with the data
         printWindow.document.write('<th>الأهداف المعرفية</th>'); // Right column with the header
         printWindow.document.write('</tr>');
         printWindow.document.write('<tr>');
@@ -250,12 +255,16 @@ const Projects = () => {
         printWindow.document.write('<th>الأهداف الإجتماعية الإنفعالبة و الأخلاقية</th>'); // Right column with the header
         printWindow.document.write('</tr>');
         printWindow.document.write('<tr>');
-        printWindow.document.write(`<td>${pro.artistic_reason}</td>`); // Left column with the data
+        printWindow.document.write(`<td>${pro.artistic_reasons}</td>`); // Left column with the data
         printWindow.document.write('<th>الأهداف الفنية و الإبداعية</th>'); // Right column with the header
         printWindow.document.write('</tr>');
         printWindow.document.write('<tr>');
         printWindow.document.write(`<td>${pro.duration}</td>`); // Left column with the data
         printWindow.document.write('<th>مدة الإنجاز</th>'); // Right column with the header
+        printWindow.document.write('</tr>');
+        printWindow.document.write('<tr>');
+        printWindow.document.write(`<td>${pro.creation_date}</td>`); // Left column with the data
+        printWindow.document.write('<th>تاريخ الإنجاز</th>'); // Right column with the header
         printWindow.document.write('</tr>');
         printWindow.document.write('<tr>');
         printWindow.document.write(`<td>${pro.people}</td>`); // Left column with the data
@@ -287,13 +296,13 @@ const Projects = () => {
     };
 
     const filterByDateHandler = () => {
-        const sortedData = data.sort((a, b) => new Date(a.creation_date) - new Date(b.creation_date));
-        setFilteredData([...sortedData]);
+        const sortedData = projectsP.sort((a, b) => new Date(a.creation_date) - new Date(b.creation_date));
+        setProjectsP([...sortedData]);
     };
 
     const filterByAlphabeticHandler = () => {
-        const sortedData = data.sort((a, b) => a.title.localeCompare(b.title));
-        setFilteredData([...sortedData]);
+        const sortedData = projectsP.sort((a, b) => a.title.localeCompare(b.title));
+        setProjectsP([...sortedData]);
     };
 
     const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -314,21 +323,94 @@ const Projects = () => {
         };
     }, []);
 
-    const [searchQuery, setSearchQuery] = useState('');
-    const handleSearchChange = (value) => {
-        setSearchQuery(value);
-    };
+
+    const [projectsP, setProjectsP] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(true);
+    const [pages, setPages] = useState(0);
 
     useEffect(() => {
-        const filteredData = data.filter((project) =>
-            project.title.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-        setFilteredData(filteredData);
-    }, [data, searchQuery]);
+        fetchProjectsP(currentPage);
+    }, [currentPage, isDoneProject]);
+
+
+    const handleRightButtonClick = () => {
+        if (currentPage > 1) {
+            setIsLoading(true);
+            setCurrentPage((prevPage) => prevPage - 1);
+        }
+    };
+
+    const handleLeftButtonClick = () => {
+        setIsLoading(true);
+        setCurrentPage((prevPage) => prevPage + 1);
+    };
+
+    const fetchToken = async () => {
+        try {
+            const refreshToken = localStorage.getItem('refreshToken');
+            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    RefreshToken: refreshToken,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const res = await response.json();
+
+            localStorage.setItem('accessToken', res.data.accessToken);
+            localStorage.setItem('refreshToken', res.data.refreshToken);
+
+            console.log('Token refreshed successfully from cadres', res.data.refreshToken);
+
+        } catch (error) {
+            console.error('Error fetching token:', error);
+        }
+    };
+
+    const fetchProjectsP = async (p) => {
+
+        try {
+            await fetchToken();
+            const token = localStorage.getItem('accessToken');
+            const headers = {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            };
+
+            const response = await fetch(`https://paje.onrender.com/api/singleProjects/getPaginatedprojects?pageNumber=${p}`, { headers });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const jsonData = await response.json();
+            setProjectsP(jsonData.items);
+            setPages(jsonData.totalPages)
+            setIsLoading(false);
+            console.log('fetch successul', jsonData.items);
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
 
     return (
         <div className='projects-container'>
-            <div className='top-container'>
+            <motion.div
+                initial={{ translateY: 50, opacity: 0 }}
+                animate={{ translateY: 0, opacity: 1 }}
+                transition={{
+                    type: "tween",
+                    duration: 0.4
+                }}
+                className='top-container'>
                 <div className='top-container-header'>
                     <h1>قاعدة بيانات المشاريع التربوية</h1>
                 </div>
@@ -342,120 +424,200 @@ const Projects = () => {
                         <AddUser />
                     </button>
                 </div>
-            </div>
+            </motion.div>
 
-            <div className='projects-list'>
+            <motion.div
+                initial={{ translateY: 50, opacity: 0 }}
+                animate={{ translateY: 0, opacity: 1 }}
+                transition={{
+                    type: "tween",
+                    duration: 0.4,
+                    delay: 0.2
+                }}
+                className='projects-list'>
                 <div className='projects-list-header'>
-                    <SearchBox onSearchChange={handleSearchChange} />
+                    <SearchBox />
                     <h1>قائمة المشاريع التربوية</h1>
                 </div>
-                <div className='filter' ref={filterRef}>
-                    <button className='filterBtn' onClick={openFilterHandler}>
-                        <h1>عرض</h1>
-                        <Filter></Filter>
-                    </button>
-                    {
-                        isopenFilter && (
-                            <div onClick={openFilterHandler} className='filters-list'>
-                                <div className='filter-item' onClick={filterByDateHandler}>
-                                    <h1>حسب التاريخ</h1>
-                                    <Clock />
+                {
+                    isLoading ? (<Loader />) : (
+                        projectsP.length > 0 ? (
+                            <>
+                                <div className='filter' ref={filterRef}>
+                                    <button className='filterBtn' onClick={openFilterHandler}>
+                                        <h1>عرض</h1>
+                                        <Filter></Filter>
+                                    </button>
+                                    {
+                                        isopenFilter && (
+                                            <motion.div
+                                                initial={{ translateY: 25, opacity: 0 }}
+                                                animate={{ translateY: 0, opacity: 1 }}
+                                                transition={{
+                                                    type: "tween",
+                                                    duration: 0.2
+                                                }}
+                                                onClick={openFilterHandler} className='filters-list'>
+                                                <div className='filter-item' onClick={filterByDateHandler}>
+                                                    <h1>حسب التاريخ</h1>
+                                                    <Clock />
+                                                </div>
+                                                <div className='filter-item' onClick={filterByAlphabeticHandler}>
+                                                    <h1>حسب الحروف</h1>
+                                                    <Alphabet />
+                                                </div>
+                                            </motion.div>
+                                        )
+                                    }
                                 </div>
-                                <div className='filter-item' onClick={filterByAlphabeticHandler}>
-                                    <h1>حسب الحروف</h1>
-                                    <Alphabet />
-                                </div>
+                                {
+                                    isSmallScreen ? (
+                                        projectsP.map((row, index) => (
+                                            <table key={index} className='shrinked-project-table'>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{row.title}</td>
+                                                        <td>عنوان المشروع</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.creation_date}</td>
+                                                        <td>تاريخ الإنجاز</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.duration}</td>
+                                                        <td>مدة الإنجاز</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{row.ages}</td>
+                                                        <td>الفئة العمرية</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div className='action-btns'>
+                                                                <button onClick={() => deleteConfirmOpen(row)}>
+                                                                    <Delete />
+                                                                </button>
+                                                                <button onClick={() => updateProjectHandler(row)}>
+                                                                    <Pencil />
+                                                                </button>
+                                                                <button onClick={() => printProjectInfo(row)}>
+                                                                    <Paper />
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <td>الإجراءت</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        ))
+                                    ) :
+                                        (
+                                            <table className='projects-list-table'>
+                                                <thead>
+                                                    <tr>
+                                                        <th>الإجراءت</th>
+                                                        <th>الفئة العمرية</th>
+                                                        <th>مدة الإنجاز</th>
+                                                        <th>تاريخ الإنجاز</th>
+                                                        <th>عنوان المشروع</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    {projectsP.map((row, index) => (
+                                                        <Fragment key={index}>
+                                                            <tr key={index}>
+                                                                <td>
+                                                                    <div className='action-btns'>
+                                                                        <button onClick={() => deleteConfirmOpen(row)}>
+                                                                            <Delete />
+                                                                        </button>
+                                                                        <button onClick={() => updateProjectHandler(row)}>
+                                                                            <Pencil />
+                                                                        </button>
+                                                                        <button onClick={() => printProjectInfo(row)}>
+                                                                            <Paper />
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+
+                                                                <td>{row.ages}</td>
+                                                                <td>{row.duration}</td>
+                                                                <td>{row.creation_date}</td>
+                                                                <td>{row.title}</td>
+                                                            </tr>
+                                                        </Fragment>
+                                                    ))}
+
+                                                </tbody>
+                                            </table>
+                                        )
+                                }
+                            </>
+                        ) : (
+                            <div className='no-data'>
+                                <h1>لا توجد معلومات إلى الأن، يمكنك إضافة الأنشطة</h1>
                             </div>
                         )
-                    }
-                </div>
-                {
-                    isSmallScreen ? (
-                        filteredData.map((row, index) => (
-                            <table key={index} className='shrinked-project-table'>
-                                <tbody>
-                                    <tr>
-                                        <td>{row.title}</td>
-                                        <td>عنوان المشروع</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{row.creation_date}</td>
-                                        <td>تاريخ الإنجاز</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{row.duration}</td>
-                                        <td>مدة الإنجاز</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{row.ages}</td>
-                                        <td>الفئة العمرية</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div className='action-btns'>
-                                                <button onClick={() => deleteConfirmOpen(row)}>
-                                                    <Delete />
-                                                </button>
-                                                <button onClick={() => updateProjectHandler(row)}>
-                                                    <Pencil />
-                                                </button>
-                                                <button onClick={() => printProjectInfo(row)}>
-                                                    <Paper />
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td>الإجراءت</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        ))
-                    ) :
-                        (
-                            <table className='projects-list-table'>
-                                <thead>
-                                    <tr>
-                                        <th>الإجراءت</th>
-                                        <th>الفئة العمرية</th>
-                                        <th>مدة الإنجاز</th>
-                                        <th>تاريخ الإنجاز</th>
-                                        <th>عنوان المشروع</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                    )
 
-                                    {filteredData.map((row, index) => (
-                                        <Fragment key={index}>
-                                            <tr key={index}>
-                                                <td>
-                                                    <div className='action-btns'>
-                                                        <button onClick={() => deleteConfirmOpen(row)}>
-                                                            <Delete />
-                                                        </button>
-                                                        <button onClick={() => updateProjectHandler(row)}>
-                                                            <Pencil />
-                                                        </button>
-                                                        <button onClick={() => printProjectInfo(row)}>
-                                                            <Paper />
-                                                        </button>
-                                                    </div>
-                                                </td>
-
-                                                <td>{row.ages}</td>
-                                                <td>{row.duration}</td>
-                                                <td>{row.creation_date}</td>
-                                                <td>{row.title}</td>
-                                            </tr>
-                                        </Fragment>
-                                    ))}
-
-                                </tbody>
-                            </table>
-                        )
                 }
+                <div className='pagination'>
+                    <div className='p-btn left-button' onClick={handleLeftButtonClick}>
+                        <Left />
+                    </div>
+                    {currentPage === pages ? (
+                        <>
 
+                            <div className='p-page active'>
+                                <h2>{pages}</h2>
+                            </div>
+                            {pages > 1 && (
+                                <div onClick={() => { setIsLoading(true); setCurrentPage(1); }} className='p-page'>
+                                    <h2>1</h2>
+                                </div>
+                            )}
+                        </>
+                    ) : currentPage === 1 ? (
+                        <>
+                            {pages > 2 && (
+                                <div onClick={() => { setIsLoading(true); setCurrentPage(pages); }} className='p-page'>
+                                    <h2>{pages}</h2>
+                                </div>
+                            )}
+                            {pages > 1 && (
+                                <div onClick={() => { setIsLoading(true); setCurrentPage(1 + 1); }} className='p-page'>
+                                    <h2>{1 + 1}</h2>
+                                </div>
+                            )}
+
+                            <div className='p-page active'>
+                                <h2>{1}</h2>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            {currentPage !== pages && (
+                                <div onClick={() => { setIsLoading(true); setCurrentPage(pages); }} className='p-page'>
+                                    <h2>{pages}</h2>
+                                </div>
+                            )}
+                            <div className='p-page active'>
+                                <h2>{currentPage}</h2>
+                            </div>
+
+                            <div onClick={() => { setIsLoading(true); setCurrentPage(1); }} className='p-page'>
+                                <h2>{1}</h2>
+                            </div>
+                        </>
+                    )}
+                    <div className='p-btn right-button' onClick={handleRightButtonClick}>
+                        <Right />
+                    </div>
+                </div>
                 {isUpdateProject && <UpdateProject project={selectedProject} />}
                 {dConfirmationProject && <DeleteConfirmProject project={selectedProject} />}
-            </div>
+            </motion.div>
             {
                 isAddProject && <AddProject />
             }

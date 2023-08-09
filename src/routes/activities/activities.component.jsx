@@ -1,7 +1,6 @@
 import './activities.styles.scss'
 import { useState, useContext, useEffect, useRef, Fragment } from 'react';
 import { motion } from 'framer-motion';
-
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
 

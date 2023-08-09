@@ -1,8 +1,5 @@
 import './add-activity.styles.scss'
-
-
 import { useState, useContext, useEffect, useRef } from 'react';
-
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
 

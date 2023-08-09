@@ -22,13 +22,56 @@
 
     .confirmation {
         width: 28vw;
-        padding: 1rem;
+        padding: 2rem;
         border-radius: 1rem;
         background-color: #fff;
         z-index: 1;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        position: relative;
+
+        .confirmed {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                width: 10rem;
+                height: auto;
+
+                path {
+                    fill: $done;
+                }
+            }
+        }
+
+        .close-btn {
+            all: unset;
+            cursor: pointer;
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+
+            svg {
+                width: 1.2rem;
+                height: auto;
+                transition: 0.2s ease-in-out all;
+
+                path {
+                    fill: #000;
+                }
+            }
+
+            &:hover {
+                svg {
+                    path {
+                        fill: $red;
+                    }
+                }
+            }
+        }
 
         h1 {
             font-size: 1rem;
@@ -37,7 +80,7 @@
 
         .confirmation-actions {
             display: flex;
-            width: 100%;
+            margin-top: 1rem;
 
             button {
                 all: unset;
@@ -113,7 +156,9 @@
 }
 
 @media(max-width:800px) {
-
+    .project-delete-container .confirmation .confirmed svg {
+        width: 8rem;
+    }
 
     .project-delete-container .confirmation h1 {
         font-size: 0.8rem;
@@ -134,22 +179,30 @@
     .project-delete-container .confirmation {
         width: 40vw;
     }
+
+    .project-delete-container .confirmation .close-btn svg {
+        width: 1.1rem;
+    }
 }
 
 @media(max-width:600px) {
+    .project-delete-container .confirmation .confirmed svg {
+        width: 6rem;
+    }
+
     .project-delete-container .confirmation {
         width: 45vw;
     }
 }
 
 @media(max-width:500px) {
-    .project-delete-container .confirmation {
+    .activity-delete-container .confirmation {
         width: 55vw;
     }
 }
 
 @media(max-width:400px) {
-    .project-delete-container .confirmation {
+    .activity-delete-container .confirmation {
         width: 70vw;
     }
 }
