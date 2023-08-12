@@ -150,7 +150,7 @@ const Navigation = () => {
                                         }}
                                         className="dropdown-menu">
                                         <li>
-                                            <Link className='dropdown-link' onClick={toggleMenu}>
+                                            <Link to='/profile' className='dropdown-link' onClick={toggleMenu}>
                                                 <h1>الملف الشخصي</h1>
                                                 <Profile />
                                             </Link>

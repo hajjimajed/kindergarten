@@ -1,0 +1,74 @@
+@import '../../colors';
+
+.profile-container {
+    width: 75vw;
+    margin-top: 15vh;
+    padding: 0 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-bottom: 5rem;
+
+    .top-container {
+        width: 100%;
+        height: 8rem;
+        border-radius: 1rem;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        margin-bottom: 2rem;
+        padding: 0.4rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-color: $primary-color;
+
+        .content {
+            width: 100%;
+            height: 100%;
+            padding: 0 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            border-top: 1px dashed #fff;
+            border-right: 1px dashed #fff;
+            border-left: 1px dashed #fff;
+            border-bottom: 1px dashed #fff;
+            -webkit-border-top-right-radius: 1rem;
+            -webkit-border-top-left-radius: 1rem;
+            -moz-border-radius-topright: 1rem;
+            -moz-border-radius-topleft: 1rem;
+            -webkit-border-bottom-right-radius: 1rem;
+            -webkit-border-bottom-left-radius: 1rem;
+            -moz-border-radius-bottomright: 1rem;
+            -moz-border-radius-bottomleft: 1rem;
+            border-bottom-right-radius: 1rem;
+            border-bottom-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            border-top-left-radius: 1rem;
+
+            h1 {
+                font-size: 1.8rem;
+                color: #000;
+                text-align: right;
+            }
+
+            // .img {
+            //     width: 6rem;
+            //     height: 6rem;
+            //     border-radius: 3rem;
+            //     display: flex;
+            //     align-items: center;
+            //     justify-content: center;
+            //     background-color: $accent-color3;
+
+            //     img {
+            //         width: 5.5rem;
+            //         height: auto;
+            //     }
+            // }
+        }
+    }
+}
