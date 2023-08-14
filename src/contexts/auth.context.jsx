@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
     };
 
 
-    const fetchUserData = async (p) => {
+    const fetchUserData = async () => {
 
         try {
             await fetchToken();

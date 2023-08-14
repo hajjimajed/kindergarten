@@ -15,7 +15,7 @@ import { ReactComponent as Setting } from '../../assets/icons/setting.svg'
 import { ReactComponent as DownA } from '../../assets/icons/down-arrow.svg'
 import { ReactComponent as Notification } from '../../assets/icons/notification.svg'
 import { ReactComponent as MainLogo } from '../../assets/icons/logo.svg'
-import avatar from '../../assets/avatars/7294743.png';
+import avatar from '../../assets/avatars/avatar.png';
 
 import NotificationItem from '../../components/notification-item/notification-item.component';
 import { AuthContext } from '../../contexts/auth.context';
@@ -137,7 +137,7 @@ const Navigation = () => {
                                     <div className='img'>
                                         <img src={avatar} alt="" />
                                     </div>
-                                    <h1>Majed Hajji</h1>
+                                    <h1>ماجد حاجي</h1>
                                     <DownA />
                                 </div>
                                 {isOpen && (

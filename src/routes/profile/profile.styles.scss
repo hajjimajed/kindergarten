@@ -1,5 +1,13 @@
 @import '../../colors';
 
+:root {
+    --border: 3px;
+    --color1: #C879FF;
+    --color2: #3BF4FB;
+    --from: 216deg;
+    --distance: 80%;
+}
+
 .profile-container {
     width: 75vw;
     margin-top: 15vh;
@@ -12,11 +20,11 @@
 
     .top-container {
         width: 100%;
-        height: 8rem;
+        height: 10rem;
         border-radius: 1rem;
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
         margin-bottom: 2rem;
-        padding: 0.4rem 1rem;
+        padding: 0 1rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -24,51 +32,312 @@
         overflow: hidden;
         background-color: $primary-color;
 
-        .content {
-            width: 100%;
-            height: 100%;
-            padding: 0 0.6rem;
+        .top-container-header {
+            width: 96%;
+            padding: 0 2rem;
+            height: 46%;
             display: flex;
             align-items: center;
             justify-content: flex-end;
-
             border-top: 1px dashed #fff;
             border-right: 1px dashed #fff;
             border-left: 1px dashed #fff;
-            border-bottom: 1px dashed #fff;
             -webkit-border-top-right-radius: 1rem;
             -webkit-border-top-left-radius: 1rem;
             -moz-border-radius-topright: 1rem;
             -moz-border-radius-topleft: 1rem;
+            border-top-right-radius: 1rem;
+            border-top-left-radius: 1rem;
+
+            h1 {
+                font-size: 1.8rem;
+                color: #fff;
+                text-align: right;
+            }
+        }
+
+        .top-container-body {
+            width: 96%;
+            padding: 0 2rem;
+            height: 46%;
+            border-bottom: 1px dashed #fff;
+            border-right: 1px dashed #fff;
+            border-left: 1px dashed #fff;
             -webkit-border-bottom-right-radius: 1rem;
             -webkit-border-bottom-left-radius: 1rem;
             -moz-border-radius-bottomright: 1rem;
             -moz-border-radius-bottomleft: 1rem;
             border-bottom-right-radius: 1rem;
             border-bottom-left-radius: 1rem;
-            border-top-right-radius: 1rem;
-            border-top-left-radius: 1rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
 
-            h1 {
-                font-size: 1.8rem;
-                color: #000;
-                text-align: right;
+            .setting-btn {
+                all: unset;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px 20px;
+                border-radius: 1.5rem;
+                border: 1px solid #fff;
+                background-color: $primary-color;
+                transition: 0.2s ease-in-out all;
+                margin-left: 1rem;
+                background-color: #fff;
+
+                h1 {
+                    margin: 0;
+                    font-size: 1rem;
+                    margin-right: 1rem;
+                    color: $primary-color;
+                    transition: 0.2s ease-in-out all;
+                }
+
+                svg {
+                    width: 1.6rem;
+                    height: auto;
+                    transition: 0.2s ease-in-out all;
+
+                    path {
+                        fill: $primary-color;
+                    }
+                }
+
+                &:hover {
+                    background-color: $primary-color;
+                    box-shadow: rgba(130, 106, 237, 0.3) 0px 1px 4px;
+
+                    h1 {
+                        color: #fff;
+                    }
+
+                    svg {
+                        path {
+                            fill: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .profile-infos {
+        width: calc(100% - 2rem);
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        .name {
+            position: absolute;
+            bottom: -4rem;
+            font-size: 2rem;
+        }
+
+        .img {
+            width: 10rem;
+            height: 10rem;
+            border-radius: 50%;
+            border: 0.3rem #fff solid;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &::after {
+                content: '';
+                border-radius: 999px;
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background: conic-gradient(from var(--from),
+                        var(--color1),
+                        var(--color2) var(--distance),
+                        transparent var(--distance));
+                -webkit-mask: radial-gradient(farthest-side,
+                        transparent calc(100% - var(--border)),
+                        #fff calc(100% - var(--border) + 1px));
+                mask: radial-gradient(farthest-side,
+                        transparent calc(100% - var(--border)),
+                        #fff calc(100% - var(--border) + 1px));
             }
 
-            // .img {
-            //     width: 6rem;
-            //     height: 6rem;
-            //     border-radius: 3rem;
-            //     display: flex;
-            //     align-items: center;
-            //     justify-content: center;
-            //     background-color: $accent-color3;
+            img {
+                width: 75%;
+                height: 75%;
+                border-radius: 50%;
+            }
 
-            //     img {
-            //         width: 5.5rem;
-            //         height: auto;
-            //     }
-            // }
+            .verification {
+                position: absolute;
+                bottom: 0;
+                background-color: $accent-color2;
+                padding: 0.1rem 0.8rem;
+                border-radius: 0.8rem;
+
+                p {
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    color: #fff;
+                }
+            }
         }
+
+        .infos {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 5rem;
+
+            table {
+                width: 100%;
+
+
+                .info-title {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    padding: 0.8rem 0;
+
+                    svg {
+                        width: 1.5rem;
+                        height: auto;
+                        margin-left: 1rem;
+
+                        path {
+                            fill: $link-softer;
+                        }
+                    }
+
+                    h1 {
+                        font-size: 1rem;
+                        font-weight: 500;
+                        color: $link-softer;
+                    }
+                }
+
+                h2 {
+                    font-size: 1rem;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+}
+
+
+@media(max-width:1100px) {
+
+    .profile-container .top-container .top-container-header,
+    .profile-container .top-container .top-container-body {
+        width: 95%;
+    }
+}
+
+@media(max-width:1000px) {
+    .profile-container {
+        width: 96vw;
+    }
+
+    .profile-container .top-container .top-container-header,
+    .profile-container .top-container .top-container-body {
+        width: 94%;
+    }
+}
+
+@media(max-width:800px) {
+    .profile-container .top-container .top-container-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .profile-container .top-container .top-container-body .setting-btn {
+        padding: 3px 12px;
+    }
+
+    .profile-container .top-container .top-container-body .setting-btn h1 {
+        font-size: 0.9rem;
+    }
+
+    .profile-container .top-container .top-container-body .setting-btn svg {
+        width: 1.4rem;
+    }
+
+    .profile-container .top-container {
+        width: 96%;
+    }
+
+    .profile-container .profile-infos {
+        align-items: center;
+    }
+
+    .profile-container .profile-infos .name {
+        font-size: 1.6rem;
+    }
+
+    .profile-container .profile-infos .infos table .info-title svg {
+        width: 1.3rem;
+        margin-left: 0.8rem;
+    }
+
+    .profile-container .profile-infos .infos table .info-title h1,
+    .profile-container .profile-infos .infos table h2 {
+        font-size: 0.9rem;
+    }
+
+    .profile-container .profile-infos .infos table h2 {
+        margin-right: 1rem;
+    }
+
+}
+
+@media(max-width:700px) {
+
+    .profile-container .top-container .top-container-header,
+    .profile-container .top-container .top-container-body {
+        width: 92%;
+    }
+}
+
+@media(max-width:600px) {
+
+    .profile-container .top-container .top-container-header,
+    .profile-container .top-container .top-container-body {
+        width: 90%;
+    }
+}
+
+@media(max-width:450px) {
+
+    .profile-container .top-container {
+        width: 92%;
+    }
+
+    .profile-container .top-container .top-container-header,
+    .profile-container .top-container .top-container-body {
+        width: 88%;
+    }
+
+    .profile-container .top-container .top-container-body .add-btn h1 {
+        font-size: 0.8rem;
+    }
+
+    .profile-container .top-container .top-container-body .add-btn svg {
+        width: 1.2rem;
+    }
+
+    .profile-container .top-container .top-container-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .profile-container .profile-infos .infos table h2 {
+        margin-right: 2rem;
     }
 }
