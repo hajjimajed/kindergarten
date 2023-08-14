@@ -8,7 +8,7 @@
     --distance: 80%;
 }
 
-.profile-container {
+.setting-container {
     width: 75vw;
     margin-top: 15vh;
     padding: 0 3vw;
@@ -73,7 +73,55 @@
             justify-content: flex-end;
             align-items: center;
 
-            .setting-btn {
+            .save-btn {
+                all: unset;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px 20px;
+                border-radius: 1.5rem;
+                border: 1px solid #fff;
+                transition: 0.2s ease-in-out all;
+                margin-left: 1rem;
+                background-color: #fff;
+
+                h1 {
+                    margin: 0;
+                    font-size: 1rem;
+                    margin-right: 1rem;
+                    color: $done;
+                    transition: 0.2s ease-in-out all;
+                }
+
+                svg {
+                    width: 1.6rem;
+                    height: auto;
+                    transition: 0.2s ease-in-out all;
+
+                    path {
+                        fill: $done;
+                    }
+                }
+
+                &:hover {
+                    background-color: $done;
+                    box-shadow: rgba(130, 106, 237, 0.3) 0px 1px 4px;
+                    border-color: $done;
+
+                    h1 {
+                        color: #fff;
+                    }
+
+                    svg {
+                        path {
+                            fill: #fff;
+                        }
+                    }
+                }
+            }
+
+            .return-btn {
                 all: unset;
                 cursor: pointer;
                 display: flex;
@@ -91,7 +139,7 @@
                     margin: 0;
                     font-size: 1rem;
                     margin-right: 1rem;
-                    color: $primary-color;
+                    color: $red;
                     transition: 0.2s ease-in-out all;
                 }
 
@@ -101,13 +149,14 @@
                     transition: 0.2s ease-in-out all;
 
                     path {
-                        fill: $primary-color;
+                        fill: $red;
                     }
                 }
 
                 &:hover {
-                    background-color: $primary-color;
+                    background-color: $red;
                     box-shadow: rgba(130, 106, 237, 0.3) 0px 1px 4px;
+                    border-color: $red;
 
                     h1 {
                         color: #fff;
@@ -123,7 +172,7 @@
         }
     }
 
-    .profile-infos {
+    .setting-infos {
         width: calc(100% - 2rem);
         padding: 2rem;
         border-radius: 1rem;
@@ -197,6 +246,37 @@
             justify-content: flex-end;
             margin-top: 5rem;
 
+            input {
+                all: unset;
+                border: 1px solid $border-gray;
+                padding: 0.7rem 0.6rem;
+                width: calc(100% - 1.2rem);
+                font-size: 1rem;
+                border-radius: 0.6rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 0.3rem;
+                transition: 0.1s ease-in-out all;
+                text-align: right;
+                font: small-caption;
+                font-size: 1rem;
+
+                &::placeholder {
+                    color: $link-softer;
+                    font-size: 0.9rem;
+                    font-weight: 400;
+                }
+
+                &:focus {
+                    border-color: $primary-color;
+
+                    &::placeholder {
+                        opacity: 0;
+                    }
+                }
+            }
+
             table {
                 width: 100%;
 
@@ -236,63 +316,66 @@
 
 @media(max-width:1100px) {
 
-    .profile-container .top-container .top-container-header,
-    .profile-container .top-container .top-container-body {
+    .setting-container .top-container .top-container-header,
+    .setting-container .top-container .top-container-body {
         width: 95%;
     }
 }
 
 @media(max-width:1000px) {
-    .profile-container {
+    .setting-container {
         width: 96vw;
     }
 
-    .profile-container .top-container .top-container-header,
-    .profile-container .top-container .top-container-body {
+    .setting-container .top-container .top-container-header,
+    .setting-container .top-container .top-container-body {
         width: 94%;
     }
 }
 
 @media(max-width:800px) {
-    .profile-container .top-container .top-container-header h1 {
+    .setting-container .top-container .top-container-header h1 {
         font-size: 1.5rem;
     }
 
-    .profile-container .top-container .top-container-body .setting-btn {
+    .setting-container .top-container .top-container-body .save-btn,
+    .setting-container .top-container .top-container-body .return-btn {
         padding: 3px 12px;
     }
 
-    .profile-container .top-container .top-container-body .setting-btn h1 {
+    .setting-container .top-container .top-container-body .save-btn h1,
+    .setting-container .top-container .top-container-body .return-btn h1 {
         font-size: 0.9rem;
     }
 
-    .profile-container .top-container .top-container-body .setting-btn svg {
+    .setting-container .top-container .top-container-body .save-btn svg,
+    .setting-container .top-container .top-container-body .return-btn svg {
         width: 1.4rem;
     }
 
-    .profile-container .top-container {
+    .setting-container .top-container {
         width: 96%;
     }
 
-    .profile-container .profile-infos {
+    .setting-container .setting-infos {
         align-items: center;
     }
 
-    .profile-container .profile-infos .name {
+    .setting-container .setting-infos .name {
         font-size: 1.6rem;
     }
 
-    .profile-container .profile-infos .infos table .info-title svg {
+    .setting-container .setting-infos .infos table .info-title svg {
         width: 1.3rem;
         margin-left: 0.8rem;
     }
 
-    .profile-container .profile-infos .infos table .info-title h1,
-    .profile-container .profile-infos .infos table h2 {
+    .setting-container .setting-infos .infos table .info-title h1,
+    .setting-container .setting-infos .infos table h2 {
         font-size: 0.9rem;
     }
 
-    .profile-container .profile-infos .infos table h2 {
+    .setting-container .setting-infos .infos table h2 {
         margin-right: 1rem;
     }
 
@@ -300,44 +383,45 @@
 
 @media(max-width:700px) {
 
-    .profile-container .top-container .top-container-header,
-    .profile-container .top-container .top-container-body {
+    .setting-container .top-container .top-container-header,
+    .setting-container .top-container .top-container-body {
         width: 92%;
     }
 }
 
 @media(max-width:600px) {
 
-    .profile-container .top-container .top-container-header,
-    .profile-container .top-container .top-container-body {
+    .setting-container .top-container .top-container-header,
+    .setting-container .top-container .top-container-body {
         width: 90%;
     }
 }
 
 @media(max-width:450px) {
 
-    .profile-container .top-container {
+    .setting-container .top-container {
         width: 92%;
     }
 
-    .profile-container .top-container .top-container-header,
-    .profile-container .top-container .top-container-body {
+    .setting-container .top-container .top-container-header,
+    .setting-container .top-container .top-container-body {
         width: 88%;
     }
 
-    .profile-container .top-container .top-container-body .setting-btn h1 {
+    .setting-container .top-container .top-container-body .save-btn h1,
+    .setting-container .top-container .top-container-body .return-btn h1 {
         font-size: 0.8rem;
     }
 
-    .profile-container .top-container .top-container-body .setting-btn svg {
+    .setting-container .top-container .top-container-body .save-btn svg .setting-container .top-container .top-container-body .return-btn svg {
         width: 1.2rem;
     }
 
-    .profile-container .top-container .top-container-header h1 {
+    .setting-container .top-container .top-container-header h1 {
         font-size: 1.3rem;
     }
 
-    .profile-container .profile-infos .infos table h2 {
+    .setting-container .setting-infos .infos table h2 {
         margin-right: 2rem;
     }
 }

@@ -27,7 +27,7 @@ const Register = () => {
     };
 
     const registerHandler = async (event) => {
-        event.preventDefault(); // Prevent the default form submission behavior
+        event.preventDefault();
 
         const url = 'https://paje.onrender.com/api/Account/Register';
 

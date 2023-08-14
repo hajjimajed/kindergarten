@@ -8,12 +8,12 @@ const NotificationItem = () => {
     return (
         <div className='notification-item-container'>
             <div className='header'>
-                <h1>usage monthly report</h1>
-                <p>4:30 PM</p>
+                <h1>Bienvenue</h1>
+                <p>16:30</p>
             </div>
             <div className='body'>
                 <h1>
-                    notification about the monthly usage status of the current user
+                    Commencez à gérer vos données en toute sécurité
                 </h1>
             </div>
         </div>

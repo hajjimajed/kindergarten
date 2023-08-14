@@ -1,18 +1,19 @@
-import './profile.styles.scss';
+import './setting.styles.scss';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 import avatar from '../../assets/avatars/avatar.png';
-import { ReactComponent as Setting } from '../../assets/icons/setting.svg';
-import { ReactComponent as Attach } from '../../assets/icons/attach.svg';
+import { ReactComponent as Profile } from '../../assets/icons/profile.svg';
 import { ReactComponent as Location } from '../../assets/icons/location.svg';
 import { ReactComponent as Phone } from '../../assets/icons/phone.svg';
-import { ReactComponent as Mail } from '../../assets/icons/mail.svg';
+import { ReactComponent as Close } from '../../assets/icons/close.svg';
+import { ReactComponent as Tick } from '../../assets/icons/tick.svg';
+import { ReactComponent as Key } from '../../assets/icons/key.svg';
 
 import Loader from '../../components/loader/loader.component';
 
-const Profile = () => {
+const SettingProfile = () => {
 
     const [userData, setUserData] = useState({})
     const [fetched, setFetched] = useState(false);
@@ -73,8 +74,23 @@ const Profile = () => {
         }
     };
 
+
+    const [email, setEmail] = useState(userData.email);
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [firstName, setFirstName] = useState(userData.firstName);
+    const [lastName, setLastName] = useState(userData.lastName);
+    const [phone, setPhone] = useState('+216 00 000 000');
+    const [address, setAddress] = useState('Beverly Hills, Los Angeles California');
+
+    const handleChangeInput = (fn) => {
+        return (event) => {
+            fn(event.target.value);
+        };
+    };
+
     return (
-        <div className='profile-container'>
+        <div className='setting-container'>
             <motion.div
                 initial={{ translateY: 50, opacity: 0 }}
                 animate={{ translateY: 0, opacity: 1 }}
@@ -84,13 +100,17 @@ const Profile = () => {
                 }}
                 className='top-container'>
                 <div className='top-container-header'>
-                    <h1>الملف الشخصي</h1>
+                    <h1>تعديل المعطيات الشخصية</h1>
                 </div>
                 <div className='top-container-body'>
-                    <Link to='/setting' className='setting-btn'>
-                        <h1>تعديل</h1>
-                        <Setting />
+                    <Link to='/profile' className='return-btn'>
+                        <h1>إلغاء</h1>
+                        <Close />
                     </Link>
+                    <button className='save-btn'>
+                        <h1>حفض</h1>
+                        <Tick />
+                    </button>
                 </div>
             </motion.div>
             <motion.div
@@ -101,7 +121,7 @@ const Profile = () => {
                     duration: 0.4,
                     delay: 0.2
                 }}
-                className='profile-infos'>
+                className='setting-infos'>
                 {
                     fetched ? (
                         <>
@@ -110,34 +130,34 @@ const Profile = () => {
                                 <div className='verification'>
                                     <p>مفعل</p>
                                 </div>
-                                <h1 className='name'>ماجد حاجي</h1>
+                                <h1 className='name'>{userData.email}</h1>
                             </div>
 
                             <div className='infos'>
                                 <table>
                                     <tr>
                                         <td>
-                                            <h2>{userData.userId}</h2>
+                                            <input type="text" value={firstName} onChange={handleChangeInput(setFirstName)} />
                                         </td>
                                         <td>
                                             <div className='info-title'>
-                                                <h1>المعرف</h1>
-                                                <Attach />
+                                                <h1>الإسم</h1>
+                                                <Profile />
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <h2>{userData.email}</h2>
+                                            <input type="text" value={lastName} onChange={handleChangeInput(setLastName)} />
                                         </td>
                                         <div className='info-title'>
-                                            <h1>البريد الإلكتروني</h1>
-                                            <Mail />
+                                            <h1>اللقب</h1>
+                                            <Profile />
                                         </div>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <h2>+216 00 000 000</h2>
+                                            <input type="text" value={phone} onChange={handleChangeInput(setPhone)} />
                                         </td>
                                         <div className='info-title'>
                                             <h1>رقم الهاتف</h1>
@@ -146,11 +166,29 @@ const Profile = () => {
                                     </tr>
                                     <tr>
                                         <td>
-                                            <h2>Beverly Hills, Los Angeles California</h2>
+                                            <input type="text" value={address} onChange={handleChangeInput(setAddress)} />
                                         </td>
                                         <div className='info-title'>
                                             <h1>العنوان</h1>
                                             <Location />
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="password" onChange={handleChangeInput(setPassword)} />
+                                        </td>
+                                        <div className='info-title'>
+                                            <h1>كلمة المرور</h1>
+                                            <Key />
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="text" onChange={handleChangeInput(setConfirmPassword)} />
+                                        </td>
+                                        <div className='info-title'>
+                                            <h1>تأكيد كلمة المرور</h1>
+                                            <Key />
                                         </div>
                                     </tr>
                                 </table>
@@ -166,4 +204,4 @@ const Profile = () => {
 
 }
 
-export default Profile;
+export default SettingProfile;

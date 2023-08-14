@@ -9,6 +9,7 @@ import Cadres from './routes/cadres/cadres.component';
 import Activities from './routes/activities/activities.component';
 import Projects from './routes/projects/projects.component';
 import Profile from './routes/profile/profile.component';
+import SettingProfile from './routes/setting/setting.component';
 import Login from './routes/login/login.component';
 import Register from './routes/register/register.component';
 import ResetPassword from './routes/reset-password/reset-password.component';
@@ -61,6 +62,7 @@ function App() {
             <Route path="/activities" element={<AuthWrapper><Activities /></AuthWrapper>} />
             <Route path="/projects" element={<AuthWrapper><Projects /></AuthWrapper>} />
             <Route path="/profile" element={<AuthWrapper><Profile /></AuthWrapper>} />
+            <Route path="/setting" element={<AuthWrapper><SettingProfile /></AuthWrapper>} />
           </Route>
         </Routes>
       )}

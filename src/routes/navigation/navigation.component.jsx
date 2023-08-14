@@ -171,10 +171,10 @@ const Navigation = () => {
                                 )}
                             </div>
 
-                            <div className='notification' ref={notifRef}>
-                                <Notification onClick={toggleNotification} />
+                            <div className='notification' ref={notifRef} onClick={toggleNotification} >
+                                <Notification />
                                 <div className='count-circle'>
-                                    <h1>5</h1>
+                                    <h1>!</h1>
                                 </div>
                                 {
                                     isNotificationOpen && (
@@ -191,25 +191,23 @@ const Navigation = () => {
                                                 <li>
                                                     <NotificationItem />
                                                 </li>
-                                                <li>
-                                                    <NotificationItem />
-                                                </li>
                                             </ul>
                                         </motion.div>
                                     )
                                 }
                             </div>
 
+                            <div className='search-btn'>
+                                <Search />
+                            </div>
+
                         </div>
 
                     </div>
                     <div className='right-section'>
-                        <form className="search-bar">
-                            <button className="search-bar__button">
-                                <Search />
-                            </button>
-                            <input type="text" className="search-bar__input" placeholder="بحث" />
-                        </form>
+                        <div className='search-btn'>
+                            <Search />
+                        </div>
                         <Link to='/' className='main-link' onClick={hamMenuHandler}>
                             <MainLogo />
                         </Link>
