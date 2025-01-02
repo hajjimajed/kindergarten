@@ -1,6 +1,7 @@
 import './add-cadres.styles.scss';
 
 import { useState, useContext, useEffect, useRef } from 'react';
+import config from '../../config';
 
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
@@ -40,7 +41,7 @@ const AddCadre = () => {
     const fetchToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
-            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+            const response = await fetch(config.BASE_URL + 'api/Account/RefreshToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +72,7 @@ const AddCadre = () => {
         await fetchToken();
         try {
             const token = localStorage.getItem('accessToken');
-            const response = await fetch('https://paje.onrender.com/api/teacher/createteacher', {
+            const response = await fetch(config.BASE_URL + 'api/teacher/createteacher', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,

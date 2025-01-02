@@ -2,7 +2,7 @@ import './delete-confirm-project.styles.scss';
 import { useContext, useState } from 'react';
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
-
+import config from '../../config';
 import { ReactComponent as Delete } from '../../assets/icons/delete.svg';
 import { ReactComponent as Close } from '../../assets/icons/close.svg';
 import { ReactComponent as Tick } from '../../assets/icons/tick.svg';
@@ -23,7 +23,7 @@ const DeleteConfirmProject = ({ project }) => {
     const fetchToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
-            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+            const response = await fetch(config.BASE_URL + 'api/Account/RefreshToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const DeleteConfirmProject = ({ project }) => {
         await fetchToken();
         try {
             const token = localStorage.getItem('accessToken');
-            const response = await fetch(`https://paje.onrender.com/api/singleProjects/deleteproject?id=${project.project_id}`, {
+            const response = await fetch(config.BASE_URL + `api/singleProjects/deleteproject?id=${project.project_id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,

@@ -1,6 +1,7 @@
 import './children.styles.scss';
 import { useState, useContext, useEffect, useRef, Fragment } from 'react';
 import { motion } from 'framer-motion';
+import config from '../../config';
 
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
@@ -9,6 +10,7 @@ import DeleteConfirm from '../../components/delete-confirm/delete-confirm.compon
 import AddChild from '../../components/add-child/add-child.component';
 import UpdateChild from '../../components/update-child/update-child.component';
 import Loader from '../../components/loader/loader.component';
+import SentNotification from '../../components/send-notification/send-notification.component';
 
 import { ReactComponent as Pencil } from '../../assets/icons/pencil.svg';
 import { ReactComponent as Delete } from '../../assets/icons/delete.svg';
@@ -19,11 +21,12 @@ import { ReactComponent as Clock } from '../../assets/icons/clock.svg';
 import { ReactComponent as Alphabet } from '../../assets/icons/alphabet.svg';
 import { ReactComponent as Left } from '../../assets/icons/left.svg';
 import { ReactComponent as Right } from '../../assets/icons/right.svg';
+import { ReactComponent as NotificationIcon } from '../../assets/icons/notification.svg';
 
 
 const Children = () => {
 
-    const { dConfirmation, setDConfirmation, isAddChild, setIsAddChild, isUpdateChild, setIsUpdateChild } = useContext(TogglesContext);
+    const { dConfirmation, setDConfirmation, isAddChild, setIsAddChild, isUpdateChild, setIsUpdateChild, isSendNotif, setIsSendNotif } = useContext(TogglesContext);
     const { isDone } = useContext(IsDoneContext);
 
     const addChildHandler = () => {
@@ -41,6 +44,11 @@ const Children = () => {
         setSelectedChild(row);
         setDConfirmation(!dConfirmation);
     }
+    
+    const sendNotifHandler = (row) => {
+        setSelectedChild(row);
+        setIsSendNotif(!isSendNotif);
+    };
 
     function getCurrentDateTime() {
         const now = new Date();
@@ -154,9 +162,9 @@ const Children = () => {
         fetchData(currentPage);
     }, [currentPage, isDone]);
 
-    useEffect(() => {
-        fetchAllData();
-    }, [isDone])
+    // useEffect(() => {
+    //     fetchAllData();
+    // }, [isDone])
 
     const handleRightButtonClick = () => {
         if (currentPage > 1) {
@@ -174,7 +182,7 @@ const Children = () => {
     const fetchToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
-            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+            const response = await fetch(config.BASE_URL + 'api/Account/RefreshToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -183,49 +191,88 @@ const Children = () => {
                     RefreshToken: refreshToken,
                 }),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-
+    
             const res = await response.json();
-
+    
             localStorage.setItem('accessToken', res.data.accessToken);
             localStorage.setItem('refreshToken', res.data.refreshToken);
-
+    
             console.log('Token refreshed successfully', res.data.refreshToken);
-
+            return true; // Indicate success
         } catch (error) {
             console.error('Error fetching token:', error);
+            return false; // Indicate failure
         }
     };
-
-
-
+    
     const fetchData = async (p) => {
-
         try {
-            await fetchToken();
+            const tokenRefreshed = await fetchToken();
+            if (!tokenRefreshed) {
+                throw new Error('Token refresh failed');
+            }
+    
             const token = localStorage.getItem('accessToken');
             const headers = {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json'
             };
-
-            const response = await fetch(`https://paje.onrender.com/api/kids/getPaginatedkids?pageNumber=${p}`, { headers });
+    
+            const response = await fetch(config.BASE_URL + `api/kids/getPaginatedkids?pageNumber=${p}`, { headers });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
+            
             const jsonData = await response.json();
             setDt(jsonData.items);
-            setPages(jsonData.totalPages)
+            setPages(jsonData.totalPages);
             setIsLoading(false);
-            console.log('fetch successul', jsonData.items);
-
+            console.log('Fetch successful', jsonData.items);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
+    
+    const sendNotification = async (uniqueCode) => {
+        try {
+            const tokenRefreshed = await fetchToken();
+            if (!tokenRefreshed) {
+                throw new Error('Token refresh failed');
+            }
+    
+            const token = localStorage.getItem('accessToken');
+            const headers = {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            };
+    
+            const notificationPayload = {
+                title: "Dummy Title",  // dummy title
+                body: "This is a dummy notification body.",  // dummy body
+                uniqueCode: uniqueCode
+            };
+    
+            const response = await fetch(config.BASE_URL + 'api/Account/send', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(notificationPayload)
+            });
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            const jsonData = await response.json();
+            console.log('Notification sent successfully', jsonData);
+        } catch (error) {
+            console.error('Error sending notification:', error);
+        }
+    };
+    
 
     const fetchAllData = async () => {
 
@@ -237,7 +284,7 @@ const Children = () => {
                 'Content-Type': 'application/json'
             };
 
-            const response = await fetch('https://paje.onrender.com/api/kids/getKids', { headers });
+            const response = await fetch(config.BASE_URL + 'api/kids/getKids', { headers });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -405,6 +452,9 @@ const Children = () => {
                                                                 <button onClick={() => updateChildHandler(row)}>
                                                                     <Pencil />
                                                                 </button>
+                                                                 <button onClick={() => sendNotifHandler(row)}>
+                                                                    <NotificationIcon />
+                                                                    </button>
                                                             </div>
                                                         </td>
                                                         <td>الإجراءت</td>
@@ -418,6 +468,7 @@ const Children = () => {
                                                 <tr>
                                                     <th>الإجراءت</th>
                                                     <th>الخلاص</th>
+                                                    <th>رمز التسجيل</th>
                                                     <th>تاريخ التسجيل</th>
                                                     <th>الجنس</th>
                                                     <th>العمر</th>
@@ -439,6 +490,9 @@ const Children = () => {
                                                                     <button onClick={() => updateChildHandler(row)}>
                                                                         <Pencil />
                                                                     </button>
+                                                                    <button onClick={() => sendNotifHandler(row)}>
+                                                                    <NotificationIcon />
+                                                                    </button>
                                                                 </div>
                                                             </td>
                                                             <td className='status'>
@@ -452,6 +506,7 @@ const Children = () => {
                                                                         </div>)
                                                                 }
                                                             </td>
+                                                            <td>{row.uniqueCode}</td>
                                                             <td>{row.paid_at.split("T")[0]}</td>
                                                             <td>{row.gender}</td>
                                                             <td>{row.age}</td>
@@ -530,6 +585,7 @@ const Children = () => {
                 </div>
                 {isUpdateChild && <UpdateChild child={selectedChild} />}
                 {dConfirmation && <DeleteConfirm child={selectedChild} />}
+                {isSendNotif && <SentNotification child={selectedChild} />}
             </motion.div>
             {
                 isAddChild && <AddChild />

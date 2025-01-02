@@ -3,7 +3,7 @@ import { useState, useContext, useEffect, useRef, Fragment } from 'react';
 import { motion } from 'framer-motion';
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
-
+import config from '../../config';
 import { ReactComponent as Pencil } from '../../assets/icons/pencil.svg';
 import { ReactComponent as Delete } from '../../assets/icons/delete.svg';
 import { ReactComponent as Filter } from '../../assets/icons/filter.svg';
@@ -322,7 +322,7 @@ const Activities = () => {
     const fetchToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
-            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+            const response = await fetch(config.BASE_URL + 'api/Account/RefreshToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -359,7 +359,7 @@ const Activities = () => {
                 'Content-Type': 'application/json'
             };
 
-            const response = await fetch(`https://paje.onrender.com/api/dailytasks/getPaginatedtasks?pageNumber=${p}`, { headers });
+            const response = await fetch(config.BASE_URL + `api/dailytasks/getPaginatedtasks?pageNumber=${p}`, { headers });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

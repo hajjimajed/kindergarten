@@ -8,6 +8,8 @@ export const TogglesContext = createContext({
     setIsUpdateChild: () => null,
     dConfirmation: null,
     setDConfirmation: () => null,
+    isSendNotif:null,
+    setIsSendNotif: ()=> null,
     isAddCadre: null,
     setIsAddCadre: () => null,
     isUpdateCadre: null,
@@ -32,6 +34,7 @@ export const TogglesContext = createContext({
 export const TogglesProvider = ({ children }) => {
 
     const [dConfirmation, setDConfirmation] = useState(false);
+    const [isSendNotif, setIsSendNotif] = useState(false);
     const [isAddChild, setIsAddChild] = useState(false);
     const [isUpdateChild, setIsUpdateChild] = useState(false);
 
@@ -48,7 +51,7 @@ export const TogglesProvider = ({ children }) => {
     const [dConfirmationProject, setDConfirmationProject] = useState(false);
 
     const value = {
-        dConfirmation, setDConfirmation, isAddChild, setIsAddChild, isUpdateChild, setIsUpdateChild,
+        dConfirmation, setDConfirmation, isSendNotif, setIsSendNotif, isAddChild, setIsAddChild, isUpdateChild, setIsUpdateChild,
         isAddCadre, setIsAddCadre, isUpdateCadre, setIsUpdateCadre, dConfirmationCadre, setDConfirmationCadre,
         isAddActivity, setIsAddActivity, isUpdateActivity, setIsUpdateActivity, dConfirmationActivity, setDConfirmationActivity,
         isAddProject, setIsAddProject, isUpdateProject, setIsUpdateProject, dConfirmationProject, setDConfirmationProject

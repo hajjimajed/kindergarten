@@ -2,7 +2,7 @@ import './login.styles.scss'
 import { useState, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-
+import config from '../../config';
 import { AuthContext } from '../../contexts/auth.context';
 
 import { ReactComponent as LoginIcon } from '../../assets/icons/login.svg';
@@ -28,7 +28,7 @@ const Login = () => {
     const loginHandler = async (event) => {
         event.preventDefault(); // Prevent the default form submission behavior
 
-        const url = 'https://paje.onrender.com/api/Account/Login';
+        const url = config.BASE_URL + 'api/Account/Login';
 
         try {
             const response = await fetch(url, {
@@ -47,7 +47,7 @@ const Login = () => {
             }
 
             const data = await response.json();
-            console.log('logged succesfully');
+            console.log('logged succesfully', data);
             localStorage.setItem('accessToken', data.data.accessToken);
             localStorage.setItem('refreshToken', data.data.refreshToken);
             setIsAuth(true);

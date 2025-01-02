@@ -1,5 +1,6 @@
 import './delete-confirm.styles.scss';
 import { useContext, useState } from 'react';
+import config from '../../config';
 
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
@@ -24,7 +25,7 @@ const DeleteConfirm = ({ child }) => {
     const fetchToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
-            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+            const response = await fetch(config.BASE_URL + 'api/Account/RefreshToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -55,7 +56,7 @@ const DeleteConfirm = ({ child }) => {
         await fetchToken();
         try {
             const token = localStorage.getItem('accessToken');
-            const response = await fetch(`https://paje.onrender.com/api/kids/deletekid?id=${child.kid_id}`, {
+            const response = await fetch(config.BASE_URL + `api/kids/deletekid?id=${child.kid_id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,

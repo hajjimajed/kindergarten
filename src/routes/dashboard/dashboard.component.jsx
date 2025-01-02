@@ -1,15 +1,16 @@
+import React, { useState } from 'react';
 import './dashboard.styles.scss';
-import DoughnutChart from '../../components/charts/charts.component';
-
 
 const Dashboard = () => {
+   
 
     return (
-        <div className='dashboard-container'>
-            <DoughnutChart />
-        </div>
-    )
-
+        <>
+            <div className='dashboard-container'>
+                
+            </div>
+        </>
+    );
 }
 
 export default Dashboard;

@@ -5,8 +5,10 @@ import { ReactComponent as Search } from '../../assets/icons/search.svg'
 const SearchBox = ({ onSearchChange }) => {
     const handleInputChange = (event) => {
         const value = event.target.value;
+        console.log('value', value)
         onSearchChange(value);
     };
+    
 
     return (
         <form className="search-bar">

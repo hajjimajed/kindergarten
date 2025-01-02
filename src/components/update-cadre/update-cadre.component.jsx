@@ -1,6 +1,6 @@
 import './update-cadre.styles.scss'
 import { useState, useContext, useRef } from 'react';
-
+import config from '../../config';
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
 import Loader from '../loader/loader.component';
@@ -40,7 +40,7 @@ const UpdateCadre = ({ cadre }) => {
     const fetchToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
-            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+            const response = await fetch(config.BASE_URL + 'api/Account/RefreshToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const UpdateCadre = ({ cadre }) => {
         await fetchToken();
         try {
             const token = localStorage.getItem('accessToken');
-            const response = await fetch(`https://paje.onrender.com/api/teacher/updateteacher?id=${cadre.teacher_id}`, {
+            const response = await fetch(config.BASE_URL + `api/teacher/updateteacher?id=${cadre.teacher_id}`, {
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${token}`,

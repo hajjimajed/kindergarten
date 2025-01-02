@@ -18,6 +18,10 @@ import SplashScreen from './components/splash-screen/splash-screen.component';
 
 import { AuthContext } from './contexts/auth.context';
 
+import * as SignalR from '@microsoft/signalr';
+import config from './config';
+
+
 function AuthWrapper({ children }) {
   const { isAuth, setIsAuth } = useContext(AuthContext);
 
@@ -34,6 +38,37 @@ function AuthWrapper({ children }) {
 
 
 function App() {
+
+  const [connection, setConnection] = useState(null);
+const uniqueCode = "435429";
+  useEffect(() => {
+    const connectSignalR = async () => {
+      const connection = new SignalR.HubConnectionBuilder()
+        .withUrl(`${config.BASE_URL}notificationHub`)
+        .build();
+
+      connection.on('ReceiveNotification', (message) => {
+        alert('Notification Received: ' + message);
+      });
+
+      try {
+        await connection.start();
+        console.log('SignalR Connected.');
+        await connection.invoke('JoinGroup', uniqueCode);
+        setConnection(connection);
+      } catch (err) {
+        console.error('SignalR Connection Error: ', err);
+      }
+    };
+
+    connectSignalR();
+
+    return () => {
+      if (connection) {
+        connection.invoke('LeaveGroup', uniqueCode).finally(() => connection.stop());
+      }
+    };
+  }, [uniqueCode]);
 
   const [showSplash, setShowSplash] = useState(true);
 

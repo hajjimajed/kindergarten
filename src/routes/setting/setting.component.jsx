@@ -2,7 +2,7 @@ import './setting.styles.scss';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-
+import config from '../../config';
 import avatar from '../../assets/avatars/avatar.png';
 import { ReactComponent as Profile } from '../../assets/icons/profile.svg';
 import { ReactComponent as Location } from '../../assets/icons/location.svg';
@@ -25,7 +25,7 @@ const SettingProfile = () => {
     const fetchToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
-            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+            const response = await fetch(config.BASE_URL + 'api/Account/RefreshToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const SettingProfile = () => {
                 'Content-Type': 'application/json'
             };
 
-            const response = await fetch("https://paje.onrender.com/api/Account/userdetails", { headers });
+            const response = await fetch(config.BASE_URL + "api/Account/userdetails", { headers });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

@@ -1,7 +1,7 @@
 import './cadres.styles.scss'
 import { useState, useContext, useEffect, useRef, Fragment } from 'react';
 import { motion } from 'framer-motion';
-
+import config from '../../config';
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
 
@@ -187,9 +187,9 @@ const Cadres = () => {
         fetchCadresP(currentPage);
     }, [currentPage, isDoneCadre]);
 
-    useEffect(() => {
-        fetchAllCadres();
-    }, [isDoneCadre])
+    // useEffect(() => {
+    //     fetchAllCadres();
+    // }, [isDoneCadre])
 
 
     const handleRightButtonClick = () => {
@@ -207,7 +207,7 @@ const Cadres = () => {
     const fetchToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
-            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+            const response = await fetch(config.BASE_URL + 'api/Account/RefreshToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -243,7 +243,7 @@ const Cadres = () => {
                 'Content-Type': 'application/json'
             };
 
-            const response = await fetch(`https://paje.onrender.com/api/teachers/getPaginatedteachers?pageNumber=${p}`, { headers });
+            const response = await fetch(config.BASE_URL + `api/teachers/getPaginatedteachers?pageNumber=${p}`, { headers });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -268,7 +268,7 @@ const Cadres = () => {
                 'Content-Type': 'application/json'
             };
 
-            const response = await fetch('https://paje.onrender.com/api/teachers/getallteachers', { headers });
+            const response = await fetch(config.BASE_URL + 'api/teachers/getallteachers', { headers });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

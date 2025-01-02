@@ -405,7 +405,10 @@
             .action-btns {
                 justify-content: flex-end;
 
-                button:last-child {
+                button:nth-child(2) {
+                    margin-left: 2rem;
+                }
+                button:nth-child(3) {
                     margin-left: 2rem;
                 }
             }
@@ -444,10 +447,18 @@
                     }
                 }
 
-                &:last-child {
+                &:nth-child(2) {
                     svg {
                         path {
                             fill: $done;
+                        }
+                    }
+                }
+
+                &:nth-child(3) {
+                    svg {
+                        path {
+                            fill: $secondary-color;
                         }
                     }
                 }
@@ -461,8 +472,17 @@
                         }
                     }
 
-                    &:last-child {
+                    &:nth-child(2) {
                         background-color: $done;
+
+                        svg {
+                            path {
+                                fill: #fff;
+                            }
+                        }
+                    }
+                    &:nth-child(3) {
+                        background-color: $primary-color;
 
                         svg {
                             path {

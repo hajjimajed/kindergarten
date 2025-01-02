@@ -2,7 +2,7 @@ import './register.styles.scss';
 import { useState, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-
+import config from '../../config';
 import { ReactComponent as RegisterIcon } from '../../assets/icons/register.svg';
 import { ReactComponent as MainLogo } from '../../assets/icons/logo.svg';
 import { ReactComponent as Info } from '../../assets/icons/info.svg';
@@ -29,7 +29,7 @@ const Register = () => {
     const registerHandler = async (event) => {
         event.preventDefault();
 
-        const url = 'https://paje.onrender.com/api/Account/Register';
+        const url = config.BASE_URL + 'api/Account/Register';
 
         try {
             const response = await fetch(url, {

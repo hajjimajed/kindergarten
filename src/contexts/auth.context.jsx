@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-
+import config from "../config";
 
 export const AuthContext = createContext({
     isAuth: null,
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     const fetchToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
-            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+            const response = await fetch(config.BASE_URL + 'api/Account/RefreshToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
                 'Content-Type': 'application/json'
             };
 
-            const response = await fetch("https://paje.onrender.com/api/Account/userdetails", { headers });
+            const response = await fetch(config.BASE_URL + "api/Account/userdetails", { headers });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

@@ -2,6 +2,7 @@ import './add-activity.styles.scss'
 import { useState, useContext, useEffect, useRef } from 'react';
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
+import config from '../../config';
 
 import { ReactComponent as Close } from '../../assets/icons/close.svg';
 import { ReactComponent as Tick } from '../../assets/icons/tick.svg';
@@ -38,7 +39,7 @@ const AddActivity = () => {
     const fetchToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
-            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+            const response = await fetch(config.BASE_URL + 'api/Account/RefreshToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ const AddActivity = () => {
         try {
             const token = localStorage.getItem('accessToken');
             const userData = JSON.parse(localStorage.getItem('userData'));
-            const response = await fetch('https://paje.onrender.com/api/dailytasks/createtask', {
+            const response = await fetch(config.BASE_URL + 'api/dailytasks/createtask', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,

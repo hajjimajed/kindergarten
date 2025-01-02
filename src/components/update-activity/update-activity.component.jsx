@@ -1,6 +1,6 @@
 import './update-activity.styles.scss';
 import { useState, useContext, useEffect, useRef } from 'react';
-
+import config from '../../config';
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
 
@@ -39,7 +39,7 @@ const UpdateActivity = ({ activity }) => {
     const fetchToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
-            const response = await fetch('https://paje.onrender.com/api/Account/RefreshToken', {
+            const response = await fetch(config.BASE_URL + 'api/Account/RefreshToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const UpdateActivity = ({ activity }) => {
         try {
             const token = localStorage.getItem('accessToken');
             const userData = JSON.parse(localStorage.getItem('userData'));
-            const response = await fetch(`https://paje.onrender.com/api/dailytasks/updatetask?id=${activity.task_id}`, {
+            const response = await fetch(config.BASE_URL + `api/dailytasks/updatetask?id=${activity.task_id}`, {
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${token}`,
