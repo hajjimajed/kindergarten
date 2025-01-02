@@ -110,7 +110,7 @@ const Profile = () => {
                                 <div className='verification'>
                                     <p>مفعل</p>
                                 </div>
-                                <h1 className='name'>ماجد حاجي</h1>
+                                <h1 className='name'>الإسم اللقب</h1>
                             </div>
 
                             <div className='infos'>

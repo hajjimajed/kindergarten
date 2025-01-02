@@ -137,7 +137,7 @@ const Navigation = () => {
                                     <div className='img'>
                                         <img src={avatar} alt="" />
                                     </div>
-                                    <h1>ماجد حاجي</h1>
+                                    <h1>الإسم اللقب</h1>
                                     <DownA />
                                 </div>
                                 {isOpen && (
