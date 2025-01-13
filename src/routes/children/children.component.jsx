@@ -426,6 +426,10 @@ const Children = () => {
                                                         <td>الجنس</td>
                                                     </tr>
                                                     <tr>
+                                                        <td>{row.uniqueCode}</td>
+                                                        <td>رمز التسجيل</td>
+                                                    </tr>
+                                                    <tr>
                                                         <td>{row.paid_at.split("T")[0]}</td>
                                                         <td>تاريخ التسجيل</td>
                                                     </tr>

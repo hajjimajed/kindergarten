@@ -255,6 +255,7 @@
 
     .add-project-container .add-project .add-project-body .buttons-container button {
         padding: 3px 15px;
+        margin-bottom: 20px;
     }
 
     .add-project-container .add-activity .add-project-body .buttons-container button h1 {
@@ -263,6 +264,25 @@
 
     .add-project-container .add-project .add-project-body .buttons-container button svg {
         width: 1.1rem;
+    }
+    .add-project-body {
+        max-height: 400px; /* Adjust based on your layout */
+        overflow-y: auto;  /* Enables vertical scrolling */
+        padding-right: 10px; /* Optional: Adds some padding for better visibility */
+    }
+    
+    /* Optional: Add styling for the scrollbar */
+    .add-project-body::-webkit-scrollbar {
+        width: 8px; /* Width of the scrollbar */
+    }
+    
+    .add-project-body::-webkit-scrollbar-thumb {
+        background-color: #ccc; /* Color of the scrollbar thumb */
+        border-radius: 4px; /* Rounded corners */
+    }
+    
+    .add-project-body::-webkit-scrollbar-thumb:hover {
+        background-color: #aaa; /* Color when hovered */
     }
 }
 
