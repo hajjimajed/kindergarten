@@ -1,24 +1,25 @@
-import './delete-confirm-cadre.styles.scss';
+import './delete-notif.styles.scss';
 import { useContext, useState } from 'react';
 import config from '../../config';
+
 import { TogglesContext } from '../../contexts/toggles.context';
 import { IsDoneContext } from '../../contexts/isDone.context';
-
 
 import { ReactComponent as Delete } from '../../assets/icons/delete.svg';
 import { ReactComponent as Close } from '../../assets/icons/close.svg';
 import { ReactComponent as Tick } from '../../assets/icons/tick.svg';
 import Loader from '../loader/loader.component';
 
-const DeleteConfirmCadre = ({ cadre }) => {
 
-    const { dConfirmationCadre, setDConfirmationCadre } = useContext(TogglesContext);
-    const { isDoneCadre, setIsDoneCadre } = useContext(IsDoneContext);
+const DeleteNotif = ({ child }) => {
+
+    const { dConfirmation, setDConfirmation } = useContext(TogglesContext);
+    const { isDone, setIsDone } = useContext(IsDoneContext);
     const [isLoading, setIsLoading] = useState(false);
-
+var companyId = 0;
     const openHandler = () => {
-        setDConfirmationCadre(!dConfirmationCadre);
-        setIsDoneCadre(false);
+        setDConfirmation(!dConfirmation);
+        setIsDone(false);
     }
 
     const fetchToken = async () => {
@@ -50,12 +51,12 @@ const DeleteConfirmCadre = ({ cadre }) => {
         }
     };
 
-    const deleteCadre = async () => {
+    const deleteChild = async () => {
         setIsLoading(true);
         await fetchToken();
         try {
             const token = localStorage.getItem('accessToken');
-            const response = await fetch(config.BASE_URL + `api/teacher/deleteteacher?id=${cadre.teacher_id}`, {
+            const response = await fetch(config.BASE_URL + `api/activities/deleteactivity?id=${child.activity_id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -63,45 +64,45 @@ const DeleteConfirmCadre = ({ cadre }) => {
                 }
             });
             if (response.status === 204) {
-                console.log('Cadre deleted successfully.');
+                console.log('Child deleted successfully.');
                 setIsLoading(false);
-                setIsDoneCadre(true);
+                setIsDone(true);
             } else if (!response.ok) {
                 throw new Error('Network response was not ok');
             } else {
                 const res = await response.json();
                 setIsLoading(false);
-                setIsDoneCadre(true);
-                console.log('Cadre deleted successfully', res);
+                setIsDone(true);
+                console.log('Child deleted successfully', res);
             }
 
         } catch (error) {
-            console.error('Error deleting Cadre:', error);
+            console.error('Error deleting child:', error);
         }
     }
 
     return (
-        <div className='cadre-delete-container'>
+        <div className='delete-container'>
             <div className='delete-bg' onClick={openHandler}></div>
             <div className='confirmation'>
                 <button className='close-btn' onClick={openHandler}>
                     <Close />
                 </button>
                 {
-                    isDoneCadre ? (
+                    isDone ? (
                         <div className='confirmed'>
                             <Tick />
                             <h1>لقد تم حذف المعطيات بنجاح</h1>
                         </div>
                     ) : (
                         <>
-                            <h1>حذف بيانات الإطار</h1>
+                            <h1>حذف بيانات الإشعار</h1>
                             {
                                 isLoading ? (
                                     <Loader />
                                 ) : (
                                     <div className='confirmation-infos'>
-                                        <h1>هل أنت متأكد من حذف بيانات هذا الإطار ؟</h1>
+                                        <h1>هل أنت متأكد من حذف بيانات هذا الإشعار ؟</h1>
                                     </div>
                                 )
                             }
@@ -110,7 +111,7 @@ const DeleteConfirmCadre = ({ cadre }) => {
                                     <h1>إلغاء</h1>
                                     <Close />
                                 </button>
-                                <button onClick={deleteCadre}>
+                                <button onClick={deleteChild}>
                                     <h1>تأكيد</h1>
                                     <Delete />
                                 </button>
@@ -124,4 +125,4 @@ const DeleteConfirmCadre = ({ cadre }) => {
 
 }
 
-export default DeleteConfirmCadre;
+export default DeleteNotif;

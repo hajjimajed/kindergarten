@@ -113,6 +113,10 @@ const Navigation = () => {
                             <h1>المشاريع التربوية</h1>
                             <Projects />
                         </Link>
+                        <Link to='/notifications' className={`navigation-link ${isLinkActive('/notifications') ? 'active' : ''}`} onClick={hamMenuHandler}>
+                            <h1>الاشعارات</h1>
+                            <Notification />
+                        </Link>
                     </div>
                     <div className='bottom-section'>
                         <Link to='/login' className='navigation-link' onClick={logout}>
@@ -155,12 +159,12 @@ const Navigation = () => {
                                                 <Profile />
                                             </Link>
                                         </li>
-                                        <li>
+                                        {/* <li>
                                             <Link className='dropdown-link' onClick={toggleMenu}>
                                                 <h1>تعديلات</h1>
                                                 <Setting />
                                             </Link>
-                                        </li>
+                                        </li> */}
                                         <li>
                                             <Link className='dropdown-link-last' onClick={() => { logout(); toggleMenu(); }}>
                                                 <h1>تسجيل الخروج</h1>
@@ -197,9 +201,9 @@ const Navigation = () => {
                                 }
                             </div>
 
-                            <div className='search-btn'>
+                            {/* <div className='search-btn'>
                                 <Search />
-                            </div>
+                            </div> */}
 
                         </div>
 

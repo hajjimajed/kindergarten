@@ -1,5 +1,5 @@
 const config = {
-    BASE_URL: 'https://cg-dev-test-staging.azurewebsites.net/',
+    BASE_URL: 'https://localhost:44304/',
 };
 
 export default config;

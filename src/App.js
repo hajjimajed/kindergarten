@@ -20,6 +20,7 @@ import { AuthContext } from './contexts/auth.context';
 
 import * as SignalR from '@microsoft/signalr';
 import config from './config';
+import Notifications from './routes/notifications/notifications.component';
 
 
 function AuthWrapper({ children }) {
@@ -98,6 +99,7 @@ const uniqueCode = "435429";
             <Route path="/projects" element={<AuthWrapper><Projects /></AuthWrapper>} />
             <Route path="/profile" element={<AuthWrapper><Profile /></AuthWrapper>} />
             <Route path="/setting" element={<AuthWrapper><SettingProfile /></AuthWrapper>} />
+            <Route path="/notifications" element={<AuthWrapper><Notifications /></AuthWrapper>} />
           </Route>
         </Routes>
       )}

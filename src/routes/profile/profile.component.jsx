@@ -112,7 +112,10 @@ const Profile = () => {
                                 </div>
                                
                             </div>
-                            <h1 className='name'>الإسم اللقب</h1>
+                            <h1 className='name'>
+                            <span>{userData.firstName}</span>
+                            <span>{userData.lastName}</span>
+                            </h1>
                             <div className='infos'>
                                 <table>
                                     <tr>
