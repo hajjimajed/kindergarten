@@ -10,7 +10,7 @@ import DeleteConfirm from '../../components/delete-confirm/delete-confirm.compon
 import UpdateChild from '../../components/update-child/update-child.component';
 import AddNotif from '../../components/add-notif/add-notif.component';
 import Loader from '../../components/loader/loader.component';
-import SentNotification from '../../components/send-notification/send-notification.component';
+import SentNotification from '../../components/send-multi-notification/send-multi-notification.component';
 import DeleteNotif from '../../components/delete-notif/delete-notif.component';
 
 import { ReactComponent as Pencil } from '../../assets/icons/pencil.svg';
@@ -35,6 +35,7 @@ const Notifications = () => {
     }
 
     const [selectedChild, setSelectedChild] = useState(null);
+    const [selectedAct, setSelectedAct] = useState(null);
 
     const updateChildHandler = (row) => {
         setSelectedChild(row);
@@ -47,7 +48,9 @@ const Notifications = () => {
     }
     
     const sendNotifHandler = (row) => {
-        setSelectedChild(row);
+        fetchAllData();
+        console.log('all codes', row)
+        setSelectedAct(row);
         setIsSendNotif(!isSendNotif);
     };
 
@@ -216,6 +219,31 @@ const Notifications = () => {
     };
 
 
+    const fetchAllData = async () => {
+        try {
+            await fetchToken();
+            const token = localStorage.getItem('accessToken');
+            const headers = {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            };
+    
+            const response = await fetch(config.BASE_URL + 'api/kids/getKids', { headers });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            const jsonData = await response.json();
+            // Extract unique codes
+            const codeLists = jsonData.map(child => child.uniqueCode);
+            setAllKids(codeLists);
+    
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    
 
 
 
@@ -408,7 +436,7 @@ const Notifications = () => {
                     </div>
                 </div>
                 {dConfirmation && <DeleteNotif child={selectedChild} />}
-                {isSendNotif && <SentNotification child={selectedChild} />}
+                {isSendNotif && <SentNotification notif={selectedAct} allKids={allKids} />}
             </motion.div>
             {
                 isAddChild && <AddNotif />

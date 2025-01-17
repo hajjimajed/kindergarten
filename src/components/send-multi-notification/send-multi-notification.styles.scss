@@ -1,0 +1,214 @@
+@import '../../colors';
+
+
+.delete-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 102;
+
+    .delete-bg {
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(96, 96, 96, 0.1);
+        position: fixed;
+
+    }
+.dropdownMessage{
+    border-radius: 20px;
+    width: 100%;
+    height: 40px;
+    text-align: right;
+    padding-right: 10px;
+}
+    .confirmation {
+        width: 35vw;
+        padding: 2rem;
+        border-radius: 1rem;
+        background-color: #fff;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .confirmed {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                width: 10rem;
+                height: auto;
+
+                path {
+                    fill: $done;
+                }
+            }
+        }
+
+        .close-btn {
+            all: unset;
+            cursor: pointer;
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+
+            svg {
+                width: 1.2rem;
+                height: auto;
+                transition: 0.2s ease-in-out all;
+
+                path {
+                    fill: #000;
+                }
+            }
+
+            &:hover {
+                svg {
+                    path {
+                        fill: $red;
+                    }
+                }
+            }
+        }
+
+        h1 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .confirmation-actions {
+            display: flex;
+            margin-top: 1rem;
+
+            button {
+                all: unset;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                padding: 5px 20px;
+                border-radius: 1.5rem;
+                transition: 0.2s ease-in-out all;
+
+                h1 {
+                    margin: 0;
+                    font-size: 1rem;
+                    margin-right: 0.5rem;
+                    color: $red;
+                    transition: 0.2s ease-in-out all;
+                }
+
+                svg {
+                    width: 1.2rem;
+                    height: auto;
+                    transition: 0.2s ease-in-out all;
+
+                    path {
+                        fill: $red;
+                    }
+                }
+
+                &:last-child {
+
+                    margin-left: 1rem;
+
+                    h1 {
+                        color: $done;
+                    }
+
+                    svg {
+                        path {
+                            fill: $done;
+                        }
+                    }
+                }
+
+                &:hover {
+                    background-color: $red;
+
+                    h1 {
+                        color: #fff;
+                    }
+
+                    svg {
+                        path {
+                            fill: #fff;
+                        }
+                    }
+
+                    &:last-child {
+                        background-color: $done;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media(max-width:1000px) {
+    .delete-container .confirmation {
+        width: 35vw;
+    }
+}
+
+@media(max-width:800px) {
+    .delete-container .confirmation .confirmed svg {
+        width: 8rem;
+    }
+
+    .delete-container .confirmation h1 {
+        font-size: 0.8rem;
+    }
+
+    .delete-container .confirmation .confirmation-actions button {
+        padding: 2px 15px;
+    }
+
+    .delete-container .confirmation .confirmation-actions button h1 {
+        font-size: 0.9rem;
+    }
+
+    .delete-container .confirmation .confirmation-actions button svg {
+        width: 1.1rem;
+    }
+
+    .delete-container .confirmation {
+        width: 40vw;
+    }
+
+    .delete-container .confirmation .close-btn svg {
+        width: 1.1rem;
+    }
+}
+
+@media(max-width:600px) {
+    .delete-container .confirmation .confirmed svg {
+        width: 6rem;
+    }
+
+    .delete-container .confirmation {
+        width: 45vw;
+    }
+}
+
+@media(max-width:500px) {
+    .delete-container .confirmation {
+        width: 55vw;
+    }
+}
+
+@media(max-width:400px) {
+    .delete-container .confirmation {
+        width: 70vw;
+    }
+}

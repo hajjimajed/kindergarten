@@ -1,5 +1,5 @@
 import './send-notification.styles.scss';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import config from '../../config';
 
 import { TogglesContext } from '../../contexts/toggles.context';
@@ -15,22 +15,13 @@ const SentNotification = ({ child }) => {
     const { isSendNotif, setIsSendNotif } = useContext(TogglesContext);
     const { isDone, setIsDone } = useContext(IsDoneContext);
     const [isLoading, setIsLoading] = useState(false);
-
-    // Array of dummy message objects (each with both title and body)
-    const dummyMessages = [
-        { title: "تنبيه: موعد الحصة القادمة", body: "حان وقت الدرس! لا تنسى الاستعداد." },
-        { title: "إشعار: واجب منزلي جديد", body: "لقد تم إضافة واجب منزلي جديد. هل أنجزت كل شيء؟" },
-        { title: "تذكير: استراحة الغداء", body: "حان وقت استراحة الغداء! استمتع بوجبتك." },
-        { title: "تنبيه: يوم مميز في المدرسة", body: "اليوم لدينا نشاط خاص في المدرسة. لا تفوت المتعة!" }
-    ];
-    
-
-    const [selectedMessage, setSelectedMessage] = useState(dummyMessages[0]);
+    const [activities, setActivities] = useState([]);
+    const [selectedActivity, setSelectedActivity] = useState(null);
 
     const openHandler = () => {
         setIsSendNotif(!isSendNotif);
         setIsDone(false);
-    }
+    };
 
     const fetchToken = async () => {
         try {
@@ -40,9 +31,7 @@ const SentNotification = ({ child }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    RefreshToken: refreshToken,
-                }),
+                body: JSON.stringify({ RefreshToken: refreshToken }),
             });
 
             if (!response.ok) {
@@ -50,16 +39,38 @@ const SentNotification = ({ child }) => {
             }
 
             const res = await response.json();
-
             localStorage.setItem('accessToken', res.data.accessToken);
             localStorage.setItem('refreshToken', res.data.refreshToken);
-
-            console.log('Token refreshed successfully', res.data.refreshToken);
-
         } catch (error) {
             console.error('Error fetching token:', error);
         }
     };
+
+    const fetchActivities = async (page = 1) => {
+        try {
+            await fetchToken();
+            const token = localStorage.getItem('accessToken');
+            const headers = {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            };
+
+            const response = await fetch(`${config.BASE_URL}api/activities/getPaginatedActivities?pageNumber=${page}`, { headers });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const jsonData = await response.json();
+            setActivities(jsonData.items);
+            setSelectedActivity(jsonData.items[0]); // Set the first activity as default
+        } catch (error) {
+            console.error('Error fetching activities:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchActivities(); // Fetch activities on component mount
+    }, []);
 
     const sendNotification = async () => {
         try {
@@ -69,38 +80,33 @@ const SentNotification = ({ child }) => {
             const token = localStorage.getItem('accessToken');
             const headers = {
                 Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             };
-    
+
             const notificationPayload = {
-                title: selectedMessage.title,  // Use selected message's title
-                body: selectedMessage.body,    // Use selected message's body
-                uniqueCode: child.uniqueCode
+                title: selectedActivity.activityTitle,  // Use selected activity's title
+                description: selectedActivity.activityDescription,  // Use selected activity's description
+                uniqueCode: child.uniqueCode,
+                codeLists: [],
+                creationDate: new Date().toISOString(),
             };
-    
-            const response = await fetch(config.BASE_URL + 'api/Account/send', {
+
+            const response = await fetch(`${config.BASE_URL}api/Account/send`, {
                 method: 'POST',
                 headers: headers,
-                body: JSON.stringify(notificationPayload)
+                body: JSON.stringify(notificationPayload),
             });
-    
+
             if (response.status === 200) {
-                console.log('sent successfully.');
+                console.log('Notification sent successfully.');
                 setIsLoading(false);
                 setIsDone(true);
-            } else if (!response.ok) {
-                throw new Error('Network response was not ok');
             } else {
-                const res = await response.json();
-                setIsLoading(false);
-                setIsDone(true);
-                console.log('sent successfully', res);
+                throw new Error('Network response was not ok');
             }
-    
-            const jsonData = await response.json();
-            console.log('Notification sent successfully', jsonData);
         } catch (error) {
             console.error('Error sending notification:', error);
+            setIsLoading(false);
         }
     };
 
@@ -127,13 +133,13 @@ const SentNotification = ({ child }) => {
                                     <div className='confirmation-infos'>
                                         <h1>إختيار النشاط</h1>
                                         <div>
-                                            <select className='dropdownMessage' value={selectedMessage.title} onChange={(e) => {
-                                                const selected = dummyMessages.find(msg => msg.title === e.target.value);
-                                                setSelectedMessage(selected);
+                                            <select className='dropdownMessage' value={selectedActivity?.activityTitle || ''} onChange={(e) => {
+                                                const selected = activities.find(act => act.activityTitle === e.target.value);
+                                                setSelectedActivity(selected);
                                             }}>
-                                                {dummyMessages.map((message, index) => (
-                                                    <option key={index} value={message.title}>
-                                                        {message.title}
+                                                {activities.map((activity, index) => (
+                                                    <option key={index} value={activity.activityTitle}>
+                                                        {activity.activityTitle}
                                                     </option>
                                                 ))}
                                             </select>
@@ -157,6 +163,6 @@ const SentNotification = ({ child }) => {
             </div>
         </div>
     );
-}
+};
 
 export default SentNotification;
